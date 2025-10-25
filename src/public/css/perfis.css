@@ -1,0 +1,86 @@
+/* cores: #2b4b44 (azul), #f9f0e5 (bege), #ffefdb (bege escurinho), #42635b (azul apagado) */
+
+* {
+    font-family: "Lexend Deca", sans-serif;
+}
+
+h1 {
+  font-family: "Lexend Deca", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: "BioRhyme", serif;
+  background-color: #fffbf5;
+  color: #333;
+}
+
+body {
+  padding-top: 60px;
+  text-align: center;
+}
+
+.navbar { 
+  background-color:#323232; 
+  padding: 10px 0; 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  z-index: 1000; 
+  padding: 20px 0px;
+}
+
+.navbar ul { 
+  list-style: none; 
+  display: flex; 
+  justify-content: flex-end; 
+  gap: 60px; 
+  margin: 0; 
+  padding-right: 100px; 
+}
+
+.navbar a { 
+  color: white; 
+  text-decoration: none; 
+  font-weight: bold; 
+  transition: 0.3s; 
+} 
+
+.navbar a:hover { 
+  color: #d1e1ff; 
+}
+
+.footer { 
+  margin-top: auto; 
+  padding: 15px 0; 
+  background-color: #323232; 
+  text-align: center; 
+  color: #ed8762; 
+  font-size: 0.9rem; 
+}
+
+.botao {
+  background: #ffffff;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 rgba(172, 172, 172, 0.8);
+  transition: all 0.3s ease-in-out;
+  margin: 20px;
+  font-size: 1rem;
+}
+
+.botao:hover {
+  background-color: #cecdde42;
+  color: white;
+}
