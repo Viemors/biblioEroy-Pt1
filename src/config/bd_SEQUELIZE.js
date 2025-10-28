@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-const conn = new Sequelize ("bioeroy", "root", "aluno123", {
+const conn = new Sequelize ("bioEroy", "root", "aluno123", {
     host: "localhost",
     dialect: "mysql",
     define: {
