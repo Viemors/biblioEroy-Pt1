@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Viemors/projeto-final-web.git"
+    "url": "git+https://github.com/biab00/biblioEroy-Pt1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Viemors/projeto-final-web/issues"
+    "url": "https://github.com/biab00/biblioEroy-Pt1/issues"
   },
-  "homepage": "https://github.com/Viemors/projeto-final-web#readme",
+  "homepage": "https://github.com/biab00/biblioEroy-Pt1#readme",
   "dependencies": {
     "ejs": "^3.1.10",
     "express": "^5.1.0",
