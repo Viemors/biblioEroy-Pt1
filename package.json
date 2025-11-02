@@ -23,6 +23,7 @@
     "express": "^5.1.0",
     "method-override": "^3.0.0",
     "mysql2": "^3.15.2",
+    "node": "^25.1.0",
     "sequelize": "^6.37.7"
   }
 }
