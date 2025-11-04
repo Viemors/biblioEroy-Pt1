@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/biab00/biblioEroy-Pt1#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "method-override": "^3.0.0",

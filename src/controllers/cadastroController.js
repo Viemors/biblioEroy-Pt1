@@ -1,4 +1,4 @@
-const model = require("../model/cadastros/cadastroadmModel") 
+const model = require("../model/cadastroadmModel") 
 const cripto = require("bcrypt")
 
 const inicio = (req, res) =>  {
@@ -36,6 +36,7 @@ const atualizar = async (req, res) => {
 const login = async (req, res) => {
     const result = await model.login(req.body);
     if (result) {
+        console.log(result)
         const validacao = await cripto.compare(req.body.senha, result.senha)
         if (validacao) res.render("perfis/perfilLeitor", {result});
         else res.send("senha incorreta") // Como mostrar senha incorreta já na própria página?(talvez Session)

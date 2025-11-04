@@ -1,5 +1,4 @@
-const { buscar_idUser, deletUser, atualizarUser } = require("../model/cadastroadmModel")
-const model = require("../model/cadastros/cadastroadmModel") 
+const model = require("../model/cadastroUserModel") 
 const cripto = require("bcrypt")
 
 const inicio = (req, res) =>  {
@@ -7,35 +6,35 @@ const inicio = (req, res) =>  {
 }
 
 //SEQUELIZE
-const Todos = async (req, res) => {
-    const result = await model.Todos()
+const TodosUser = async (req, res) => {
+    const result = await model.TodosUser()
     res.status(200).json(result);
 }
 
-const add = async (req, res) => {
-    const senha_cripto = await cripto.hash(req.body.senha, 8);
+const addUser = async (req, res) => {
+    const senha_cripto = await cripto.hash(req.body.senha, 8) ;
     console.log(senha_cripto)
-    const result = await model.add({nome: req.body.nome, username: req.body.username, senha: senha_cripto, email: req.body.email})
+    const result = await model.addUser({nome: req.body.nome, username: req.body.username, senha_cripto: senha_cripto, email: req.body.email})
     res.status(200).render("perfis/perfilLeitor", {result})
 }
 
-const delet = async (req, res) => {
-    await model.delet(req.params.id)
+const deletUser = async (req, res) => {
+    await model.deletUser(req.params.id)
     res.status(200).send("Apagado com sucesso")
 }
 
-const buscar_id = async (req, res) => {
-    const result = await model.buscar_id(req.params.id)
+const buscar_idUser = async (req, res) => {
+    const result = await model.buscar_idUser(req.params.id)
     res.status(200).json(result)
 }
 
-const atualizar = async (req, res) => {
-    await model.atualizar(req.query)
+const atualizarUser = async (req, res) => {
+    await model.atualizarUser(req.query)
     res.status(200).send("Atualizado")
 }
 
-const login = async (req, res) => {
-    const result = await model.login(req.body);
+const loginUser = async (req, res) => {
+    const result = await model.loginUser(req.body);
     if (result) {
         const validacao = await cripto.compare(req.body.senha, result.senha)
         if (validacao) res.render("perfis/perfilLeitor", {result});
@@ -43,4 +42,4 @@ const login = async (req, res) => {
     } else res.send("usuario não cadastrado") // Mesma coisa da senha incorreta.
 }
 
-module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login} 
+module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, loginUser} 

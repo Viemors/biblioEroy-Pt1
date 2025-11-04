@@ -1,7 +1,8 @@
 const Sequelize = require("sequelize")
 const db = require("../config/bd_SEQUELIZE")
 
-const cadastro_biblio = db.define("cadastro", {
+////////////user////////////////////////
+const cadastro_user= db.define("cadastro_user", {
     id:{
     type: Sequelize.INTEGER,
     autoIncrement: true, 
@@ -28,19 +29,17 @@ const cadastro_biblio = db.define("cadastro", {
         }
 })
 
-cadastro_biblio.sync() // Criar a tabela se não existir adm
+cadastro_user.sync() // Criar a tabela se não existir user
 
+//Funções do sequelize adm
+const TodosUser = () => cadastro_user.findAll()
 
+const addUser = (params) => cadastro_user.create(params)
 
-//////////////////Funções do sequelize adm/////////////////////////////
-const Todos = () => cadastro_biblio.findAll()
+const buscar_idUser = (id) => cadastro_user.findByPk(id)
 
-const add = (params) => cadastro_biblio.create(params)
-
-const buscar_id = (id) => cadastro_biblio.findByPk(id)
-
-const delet = async(id) => {
-    await cadastro_biblio
+const deletUser = async(id) => {
+    await cadastro_user
 .destroy({
         where: {
             id: id
@@ -48,8 +47,8 @@ const delet = async(id) => {
     });
 }
 
-const atualizar = async(params) => {
-    await cadastro_biblio
+const atualizarUser = async(params) => {
+    await leitor
 .update(
         {
             senha_cripto: params.senha
@@ -62,13 +61,11 @@ const atualizar = async(params) => {
     )
 }
 
-const login = async(params) => {
-    const usuarios = cadastro_biblio.findOne({
+const loginUser = async(params) => {
+    const usuarios = await cadastro_user.findOne({
         where: {username: params.username},
     })
     return usuarios;
 }
 
-
-
-module.exports = {Todos, add, delet, buscar_id, atualizar, login, cadastro_biblio};
+module.exports= {TodosUser,addUser,buscar_idUser,deletUser,atualizarUser,loginUser,cadastro_user};
