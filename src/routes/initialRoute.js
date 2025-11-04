@@ -9,5 +9,7 @@ router.get('/cadastro', initialController.cadastro);
 router.get('/perfil/livro', initialController.perfil_livro);
 router.get('/perfil/leitor', initialController.perfil_leitor);
 router.get('/perfil/bibliotecario', initialController.perfil_biblio);
+router.get('/emprestimo', initialController.emprestimo);
+
 
 module.exports = router;

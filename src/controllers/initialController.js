@@ -22,7 +22,11 @@ const perfil_leitor = (req, res) => {
 const perfil_livro = (req, res) => {
     res.render("perfis/perfilLivro")
 }
+
+const emprestimo = (req, res) => {
+    res.render("emprestimo/emprestimo")
+}
   
 module.exports = {
-   paginaInicial, perfil_leitor, perfil_livro, perfil_biblio, cadastro, login
+   paginaInicial, perfil_leitor, perfil_livro, perfil_biblio, cadastro, login, emprestimo
 };

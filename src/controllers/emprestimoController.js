@@ -30,4 +30,7 @@ const atualizar = async (req, res) => {
     res.status(200).send("Atualizado")
 }
 
+
+
+
 module.exports = {add, Todos, buscar_id, delet, atualizar, inicio}

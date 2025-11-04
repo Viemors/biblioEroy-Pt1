@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil</title>
+    <link rel="stylesheet" href="../css/perfis.css">
+    <link rel="stylesheet" href="../js/perfis.js">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
+    </style>
+</head>
+
+<body>
+    <main class="container my-5">
+        <%- include('../partials/navbar') %>
+
+            <!-- Conteúdo principal -->
+            <h2>Reserve seu livro</h2>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+                <!-- Card: Dom Casmurro -->
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="../imagens/livros/machado/dom casmuro.webp" class="card-img-top"
+                            alt="Capa do livro Dom Casmurro">
+                        <div class="card-body">
+                            <h5 class="card-title">Dom Casmurro</h5>
+                            <p class="card-text">Autor: Machado de Assis</p>
+                            <p class="card-text">Gênero: Romance realista</p>
+                            <button class="btn btn-outline-primary btn-curtir"
+                                data-titulo="Dom Casmurro">Curtir</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: O Cortiço -->
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="../imagens/livros/azevedo/o cortiço.webp" class="card-img-top"
+                            alt="Capa do livro O Cortiço">
+                        <div class="card-body">
+                            <h5 class="card-title">O Cortiço</h5>
+                            <p class="card-text">Autor: Aluísio Azevedo</p>
+                            <p class="card-text">Gênero: Naturalismo</p>
+                            <button class="btn btn-outline-primary btn-curtir" data-titulo="O Cortiço">Curtir</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Iracema -->
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="../imagens/livros/alencar/iracema.webp" class="card-img-top"
+                            alt="Capa do livro Iracema">
+                        <div class="card-body">
+                            <h5 class="card-title">Iracema</h5>
+                            <p class="card-text">Autor: José de Alencar</p>
+                            <p class="card-text">Gênero: Romantismo</p>
+                            <button class="btn btn-outline-primary btn-curtir" data-titulo="Iracema">Curtir</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Memórias Póstumas -->
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="../imagens/livros/machado/memorias postumas.webp" class="card-img-top"
+                            alt="Capa do livro Memórias Póstumas de Brás Cubas">
+                        <div class="card-body">
+                            <h5 class="card-title">Memórias Póstumas de Brás Cubas</h5>
+                            <p class="card-text">Autor: Machado de Assis</p>
+                            <p class="card-text">Gênero: Realismo</p>
+                            <button class="btn btn-outline-primary btn-curtir"
+                                data-titulo="Memórias Póstumas de Brás Cubas">Curtir</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: A Moreninha -->
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="../imagens/livros/macedo/a moreninha.webp" class="card-img-top"
+                            alt="Capa do livro A Moreninha">
+                        <div class="card-body">
+                            <h5 class="card-title">A Moreninha</h5>
+                            <p class="card-text">Autor: Joaquim Manuel de Macedo</p>
+                            <p class="card-text">Gênero: Romantismo</p>
+                            <button class="btn btn-outline-primary btn-curtir" data-titulo="A Moreninha">Curtir</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Vidas Secas -->
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="../imagens/livros/graciliano/vidas secas.webp" class="card-img-top"
+                            alt="Capa do livro Vidas Secas">
+                        <div class="card-body">
+                            <h5 class="card-title">Vidas Secas</h5>
+                            <p class="card-text">Autor: Graciliano Ramos</p>
+                            <p class="card-text">Gênero: Romance regionalista</p>
+                            <button class="btn btn-outline-primary btn-curtir" data-titulo="Vidas Secas">Curtir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section>
+                <h2>Empréstimo</h2>
+
+                <form>
+                    <div>
+                        <label for="inputNome">Nome</label>
+                        <input type="text" required>
+                    </div><br>
+
+                    <div>
+                        <label for="inputUsuario">Usuário</label>
+                        <input type="text" required>
+                    </div><br>
+
+                    <div>
+                        <label for="inputUsuario">Email</label>
+                        <input type="text" required>
+                    </div><br>
+
+                    <div>
+                        <label for="inputUsuario">Senha</label>
+                        <input type="text" required>
+                    </div><br>
+                </form>
+
+                <details>
+                    <summary>Devolução</summary>
+                    <p></p>
+                </details>
+
+                <div>
+                    <button type="submit"><a href="/">Editar</a></button>
+                    <button type="submit"><a href="/">Salvar</a></button>
+                    <button type="submit"><a href="/">Cancelar</a></button>
+                </div><br>
+
+                </form>
+            </section>
+
+            <%- include('../partials/footer') %>
+                <br>
+
+
+</body>
+
+</html>

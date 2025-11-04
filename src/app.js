@@ -18,6 +18,9 @@ app.set('views', path.join(__dirname, 'views'));
 const initialRoute = require('./routes/initialRoute');
 app.use('/', initialRoute); 
 
+const cadastro = require('./routes/cadastroUserRoute');
+app.use('/', cadastro); 
+
 const bd = require('./routes/bdRoutes');
 app.use('/', bd); 
 

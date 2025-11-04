@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Perfil</title>
+  <link rel="stylesheet" href="../css/perfis.css">
+  <link rel="stylesheet" href="../js/perfis.js">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
+  </style>
+</head>
+
+<body>
+
+  <%- include('partials/navbar') %>
+
+  <h2>Meu Perfil</h2>
+  <form>
+    <div>
+      <label for="inputNome">Título</label>
+      <input type="text" readonly> 
+    </div><br>
+
+    <div>
+      <label for="inputSobrenome">Categoria</label>
+      <input type="text" readonly>
+    </div><br>
+
+    <div>
+      <label for="inputSenha">Código</label> <!--- nessa parte somente o bibliotecario poderia mudar --->
+      <input type="password" readonly>
+    </div><br>
+
+    <div>
+      <label for="inputSenha">Favorito</label> <!--- nessa parte somente o usuário poderia mudar --->
+      <input type="password" readonly>
+    </div><br>
+
+    <div>
+      <button type="submit"><a href="/">Editar</a></button>
+      <button type="submit"><a href="/">Salvar</a></button> <!--- nessa parte somente o bibliotecario poderia mudar --->
+      <button type="submit"><a href="/">Cancelar</a></button>
+    </div><br>
+
+  </form>
+  
+  <br>
+
+  <%- include('partials/footer') %>
+
+</body>
+</html>

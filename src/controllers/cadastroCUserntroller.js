@@ -1,3 +1,4 @@
+const { buscar_idUser, deletUser, atualizarUser } = require("../model/cadastroadmModel")
 const model = require("../model/cadastros/cadastroadmModel") 
 const cripto = require("bcrypt")
 
@@ -42,4 +43,4 @@ const login = async (req, res) => {
     } else res.send("usuario não cadastrado") // Mesma coisa da senha incorreta.
 }
 
-module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, login}
+module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login} 
