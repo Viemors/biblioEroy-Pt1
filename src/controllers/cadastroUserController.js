@@ -36,7 +36,7 @@ const atualizarUser = async (req, res) => {
 const loginUser = async (req, res) => {
     const result = await model.loginUser(req.body);
     if (result) {
-        const validacao = await cripto.compare(req.body.senha, result.senha)
+        const validacao = await cripto.compare(req.body.senha, result.senha_cripto)
         if (validacao) res.render("perfis/perfilLeitor", {result});
         else res.send("senha incorreta") // Como mostrar senha incorreta já na própria página?(talvez Session)
     } else res.send("usuario não cadastrado") // Mesma coisa da senha incorreta.
