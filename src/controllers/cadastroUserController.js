@@ -1,4 +1,5 @@
-const model = require("../model/cadastroUserModel") 
+const model = require("../model/cadastroUserModel")
+const init = require("../controllers/initialController")
 const cripto = require("bcrypt")
 
 const inicio = (req, res) =>  {
@@ -12,10 +13,10 @@ const TodosUser = async (req, res) => {
 }
 
 const addUser = async (req, res) => {
-    const senha_cripto = await cripto.hash(req.body.senha, 8) ;
+    const senha_cripto = await cripto.hash(req.body.senha_cripto, 8);
     console.log(senha_cripto)
     const result = await model.addUser({nome: req.body.nome, username: req.body.username, senha_cripto: senha_cripto, email: req.body.email})
-    res.status(200).render("perfis/perfilLeitor", {result})
+    init.perfil_leitor()
 }
 
 const deletUser = async (req, res) => {
@@ -29,17 +30,17 @@ const buscar_idUser = async (req, res) => {
 }
 
 const atualizarUser = async (req, res) => {
-    await model.atualizarUser(req.query)
+    await model.atualizarUser(req.body)
     res.status(200).send("Atualizado")
 }
 
-const loginUser = async (req, res) => {
-    const result = await model.loginUser(req.body);
+const login = async (req, res) => {
+    const result = await model.login(req.body);
     if (result) {
-        const validacao = await cripto.compare(req.body.senha, result.senha)
-        if (validacao) res.render("perfis/perfilLeitor", {result});
+        const validacao = await cripto.compare(req.body.senha, result.senha_cripto)
+        if (validacao) init.perfil_leitor();
         else res.send("senha incorreta") // Como mostrar senha incorreta já na própria página?(talvez Session)
     } else res.send("usuario não cadastrado") // Mesma coisa da senha incorreta.
 }
 
-module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, loginUser} 
+module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login} 
