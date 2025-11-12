@@ -37,7 +37,7 @@ const TodosUser = () => cadastroUser.findAll()
 
 const addUser = async (params) => {
     const senha_cripto = await cripto.hash(params.senha_cripto, 8);
-    cadastroUser.create(params, {senha_cripto: senha_cripto})
+    return cadastroUser.create(params, {senha_cripto: senha_cripto})
 }
 const buscar_idUser = (id) => cadastroUser.findByPk(id)
 
@@ -73,6 +73,7 @@ const login = async(params) => {
     return usuarios;
 }
 
+const validacao = (senha, senha_cripto) => cripto.compare(senha, senha_cripto)
 
 
-module.exports = {TodosUser, addUser, buscar_idUser, deletUser, atualizarUser, login, cadastroUser};
+module.exports = {TodosUser, addUser, buscar_idUser, deletUser, atualizarUser, login, validacao, cadastroUser};
