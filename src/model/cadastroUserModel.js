@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize")
 const db = require("../config/bd_SEQUELIZE")
+const cripto = require("bcrypt")
 
 ////////////user////////////////////////
 const cadastroUser = db.define("cadastro", {
@@ -34,8 +35,10 @@ cadastroUser.sync() // Criar a tabela se não existir user
 //Funções do sequelize adm
 const TodosUser = () => cadastroUser.findAll()
 
-const addUser = (params) => cadastroUser.create(params)
-
+const addUser = async (params) => {
+    const senha_cripto = await cripto.hash(params.senha_cripto, 8);
+    cadastroUser.create(params, {senha_cripto: senha_cripto})
+}
 const buscar_idUser = (id) => cadastroUser.findByPk(id)
 
 const deletUser = async(id) => {
@@ -48,10 +51,10 @@ const deletUser = async(id) => {
 }
 
 const atualizarUser = async(params) => {
-    await cadastroUser
-.update(
+    const senha_cripto = await cripto.hash(params.senha, 8);
+    return await cadastroUser.update(
         {
-            senha_cripto: params.senha,
+            senha_cripto: senha_cripto,
             email: params.email,
             username: params.username
         },
