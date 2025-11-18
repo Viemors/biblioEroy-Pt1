@@ -37,7 +37,8 @@ const login = async (req, res) => {
     const result = await model.login(req.body);
 
     if (!result) {
-        req.flash('Usuário não cadastrado.'); //esse flash é da extensao nova, só serve pra mandar mensagem de erro
+        // enviar como tipo 'error' e uma mensagem
+        req.flash('error','Usuário não cadastrado.'); //esse flash é da extensao nova, só serve pra mandar mensagem de erro
         return res.redirect('/login'); //descobri que é paddrão usar redirect em post, put e delete, que fita hein
     }
 
@@ -50,7 +51,7 @@ const login = async (req, res) => {
         return res.redirect('/perfilBiblio');
 
     } else {
-        req.flash('Senha incorreta.');
+        req.flash('error','Senha incorreta.');
         return res.redirect('/login');
     }
 } 

@@ -29,7 +29,12 @@ const cadastroUser = db.define("cadastro", {
     senha_cripto: {
             type: Sequelize.STRING,
             allowNull: false
-        }
+        },
+    tipo_conta: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 'leitor'
+    }
 })
 
 cadastroUser.sync() // Criar a tabela se não existir user

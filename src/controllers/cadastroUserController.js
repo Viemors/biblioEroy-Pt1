@@ -18,8 +18,10 @@ const addUser = async (req, res) => {
 }
 
 const deletUser = async (req, res) => {
-    if(await model.deletUser(req.params.id)){
-        res.status(200).send("Apagado com sucesso")}
+    const deletar = await model.deletUser(req.session.userId)
+    if(!deletar){
+        req.flash('success','conta apagada.');
+        return res.redirect('/');}
     else {
         res.status(400).send("Não foi possível concluir a ação")    
     }
@@ -42,7 +44,8 @@ const login = async (req, res) => {
     const result = await model.login(req.body);
 
     if (!result) {
-        req.flash('usuário não cadastrado.'); //esse flash é da extensao nova, só serve pra mandar mensagem de erro
+        // usar tipo + mensagem: primeiro argumento é o tipo (ex: 'error')
+        req.flash('error','usuário não cadastrado.'); //esse flash é da extensao nova, só serve pra mandar mensagem de erro
         return res.redirect('/login'); //descobri que é paddrão usar redirect em post, put e delete, que fita hein
     }
 
@@ -55,7 +58,7 @@ const login = async (req, res) => {
         return res.redirect('/perfil/leitor');
 
     } else {
-        req.flash('senha incorreta.');
+        req.flash('error','senha incorreta.');
         return res.redirect('/login');
     }
 } 
@@ -75,4 +78,10 @@ const mostrarPerfilLeitor = async (req, res) => { //tava dsando erraado o result
     }
 }
 
-module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login, mostrarPerfilLeitor} 
+const sair = async (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/');
+    })
+}
+
+module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login, mostrarPerfilLeitor, sair} 

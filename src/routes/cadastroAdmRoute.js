@@ -9,5 +9,5 @@ router.get("/deleteCadastro/:id", controller.delet) //rota para deletar a conta
 router.get("/buscarCadastro/:id", controller.buscar_id) //NÃO tem contato com o usuario
 router.post("/atualizarCadastro", controller.atualizar)//rota para mudar a senha
 
-module.exports = routers
+module.exports = router
 

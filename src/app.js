@@ -25,6 +25,14 @@ app.use(session({ //peguei de um site, aparentemente é padrão
 
 app.use(flash()); //extensão nova que eu baixei rs
 
+// disponibiliza as mensagens flash nas views via res.locals
+app.use((req, res, next) => {
+    // tipos comuns: 'success' e 'error' — os controladores usam esses tipos
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+});
+
 const initialRoute = require('./routes/initialRoute');
 app.use('/', initialRoute); 
 
