@@ -1,7 +1,7 @@
 /* cores: #2b4b44 (azul), #f9f0e5 (bege), #ffefdb (bege escurinho), #42635b (azul apagado) */
 
 * {
-    font-family: "Lexend Deca", sans-serif;
+  font-family: "Lexend Deca", sans-serif;
 }
 
 h1 {
@@ -18,7 +18,7 @@ html, body {
   display: flex;
   flex-direction: column;
   font-family: "BioRhyme", serif;
-  background-color: #fffbf5;
+  background-color: white;
   color: #333;
 }
 

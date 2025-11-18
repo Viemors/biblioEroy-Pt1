@@ -4,21 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Perfil</title>
-    <link rel="stylesheet" href="../css/perfis.css">
-    <link rel="stylesheet" href="../js/perfis.js">
+    <title>Empréstimo</title>
+    <link rel="stylesheet" href="../css/emprestimo.css">
+    <link rel="stylesheet" href="../js/emprestimo.js">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
     </style>
+
 </head>
 
 <body>
-    <main class="container my-5">
-        <%- include('../partials/navbar') %>
+    <nav class="menu-lateral">
+        <div class="btn-expandir">
+            <i class="bi bi-list"></i>
 
+        </div>
+
+        <ul>
+            <li class="item-menu">
+                <a href="#">
+                    <span class="icon"><i class="bi bi-person"></i></i></span>
+                    <span class="txt-link">Usuário</span>
+                </a>
+            </li>
+
+            <li class="item-menu">
+                <a href="#">
+                    <span class="icon"><i class="bi bi-person"></i></i></span>
+                    <span class="txt-link">Bibliotecário</span>
+                </a>
+            </li>
+
+            <li class="item-menu">
+                <a href="#">
+                    <span class="icon"><i class="bi bi-journals"></i></span>
+                    <span class="txt-link">Livros</span>
+                </a>
+            </li>
+        </ul>
+
+    </nav>
+
+    <%- include('partials/header') %>
+
+
+        <section class="container my-5">
             <!-- Conteúdo principal -->
             <h2>Reserve seu livro</h2>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -32,8 +66,9 @@
                             <h5 class="card-title">Dom Casmurro</h5>
                             <p class="card-text">Autor: Machado de Assis</p>
                             <p class="card-text">Gênero: Romance realista</p>
-                            <button class="btn btn-outline-primary btn-curtir"
-                                data-titulo="Dom Casmurro">Curtir</button>
+                            <button class="btn btn-outline-primary btn-curtir" data-titulo="Dom Casmurro"
+                                id="button">Realizar
+                                Empréstimo</button>
                         </div>
                     </div>
                 </div>
@@ -47,7 +82,9 @@
                             <h5 class="card-title">O Cortiço</h5>
                             <p class="card-text">Autor: Aluísio Azevedo</p>
                             <p class="card-text">Gênero: Naturalismo</p>
-                            <button class="btn btn-outline-primary btn-curtir" data-titulo="O Cortiço">Curtir</button>
+                            <button class="btn btn-outline-primary btn-curtir" id="button"
+                                data-titulo="O Cortiço">Realizar
+                                Empréstimo</button>
                         </div>
                     </div>
                 </div>
@@ -61,7 +98,9 @@
                             <h5 class="card-title">Iracema</h5>
                             <p class="card-text">Autor: José de Alencar</p>
                             <p class="card-text">Gênero: Romantismo</p>
-                            <button class="btn btn-outline-primary btn-curtir" data-titulo="Iracema">Curtir</button>
+                            <button class="btn btn-outline-primary btn-curtir" data-titulo="Iracema"
+                                id="button">Realizar
+                                Empréstimo</button>
                         </div>
                     </div>
                 </div>
@@ -76,7 +115,7 @@
                             <p class="card-text">Autor: Machado de Assis</p>
                             <p class="card-text">Gênero: Realismo</p>
                             <button class="btn btn-outline-primary btn-curtir"
-                                data-titulo="Memórias Póstumas de Brás Cubas">Curtir</button>
+                                data-titulo="Memórias Póstumas de Brás Cubas" id="button">Realizar Empréstimo</button>
                         </div>
                     </div>
                 </div>
@@ -90,7 +129,9 @@
                             <h5 class="card-title">A Moreninha</h5>
                             <p class="card-text">Autor: Joaquim Manuel de Macedo</p>
                             <p class="card-text">Gênero: Romantismo</p>
-                            <button class="btn btn-outline-primary btn-curtir" data-titulo="A Moreninha">Curtir</button>
+                            <button class="btn btn-outline-primary btn-curtir" data-titulo="A Moreninha"
+                                id="button">Realizar
+                                Empréstimo</button>
                         </div>
                     </div>
                 </div>
@@ -104,55 +145,106 @@
                             <h5 class="card-title">Vidas Secas</h5>
                             <p class="card-text">Autor: Graciliano Ramos</p>
                             <p class="card-text">Gênero: Romance regionalista</p>
-                            <button class="btn btn-outline-primary btn-curtir" data-titulo="Vidas Secas">Curtir</button>
+                            <button class="btn btn-outline-primary btn-curtir" data-titulo="Vidas Secas"
+                                id="button">Realizar
+                                Empréstimo</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <section>
-                <h2>Empréstimo</h2>
+        <section class="container my-5">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 
-                <form>
-                    <div>
-                        <label for="inputNome">Nome</label>
-                        <input type="text" required>
+                <form class="formi">
+                    <h2>Empréstimo</h2>
+                    <div class="slaa">
+                        <label for="inputNome">Nome:</label>
+                        <input type="text" placeholder="Digite o nome" required>
                     </div><br>
 
                     <div>
-                        <label for="inputUsuario">Usuário</label>
-                        <input type="text" required>
+                        <label for="inputUsuario">Usuário:</label>
+                        <input type="text" placeholder="Digite o nome de usuário" required>
                     </div><br>
 
                     <div>
-                        <label for="inputUsuario">Email</label>
-                        <input type="text" required>
+                        <label for="inputUsuario">Email:</label>
+                        <input type="text" placeholder="Digite seu email" required>
                     </div><br>
 
                     <div>
-                        <label for="inputUsuario">Senha</label>
-                        <input type="text" required>
+                        <label for="inputUsuario">Senha:</label>
+                        <input type="text" placeholder="Digite sua senha" required>
+                    </div><br>
+
+                    <div>
+                        <a href="/" class="btn btn-outline-primary btn-curtir" id="button">Editar</a>
+                        <a href="/" class="btn btn-outline-primary btn-curtir" id="button">Enviar</a>
+                        <a href="/" class="btn btn-outline-primary btn-curtir" id="button">Cancelar</a>
                     </div><br>
                 </form>
 
                 <details>
-                    <summary>Devolução</summary>
-                    <p></p>
+                    <summary style="font-size: 30px;">Devolução</summary>
+                    <br>
+                    <form>
+                        <div>
+                            <label>Nome do Leitor:</label>
+                            <input type="text" placeholder="Digite o nome">
+                        </div><br>
+
+                        <div>
+                            <label>Título do Livro:</label>
+                            <input type="text" placeholder="Digite o título do livro">
+                        </div><br>
+
+                        <div>
+                            <label>Data do Empréstimo:</label>
+                            <input type="date">
+                        </div><br>
+
+                        <div>
+                            <label>Data da Devolução:</label>
+                            <input type="date">
+                        </div><br>
+
+                        <div>
+                            <label>Estado do Livro:</label>
+                            <select>
+                                <option>Bom estado</option>
+                                <option>Com leves danos</option>
+                                <option>Danificado</option>
+                            </select>
+                        </div><br>
+
+                        <div>
+                            <label>Observações:</label>
+                            <textarea rows="3" placeholder="Ex: atraso, rasura..."></textarea>
+                        </div><br>
+
+                        <a href="/" class="btn btn-outline-primary btn-curtir" id="button">Confirmar Devolução</a>
+                    </form>
                 </details>
 
-                <div>
-                    <button type="submit"><a href="/">Editar</a></button>
-                    <button type="submit"><a href="/">Salvar</a></button>
-                    <button type="submit"><a href="/">Cancelar</a></button>
-                </div><br>
+                <br>
 
                 </form>
-            </section>
 
-            <%- include('../partials/footer') %>
-                <br>
+            </div>
+        </section>
+
+        <%- include('partials/footer') %>
 
 
 </body>
 
 </html>
+
+<style>
+    body {
+        background-color: #f9f0e5;
+        padding-top: 60px;
+    }
+</style>

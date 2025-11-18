@@ -4,27 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/cadastro-login.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
+  </style>
   <title>Login</title>
 </head>
 <body>
 
-  <%- include('../partials/navbar') %>
+  <%- include('partials/navbar') %>
 
   <h1>Login</h1>
 
-  <form action="/login" method="POST">
+  <form>
+    <div>
+      <label for="nome">Nome Completo</label><br>
+      <input type="text" id="nome" name="nome" placeholder="Digite seu nome" style="text-align: center;" required>
+    </div><br>
 
     <div>
       <label for="username">Nome de Usuário</label><br>
-      <input type="text" id="username" name="username" required>
+      <input type="text" id="username" name="username" placeholder="Digite seu nome de usuário" style="width: 200px; text-align: center;">
+    </div><br>
+
+    <div>
+      <label for="email">Email</label><br>
+      <input type="email" id="email" name="email" placeholder="Digite seu email"  style="text-align: center;" required>
     </div><br>
 
     <div>
       <label for="senha">Senha</label><br>
-      <input type="password" id="senha" name="senha" required minlength="6">
+      <input type="password" id="senha" name="senha" required minlength="6" placeholder="Digite sua senha" style="text-align: center;">
     </div><br>
-
-
 
     <div>
       <input type="checkbox" id="termos" name="termos" required>
@@ -32,17 +42,17 @@
     </div><br>
 
     <div>
-      <button type="submit">Enviar Login</button>
+      <button type="submit"><a href="/">Enviar Login</a></button>
     </div><br>
 
     <div>
-      <a class="btn" href="/cadastro">Não tenho uma conta</a>
+      <button type="submit"><a href="/">Não tenho uma conta</a></button>
     </div><br>
   </form>
   
   <br>
 
-  <%- include('../partials/footer') %>
+  <%- include('partials/footer') %>
 
 </body>
 </html>
