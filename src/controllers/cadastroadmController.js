@@ -35,11 +35,39 @@ const atualizar = async (req, res) => {
 
 const login = async (req, res) => {
     const result = await model.login(req.body);
+
+    if (!result) {
+        req.flash('Usuário não cadastrado.'); //esse flash é da extensao nova, só serve pra mandar mensagem de erro
+        return res.redirect('/login'); //descobri que é paddrão usar redirect em post, put e delete, que fita hein
+    }
+
+    const validacao = await model.validacao(req.body.senha, result.senha_cripto);
+    console.log('[login] validacao: ', validacao); //só pra eu ver se ta funcionando, tava dando bo na cripto
+
+    if (validacao) { //verifica se a senha tá correct
+        req.session.Id = result.id; //armazena o id na sessao, fazendo o cara navegar e continuar logado
+        req.session.username = result.username; //mesma fita
+        return res.redirect('/perfilBiblio');
+
+    } else {
+        req.flash('Senha incorreta.');
+        return res.redirect('/login');
+    }
+} 
+
+const mostrarPerfilBiblio = async (req, res) => { //tava dsando erraado o result no ejs, dai fiz gambiarra rsrs
+    if (!req.session.Id) {
+        return res.redirect('/login'); //se nao tiver id na sessao, redireciona pro login
+    }
+    const result = await model.buscar_id(req.session.Id);
     if (result) {
-        const validacao = await cripto.compare(req.body.senha, result.senha)
-        if (validacao) res.render("perfis/perfilLeitor", {result});
-        else res.send("senha incorreta") // Como mostrar senha incorreta já na própria página?(talvez Session)
-    } else res.send("usuario não cadastrado") // Mesma coisa da senha incorreta.
+        res.render("perfis/perfilBiblio", { result });//se tiver logado, manda pro perfil
+
+    } else {
+        req.session.destroy(() => {
+        res.redirect('/login');
+        });
+    }
 }
 
-module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, login}
+module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, login, mostrarPerfilBiblio}

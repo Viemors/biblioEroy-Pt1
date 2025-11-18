@@ -1,2 +1,1 @@
-Rodar com: npm install
-Acho que falta o path :(
+Falta decidir como fazer o bibliotecario ter um perfil "exclusivo"

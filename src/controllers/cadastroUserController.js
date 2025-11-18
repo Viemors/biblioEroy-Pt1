@@ -11,14 +11,18 @@ const TodosUser = async (req, res) => {
 }
 
 const addUser = async (req, res) => {
-    const result = await model.addUser(req.body)
-    res.render("perfis/perfilLeitor", {result})
+    const result = await model.addUser(req.body);
+    req.session.userId = result.id;
+    req.session.username = result.username;
+    return res.redirect('/perfil/leitor');
 }
 
 const deletUser = async (req, res) => {
-    if(await model.deletUser(req.params.id))
-        res.status(200).send("Apagado com sucesso")
-    else res.status(400).send("Não foi possível concluir a ação")    
+    if(await model.deletUser(req.params.id)){
+        res.status(200).send("Apagado com sucesso")}
+    else {
+        res.status(400).send("Não foi possível concluir a ação")    
+    }
 }
 
 const buscar_idUser = async (req, res) => {
@@ -27,19 +31,48 @@ const buscar_idUser = async (req, res) => {
 }
 
 const atualizarUser = async (req, res) => {
-    if(await model.atualizarUser(req.body))
+    if (await model.atualizarUser(req.body)){
         res.status(200).send("Atualizado")
-    else res.status(400).send("Não atualizado")
+    } else { 
+        res.status(400).send("Não atualizado")
+    }
 }
 
 const login = async (req, res) => {
     const result = await model.login(req.body);
+
+    if (!result) {
+        req.flash('usuário não cadastrado.'); //esse flash é da extensao nova, só serve pra mandar mensagem de erro
+        return res.redirect('/login'); //descobri que é paddrão usar redirect em post, put e delete, que fita hein
+    }
+
+    const validacao = await model.validacao(req.body.senha, result.senha_cripto);
+    console.log('[login] validacao: ', validacao); //só pra eu ver se ta funcionando, tava dando bo na cripto
+
+    if (validacao) { //verifica se a senha tá correct
+        req.session.userId = result.id; //armazena o id na sessao, fazendo o cara navegar e continuar logado
+        req.session.username = result.username; //mesma fita
+        return res.redirect('/perfil/leitor');
+
+    } else {
+        req.flash('senha incorreta.');
+        return res.redirect('/login');
+    }
+} 
+
+const mostrarPerfilLeitor = async (req, res) => { //tava dsando erraado o result no ejs, dai fiz gambiarra rsrs
+    if (!req.session.userId) {
+        return res.redirect('/login'); //se nao tiver userId na sessao, redireciona pro login
+    }
+    const result = await model.buscar_idUser(req.session.userId);
     if (result) {
-        const validacao = await model.validacao(req.body.senha, result.senha_cripto);
-        if (validacao) {
-            res.render("perfis/perfilLeitor", {result});}
-        else res.send("senha incorreta") // Como mostrar senha incorreta já na própria página?(talvez Session)
-    } else res.send("usuario não cadastrado") // Mesma coisa da senha incorreta.
+        res.render("perfis/perfilLeitor", { result });//se tiver logado, manda pro perfil
+
+    } else {
+        req.session.destroy(() => {
+        res.redirect('/login');
+        });
+    }
 }
 
-module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login} 
+module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login, mostrarPerfilLeitor} 

@@ -17,12 +17,14 @@ const cadastroUser = db.define("cadastro", {
 
     email: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
 
     username: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
     senha_cripto: {
             type: Sequelize.STRING,
@@ -36,8 +38,9 @@ cadastroUser.sync() // Criar a tabela se não existir user
 const TodosUser = () => cadastroUser.findAll()
 
 const addUser = async (params) => {
-    const senha_cripto = await cripto.hash(params.senha_cripto, 8);
-    return cadastroUser.create(params, {senha_cripto: senha_cripto})
+    const senha_cripto = await cripto.hash(params.senha_cripto, 8)
+    params.senha_cripto = senha_cripto; // substitui a senha normie pela criptografada
+    return cadastroUser.create(params);
 }
 const buscar_idUser = (id) => cadastroUser.findByPk(id)
 
@@ -67,9 +70,9 @@ const atualizarUser = async(params) => {
 }
 
 const login = async(params) => {
-    const usuarios = cadastroUser.findOne({
+    const usuarios = await cadastroUser.findOne({ //faltava um await, dai tava retornando uma promise
         where: {username: params.username},
-    })
+    });
     return usuarios;
 }
 

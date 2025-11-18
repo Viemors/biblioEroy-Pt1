@@ -33,9 +33,13 @@ cadastro_biblio.sync() // Criar a tabela se não existir adm
 
 
 //////////////////Funções do sequelize adm/////////////////////////////
-const Todos = () => cadastro.findAll()
+const Todos = () => cadastro_biblio.findAll()
 
-const add = (params) => cadastro.create(params)
+const add = async (params) => {
+    const senha_cripto = await cripto.hash(params.senha_cripto, 8)
+    params.senha_cripto = senha_cripto; // substitui a senha normie pela criptografada
+    return cadastro_biblio.create(params);
+}
 
 const buscar_id = (id) => cadastro.findByPk(id)
 
@@ -63,10 +67,12 @@ const atualizar = async(params) => {
 }
 
 const login = async(params) => {
-    const usuarios = cadastro.findOne({
+    const bibliotecario = await cadastro_biblio.findOne({ //faltava um await, dai tava retornando uma promise
         where: {username: params.username},
-    })
-    return usuarios;
+    });
+    return bibliotecario;
 }
 
-module.exports = {Todos, add, delet, buscar_id, atualizar, login, cadastro_biblio};
+const validacao = (senha, senha_cripto) => cripto.compare(senha, senha_cripto)
+
+module.exports = {Todos, add, delet, buscar_id, atualizar, login, validacao, cadastro_biblio};
