@@ -11,22 +11,22 @@ const teste = async (req, res) => {
 }
 
 const add = async (req, res) => {
-    await model.add(req.query)
+    await model.add(req.body)
     res.status(200).send("Cadastrado")
 }
 
 const delet = async (req, res) => {
-    await model.delet(req.params.id)
+    await model.delet(req.body.titulo)
     res.status(200).send("Apagado com sucesso")
 }
 
 const buscar_id = async (req, res) => {
-    const result = await model.buscar_id(req.params.id)
+    const result = await model.buscar_id(req.body.id)
     res.status(200).json(result)
 }
 
 const atualizar = async (req, res) => {
-    await model.atualizar(req.query)
+    await model.atualizar(req.body)
     res.status(200).send("Atualizado")
 }
 

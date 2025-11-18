@@ -39,6 +39,9 @@ app.use('/', initialRoute);
 const cadastro = require('./routes/cadastroUserRoute');
 app.use('/', cadastro); 
 
+const livros = require('./routes/livrosRoutes');
+app.use('/', livros);
+
 const bd = require('./routes/bdRoutes');
 app.use('/', bd); 
 

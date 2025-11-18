@@ -15,37 +15,37 @@
 
 <body>
 
-  <%- include('partials/header') %>
+  <%- include('../partials/header') %>
 
     <h2>Meu Perfil</h2>
-    <form>
+    <form action="/addLivro" method="POST">
       <div>
         <label for="inputNome">Título</label>
-        <input type="text" placeholder="Digite o título" readonly>
+        <input type="text" placeholder="Digite o título" name="titulo">
+      </div><br>
+
+      <div>
+        <label for="inputNome">Autor</label>
+        <input type="text" placeholder="Digite o autor" name="autor">
       </div><br>
 
       <div>
         <label for="inputSobrenome">Categoria</label>
-        <input type="text" placeholder="Digite a categoria" readonly>
+        <input type="text" placeholder="Digite a categoria" name="categoria">
       </div><br>
 
       <div>
-        <label for="inputSenha">Código</label> <!--- nessa parte somente o bibliotecario poderia mudar --->
-        <input type="password" placeholder="Digite o código" readonly>
-      </div><br>
-
-      <div>
-        <button type="submit"><a href="/">Editar</a></button>
-        <button type="submit"><a href="/">Salvar</a></button>
+        <button type="submit"> Salvar </button>
+        <button> <a href="/deleteLivro"> Excluir </a></button>
         <!--- nessa parte somente o bibliotecario poderia mudar --->
-        <button type="submit"><a href="/">Cancelar</a></button>
+        <button><a href="/">Cancelar</a></button>
       </div><br>
 
     </form>
 
     <br>
 
-    <%- include('partials/footer') %>
+    <%- include('../partials/footer') %>
 
 </body>
 

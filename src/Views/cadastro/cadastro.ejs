@@ -13,11 +13,11 @@
 
 <body>
 
-  <%- include('partials/header') %>
+  <%- include('../partials/header') %>
 
     <h1>Cadastro</h1>
 
-    <form>
+    <form action="/addCadastro" method="POST">
       <div>
         <label for="nome">Nome Completo</label><br>
         <input type="text" id="nome" name="nome" placeholder="Digite seu nome" style="text-align: center;" required>
@@ -36,7 +36,7 @@
 
       <div>
         <label for="senha">Senha</label><br>
-        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" style="text-align: center;"
+        <input type="password" id="senha" name="senha_cripto" placeholder="Digite sua senha" style="text-align: center;"
           required minlength="6">
       </div><br>
 
@@ -46,17 +46,17 @@
       </div><br>
 
       <div>
-        <button type="submit"><a href="/">Enviar Cadastro</a></button>
+        <button type="submit">Enviar Cadastro</button>
       </div><br>
 
       <div>
-        <button type="submit"><a href="/">Já tenho uma conta</a></button>
+        <button><a href="/login">Já tenho uma conta</a></button>
       </div><br>
     </form>
 
     <br>
 
-    <%- include('partials/footer') %>
+    <%- include('../partials/footer') %>
 
 </body>
 
