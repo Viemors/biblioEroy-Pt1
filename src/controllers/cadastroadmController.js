@@ -61,7 +61,7 @@ const mostrarPerfilBiblio = async (req, res) => { //tava dsando erraado o result
         return res.redirect('/login'); //se nao tiver id na sessao, redireciona pro login
     }
     const result = await model.buscar_id(req.session.Id);
-    if (result) {
+    if ((result.tipo_conta == "adm")) { //Confirma se é adm
         res.render("perfis/perfilBiblio", { result });//se tiver logado, manda pro perfil
 
     } else {
@@ -71,4 +71,10 @@ const mostrarPerfilBiblio = async (req, res) => { //tava dsando erraado o result
     }
 }
 
-module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, login, mostrarPerfilBiblio}
+const sair = async (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/');
+    })
+}
+
+module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, login, mostrarPerfilBiblio, sair}

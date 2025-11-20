@@ -11,17 +11,18 @@ const teste = async (req, res) => {
 }
 
 const add = async (req, res) => {
-    await model.add(req.body)
-    res.status(200).send("Cadastrado")
+    const result = await model.add(req.body)
+    if (result) res.status(200).redirect("/livro");
+    else res.status(400).send("erro")
 }
 
 const delet = async (req, res) => {
-    await model.delet(req.body.titulo)
+    await model.delet(req.params.id)
     res.status(200).send("Apagado com sucesso")
 }
 
 const buscar_id = async (req, res) => {
-    const result = await model.buscar_id(req.body.id)
+    const result = await model.buscar_id(req.params.id)
     res.status(200).json(result)
 }
 
@@ -29,5 +30,7 @@ const atualizar = async (req, res) => {
     await model.atualizar(req.body)
     res.status(200).send("Atualizado")
 }
+
+
 
 module.exports = {add, teste, buscar_id, delet, atualizar, inicio}

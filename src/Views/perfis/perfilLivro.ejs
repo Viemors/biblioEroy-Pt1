@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meu Perfil</title>
   <link rel="stylesheet" href="../css/perfis.css">
-  <link rel="stylesheet" href="../js/perfis.js">
+  <link rel="stylesheet" href="/css/home.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
@@ -15,9 +15,11 @@
 
 <body>
 
-  <%- include('../partials/header') %>
+  <%-include('../partials/header') %>
 
-    <h2>Meu Perfil</h2>
+  <%-include("../partials/navbar") %>
+    <h2>Meu Perfil: <%= Object.keys(todos).length;%></h2> <!--Esse Object.Keys permite que o pc interprete o json como um arranjo e depois pegue a quantidade de elementos-->
+    
     <form action="/addLivro" method="POST">
       <div>
         <label for="inputNome">Título</label>
@@ -37,15 +39,14 @@
       <div>
         <button type="submit"> Salvar </button>
         <button> <a href="/deleteLivro"> Excluir </a></button>
-        <!--- nessa parte somente o bibliotecario poderia mudar --->
-        <button><a href="/">Cancelar</a></button>
+        <button><a href="/perfilLivro">Cancelar</a></button>
       </div><br>
 
     </form>
 
     <br>
 
-    <%- include('../partials/footer') %>
+    <%-include('../partials/footer') %>
 
 </body>
 

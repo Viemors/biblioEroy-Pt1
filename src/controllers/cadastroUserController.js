@@ -1,3 +1,4 @@
+const { console } = require("inspector")
 const model = require("../model/cadastroUserModel")
 
 const inicio = (req, res) =>  {
@@ -53,9 +54,15 @@ const login = async (req, res) => {
     console.log('[login] validacao: ', validacao); //só pra eu ver se ta funcionando, tava dando bo na cripto
 
     if (validacao) { //verifica se a senha tá correct
-        req.session.userId = result.id; //armazena o id na sessao, fazendo o cara navegar e continuar logado
         req.session.username = result.username; //mesma fita
-        return res.redirect('/perfil/leitor');
+        if (result.tipo_conta == "user") { //Separa user
+            req.session.userId = result.id; //armazena o id na sessao, fazendo o cara navegar e continuar logado
+            res.redirect("/perfil/leitor");
+        } 
+        if (result.tipo_conta == "adm"){ //separa adm
+            req.session.admId = result.id; //armazena o id na sessao, fazendo o cara navegar e continuar logado
+            res.redirect("/perfil/biblio");
+        }
 
     } else {
         req.flash('error','senha incorreta.');
@@ -70,7 +77,6 @@ const mostrarPerfilLeitor = async (req, res) => { //tava dsando erraado o result
     const result = await model.buscar_idUser(req.session.userId);
     if (result) {
         res.render("perfis/perfilLeitor", { result });//se tiver logado, manda pro perfil
-
     } else {
         req.session.destroy(() => {
         res.redirect('/login');
@@ -84,4 +90,49 @@ const sair = async (req, res) => {
     })
 }
 
-module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login, mostrarPerfilLeitor, sair} 
+//TEMPORÀRIO
+const mostrarPerfilBiblio = async (req, res) => { //tava dsando erraado o result no ejs, dai fiz gambiarra rsrs
+    if (!req.session.admId) {
+        return res.redirect('/login'); //se nao tiver id na sessao, redireciona pro login
+    }
+    const result = await model.buscar_idUser(req.session.admId);
+    if ((result.tipo_conta == "adm")) {
+        res.render("perfis/perfilBiblio", { result });//se tiver logado, manda pro perfil
+
+    } else {
+        req.session.destroy(() => {
+        res.redirect('/login');
+        });
+    }
+}
+
+const mostrarPerfilLivro = async (req, res) => { 
+    if (!req.session.admId) {
+        return res.redirect('/login'); //Somente o adm tem acesso
+    }
+    const result = await model.buscar_idUser(req.session.admId);
+    if ((result.tipo_conta == "adm")) {
+        const todos = await model.TodosUser();
+        res.render("perfis/perfilLivro", { todos });
+
+    } else {
+        res.redirect('/login');
+    }
+}
+
+const mostrarEmprestimo = async (req, res) =>{
+    if (!req.session.admId) {
+        return res.redirect('/login'); //Somente o adm tem acesso
+    }
+    const result = await model.buscar_idUser(req.session.admId);
+    if ((result.tipo_conta == "adm")) {
+        const todos = await model.TodosUser();
+        res.render("emprestimo/emprestimo", { todos });
+
+    } else {
+        res.redirect('/login');
+    }
+}
+
+
+module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login, mostrarPerfilLeitor, sair, mostrarPerfilBiblio, mostrarPerfilLivro, mostrarEmprestimo} 

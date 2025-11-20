@@ -29,7 +29,12 @@ livros.sync() // Criar a tabela se não existir
 //Funções do sequelize
 const Todos = () => livros.findAll()
 
-const add = (params) => livros.create(params)
+//Função pra encontrar o id de acordo com os outros valores
+const buscar = async (params) => await livros.findOne({
+    where: {titulo: params.titulo, autor: params.autor, categoria: params.categoria}
+})
+
+const add = async (params) => await livros.create(params)
 
 const buscar_id = (id) => livros.findByPk(id)
 
@@ -46,4 +51,4 @@ const delet = async(id) => {
     
 
 
-module.exports = {livros, Todos, add, delet, buscar_id};
+module.exports = {livros, Todos, add, delet, buscar_id, buscar};

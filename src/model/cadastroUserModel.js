@@ -22,25 +22,26 @@ const cadastroUser = db.define("cadastro", {
         },
 
     username: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            unique: true
-        },
-    senha_cripto: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-    tipo_conta: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 'leitor'
+        unique: true
+    },
+    senha_cripto: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    tipo_conta: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
 })
 
 cadastroUser.sync() // Criar a tabela se não existir user
 
-//Funções do sequelize adm
-const TodosUser = () => cadastroUser.findAll()
+//Funções do sequelize user
+const TodosUser = () => cadastroUser.findAll({
+    where: {tipo_conta: "user"} 
+})
 
 const addUser = async (params) => {
     const senha_cripto = await cripto.hash(params.senha_cripto, 8)

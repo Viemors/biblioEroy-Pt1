@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meu Perfil</title>
-  <link rel="stylesheet" href="/css/perfis.css">
-  <link rel="stylesheet" href="/js/perfis.js">
+  <link rel="stylesheet" href="../css/perfis.css">
+  <link rel="stylesheet" href="..//css/home.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
   </style>
@@ -15,8 +15,8 @@
 <script>
 
   function editar() {
-    const input = document.querySelectorAll('input:not(#nome)');
-    //Remove o primeiro elemento: nome, já que esse não deve ser mudado
+    const input = document.querySelectorAll('input:not(.only)');
+   //Remove o nome e o tipo de conta (classe only), já que esses não devem ser mudados
     input.forEach((input) => {
       input.removeAttribute('readonly');
       input.placeholder = "digite o novo valor";
@@ -25,22 +25,28 @@
 </script>
 
 <style>
-  #nome{
+  .only{
     font-weight: bold;
     color:brown;
   }
 </style>
 
 <body>
+  <%-include("../partials/header")%>
 
-  <%- include('../partials/navbar') %>
+  <%-include('../partials/navbar') %>
 
   <h2>Meu Perfil</h2>
-  <h2>Olá <%=result.username%>!</h2>
-  <form action="perfil/atualizarCadastro?_method=PUT" method="POST">
+  <h2>Olá <%=result.nome%>!</h2>
+  <form action="/atualizarCadastro?_method=PUT" method="POST">
+    <div>
+      <label for="inputNome">Conta</label>
+      <input type="text" class="only" readonly value="<%=result.tipo_conta%>" name="tipo_conta">
+    </div><br>
+
     <div>
       <label for="inputNome">Nome</label>
-      <input type="text" id="nome" readonly value="<%=result.nome%>" name="nome">
+      <input type="text" class="only" readonly value="<%=result.nome%>" name="nome">
     </div><br>
 
     <div>
@@ -61,7 +67,7 @@
     <div>
      
       <button type="submit">Salvar</button>
-      <button type="submit"><a href="/">Cancelar</a></button>
+      <button><a href="/perfil/leitor">Cancelar</a></button>
     </div><br>
 
     <div>

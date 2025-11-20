@@ -19,14 +19,18 @@ const emprestimo = db.define("emprestimo", {
         allowNull: false
     },
 
-    livroEmprestado: {
-        type: Sequelize.STRING,
-        allowNull: false
+    Idlivro: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
     },
     
-    leitor: {
-        type: Sequelize.STRING,
-        allowNull: false
+    Idleitor: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    },
+    Idbiblio: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
     }
 })
 
@@ -35,15 +39,15 @@ emprestimo.sync() // Criar a tabela se não existir
 //Funções do sequelize
 const Todos = () => emprestimo.findAll()
 
-const add = (params) => emprestimo.create(params)
+const add = async (params) => await emprestimo.create(params)
 
 const buscar_id = (id) => emprestimo.findByPk(id)
 
-const delet = async(id) => {
+const delet = async(id, titulo) => {
     await emprestimo
 .destroy({
         where: {
-            id: id
+            Idleitor: id, titulo: titulo
         }
     });
 }

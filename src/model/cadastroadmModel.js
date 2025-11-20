@@ -25,7 +25,11 @@ const cadastro_biblio = db.define("cadastro", {
     senha_cripto: {
             type: Sequelize.STRING,
             allowNull: false
-        }
+        },
+    tipo_conta: {
+        type: Sequelize.STRING,
+        allowNull: false
+    } 
 })
 
 cadastro_biblio.sync() // Criar a tabela se não existir adm

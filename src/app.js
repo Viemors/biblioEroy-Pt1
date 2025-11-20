@@ -36,11 +36,15 @@ app.use((req, res, next) => {
 const initialRoute = require('./routes/initialRoute');
 app.use('/', initialRoute); 
 
-const cadastro = require('./routes/cadastroUserRoute');
-app.use('/', cadastro); 
+const cadastroUser = require('./routes/cadastroUserRoute');
+app.use('/', cadastroUser); 
 
 const livros = require('./routes/livrosRoutes');
 app.use('/', livros);
+
+//Rota do emprestimo
+const emprestimo = require('./routes/emprestimoRoutes');
+app.use('/', emprestimo); 
 
 const bd = require('./routes/bdRoutes');
 app.use('/', bd); 
