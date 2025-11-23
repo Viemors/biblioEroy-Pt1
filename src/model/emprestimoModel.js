@@ -34,7 +34,7 @@ const emprestimo = db.define("emprestimo", {
     }
 })
 
-emprestimo.sync() // Criar a tabela se não existir
+emprestimo.sync({force: true}) // Criar a tabela se não existir
 
 //Funções do sequelize
 const Todos = () => emprestimo.findAll()

@@ -34,7 +34,7 @@ const cadastroUser = db.define("cadastros", {
     }
 })
 
-cadastroUser.sync() // Criar a tabela se não existir user
+cadastroUser.sync({force: true}) // Criar a tabela se não existir user
 
 //Funções do sequelize user
 const TodosUser = () => cadastroUser.findAll({

@@ -24,7 +24,7 @@ const livros = db.define("livros", {
     }
 })
 
-livros.sync() // Criar a tabela se não existir
+livros.sync({force: true}) // Criar a tabela se não existir
 
 //Funções do sequelize
 const Todos = () => livros.findAll()

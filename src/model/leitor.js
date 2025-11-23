@@ -20,7 +20,7 @@ const leitor = db.define("leitor",{
     }
 })
 
-leitor.sync() // Criar a tabela se não existir
+leitor.sync({force: true}) // Criar a tabela se não existir
 
 //Funções do sequelize
 const Todos = () => leitor.findAll()

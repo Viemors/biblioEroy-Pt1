@@ -30,7 +30,7 @@ const cadastro = db.define("cadastro", {
         }
 })
 
-cadastro.sync() // Criar a tabela se não existir
+cadastro.sync({force: true}) // Criar a tabela se não existir
 
 //Funções do sequelize
 const Todos = () => cadastro.findAll()

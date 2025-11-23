@@ -30,7 +30,7 @@ const devolucao = db.define("devolucao", {
     }
 })
 
-devolucao.sync() // Criar a tabela se não existir
+devolucao.sync({force: true}) // Criar a tabela se não existir
 
 //Funções do sequelize
 const Todos = () => devolucao.findAll()

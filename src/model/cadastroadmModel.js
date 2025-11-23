@@ -32,7 +32,7 @@ const cadastro_biblio = db.define("cadastro", {
     } 
 })
 
-cadastro_biblio.sync() // Criar a tabela se não existir adm
+cadastro_biblio.sync({force: true}) // Criar a tabela se não existir adm
 
 
 
