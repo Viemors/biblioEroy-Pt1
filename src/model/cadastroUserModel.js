@@ -3,7 +3,7 @@ const db = require("../config/bd_SEQUELIZE")
 const cripto = require("bcrypt")
 
 ////////////user////////////////////////
-const cadastroUser = db.define("cadastro", {
+const cadastroUser = db.define("cadastros", {
     id:{
     type: Sequelize.INTEGER,
     autoIncrement: true, 
@@ -17,14 +17,12 @@ const cadastroUser = db.define("cadastro", {
 
     email: {
             type: Sequelize.STRING,
-            allowNull: false,
-            unique: true
+            allowNull: false
         },
 
     username: {
         type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
+        allowNull: false
     },
     senha_cripto: {
         type: Sequelize.STRING,
@@ -46,7 +44,8 @@ const TodosUser = () => cadastroUser.findAll({
 const addUser = async (params) => {
     const senha_cripto = await cripto.hash(params.senha_cripto, 8)
     params.senha_cripto = senha_cripto; // substitui a senha normie pela criptografada
-    return cadastroUser.create(params);
+    const resultado = await cadastroUser.create(params);
+    return resultado;
 }
 const buscar_idUser = (id) => cadastroUser.findByPk(id)
 

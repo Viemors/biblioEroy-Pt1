@@ -1,4 +1,3 @@
-const { console } = require("inspector")
 const model = require("../model/cadastroUserModel")
 
 const inicio = (req, res) =>  {
@@ -11,11 +10,23 @@ const TodosUser = async (req, res) => {
     res.status(200).json(result);
 }
 
+//Coloquei o adm e user tudo junto porque senão teria que criar duas páginas de login e cadastro. então só aqui diferencia no js
 const addUser = async (req, res) => {
-    const result = await model.addUser(req.body);
-    req.session.userId = result.id;
-    req.session.username = result.username;
-    return res.redirect('/perfil/leitor');
+    try { 
+        const result = await model.addUser(req.body);
+        req.session.username = result.username;
+        if (result.tipo_conta == "adm"){
+            req.session.admId = result.id;
+            return res.redirect('/perfil/biblio');
+        }
+        else {
+            req.session.userId = result.id;
+            return res.redirect('/perfil/leitor');
+    }
+    } 
+    catch (error) {
+        res.json(error); //Mostra o erro pra gente saber o que tá acontecendo
+    }
 }
 
 const deletUser = async (req, res) => {
