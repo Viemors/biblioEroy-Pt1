@@ -15,13 +15,13 @@ const add = async (req, res) => {
     const senha_cripto = await cripto.hash(req.body.senha, 8);
     console.log(senha_cripto)
     const result = await model.add({nome: req.body.nome, username: req.body.username, senha: senha_cripto, email: req.body.email})
-    res.status(200).render("perfis/perfilLeitor", {result})
+    res.status(200).render("perfis/perfilBiblio", {result})
 }
 
 const delet = async (req, res) => {
     await model.delet(req.params.id)
     req.flash('success','cadastro deletado com sucesso.');
-    return res.redirect('/cadastroadm');
+    return res.redirect('home');
 }
 
 const buscar_id = async (req, res) => {
@@ -32,7 +32,7 @@ const buscar_id = async (req, res) => {
 const atualizar = async (req, res) => {
     await model.atualizar(req.query)
     req.flash('success','cadastro atualizado com sucesso.');
-    return res.redirect('/cadastroadm');
+    return res.redirect('perfis/perfilBiblio');
 }
 
 const login = async (req, res) => {
