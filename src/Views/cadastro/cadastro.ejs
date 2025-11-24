@@ -66,11 +66,18 @@
       <!--O Mano que escolhe qual tipo de conta ele quer (tem que mudar isso com a senha de acesso provavelmente)-->
       <div>
         <label>Tipo de Conta</label>
-        <select name="tipo_conta">
+        <select id="select" name="tipo_conta">
+          <option selected disabled>Selecione um tipo</option>
           <option value="user">Leitor</option>
           <option value="adm">Bibliotecário</option>
         </select>
       </div>
+    </br>
+      <div hidden id="div">
+        <label>Senha ADM</label>
+        <input type="password" id="senha_adm" name="senha_adm" placeholder="Senha de Acesso" style="text-align: center;" required>
+      </div>
+    
     <br>
 
       <div>
@@ -87,5 +94,20 @@
     <%- include('../partials/footer') %>
 
 </body>
+  <script>
+      const select = document.querySelector("#select");
+      const div = document.getElementById('div');
+      const senha = document.getElementById('senha_adm');
+      select.addEventListener("change", () => {
+        if (select.value == "adm"){
+          div.hidden = false;
+          senha.required = true;
+        }
+        else{
+          div.hidden = true;
+          senha.required = false
+        }
+      });
+  </script>
 
 </html>

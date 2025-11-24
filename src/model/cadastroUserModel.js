@@ -22,7 +22,8 @@ const cadastroUser = db.define("cadastros", {
 
     username: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     senha_cripto: {
         type: Sequelize.STRING,
@@ -34,7 +35,7 @@ const cadastroUser = db.define("cadastros", {
     }
 })
 
-cadastroUser.sync({force: true}) // Criar a tabela se não existir user
+cadastroUser.sync() // Criar a tabela se não existir user
 
 //Funções do sequelize user
 const TodosUser = () => cadastroUser.findAll({

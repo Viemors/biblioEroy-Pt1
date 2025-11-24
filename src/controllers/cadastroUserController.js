@@ -16,9 +16,15 @@ const addUser = async (req, res) => {
         const result = await model.addUser(req.body);
         req.session.username = result.username;
         if (result.tipo_conta == "adm"){
-            req.session.admId = result.id;
-            req.flash('success', 'Conta criada com sucesso.');
-            return res.redirect('/perfil/biblio');
+            if (await model.validacao(req.body.senha_adm, "$2b$12$bbEewdeKF21wJ7S4.kG57en.p2BWMTDaL5DujkNMUr.aVkQEQW9ge")){
+                req.session.admId = result.id;
+                req.flash('success', 'Conta criada com sucesso.');
+                return res.redirect('/perfil/biblio');
+            }
+            else {
+                req.flash("error", "Senha de acesso incorreta."); 
+                return res.redirect("/cadastro") ;
+            }
         }
         else {
             req.session.userId = result.id;
@@ -27,7 +33,8 @@ const addUser = async (req, res) => {
     }
     } 
     catch (error) {
-        res.json(error); //Mostra o erro pra gente saber o que tá acontecendo
+        req.flash('error', error.errors[0].message); //Mostra o erro pra gente saber o que tá acontecendo (em inglês e erro de mysql)
+        return res.redirect("/cadastro");
     }
 }
 
@@ -82,7 +89,7 @@ const login = async (req, res) => {
         }
         if (result.tipo_conta == "adm"){ //separa adm
             req.session.admId = result.id; //armazena o id na sessao, fazendo o cara navegar e continuar logado
-            res.redirect("/perfil/biblio");
+            res.redirect("/perfil/biblio");        
         }
 
     } 
