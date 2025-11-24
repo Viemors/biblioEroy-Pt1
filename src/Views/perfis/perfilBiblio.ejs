@@ -38,6 +38,22 @@
 
   <h2>Meu Perfil</h2>
   <h2>Olá <%=result.nome%>!</h2>
+
+  <% if (error && error.length) { %> <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
+      <div class="flash flash-error" style="color: red; text-align:center;">
+        <% error.forEach(function(msg){ %>
+          <p><%= msg %></p>
+        <% }) %>
+      </div> <!--no ejs vc acessa error (que é res.locals.error) -->  
+    <% } %>
+    <% if (success && success.length) { %>
+      <div class="flash flash-success" style="color: green; text-align:center;">
+        <% success.forEach(function(msg){ %>
+          <p><%= msg %></p>
+        <% }) %>
+      </div>
+    <% } %>
+
   <form action="/atualizarCadastro?_method=PUT" method="POST">
     <div>
       <label for="inputNome">Conta</label>

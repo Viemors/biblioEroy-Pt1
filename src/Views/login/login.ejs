@@ -14,8 +14,22 @@
   <%-include("../partials/header")%>
 
   <%- include('../partials/navbar') %>
-
+  
   <h1>Login</h1>
+  <% if (error && error.length) { %> <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
+    <div class="flash flash-error" style="color: red; text-align:center;">
+      <% error.forEach(function(msg){ %>
+        <p><%= msg %></p>
+      <% }) %>
+    </div> <!--no ejs vc acessa error (que é res.locals.error) -->
+  <% } %>
+  <% if (success && success.length) { %>
+    <div class="flash flash-success" style="color: green; text-align:center;">
+      <% success.forEach(function(msg){ %>
+        <p><%= msg %></p>
+      <% }) %>
+    </div>
+  <% } %>
 
   <form action="/login" method="POST">
 

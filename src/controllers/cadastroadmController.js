@@ -20,7 +20,8 @@ const add = async (req, res) => {
 
 const delet = async (req, res) => {
     await model.delet(req.params.id)
-    res.status(200).send("Apagado com sucesso")
+    req.flash('success','cadastro deletado com sucesso.');
+    return res.redirect('/cadastroadm');
 }
 
 const buscar_id = async (req, res) => {
@@ -30,7 +31,8 @@ const buscar_id = async (req, res) => {
 
 const atualizar = async (req, res) => {
     await model.atualizar(req.query)
-    res.status(200).send("Atualizado")
+    req.flash('success','cadastro atualizado com sucesso.');
+    return res.redirect('/cadastroadm');
 }
 
 const login = async (req, res) => {

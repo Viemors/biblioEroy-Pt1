@@ -12,12 +12,14 @@ const Todos = async (req, res) => {
 
 const add = async (req, res) => {
     await model.add(req.query)
-    res.status(200).send("Cadastrado")
+     req.flash('success','devolução adicionada com sucesso.');
+    return res.redirect('/devolucao');
 }
 
 const delet = async (req, res) => {
     await model.delet(req.params.id)
-    res.status(200).send("Apagado com sucesso")
+     req.flash('success','devolução deletada com sucesso.');
+    return res.redirect('/devolucao');
 }
 
 const buscar_id = async (req, res) => {
@@ -27,7 +29,8 @@ const buscar_id = async (req, res) => {
 
 const atualizar = async (req, res) => {
     await model.atualizar(req.query)
-    res.status(200).send("Atualizado")
+     req.flash('success','devolução atualizada com sucesso  .');
+    return res.redirect('/devolucao');
 }
 
 module.exports = {add, Todos, buscar_id, delet, atualizar, inicio}

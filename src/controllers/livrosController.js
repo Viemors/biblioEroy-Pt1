@@ -12,13 +12,19 @@ const teste = async (req, res) => {
 
 const add = async (req, res) => {
     const result = await model.add(req.body)
-    if (result) res.status(200).redirect("/livro");
-    else res.status(400).send("erro")
+    if (result) {
+        req.flash('success','livro adicionado com sucesso.');
+        return res.redirect('/livro');
+    } else {
+        req.flash('error','erro ao adicionar livro.');
+        return res.redirect('/livro');
+    }
 }
 
 const delet = async (req, res) => {
     await model.delet(req.params.id)
-    res.status(200).send("Apagado com sucesso")
+     req.flash('success','livro deletado com sucesso.');
+    return res.redirect('/livro');
 }
 
 const buscar_id = async (req, res) => {
@@ -28,7 +34,8 @@ const buscar_id = async (req, res) => {
 
 const atualizar = async (req, res) => {
     await model.atualizar(req.body)
-    res.status(200).send("Atualizado")
+    req.flash('success','livro atualizado com sucesso.');
+    return res.redirect('/livro');
 }
 
 

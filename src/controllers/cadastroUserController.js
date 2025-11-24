@@ -12,15 +12,17 @@ const TodosUser = async (req, res) => {
 
 //Coloquei o adm e user tudo junto porque senão teria que criar duas páginas de login e cadastro. então só aqui diferencia no js
 const addUser = async (req, res) => {
-    try { 
+    try {
         const result = await model.addUser(req.body);
         req.session.username = result.username;
         if (result.tipo_conta == "adm"){
             req.session.admId = result.id;
+            req.flash('success', 'Conta criada com sucesso.');
             return res.redirect('/perfil/biblio');
         }
         else {
             req.session.userId = result.id;
+            req.flash('success', 'Conta criada com sucesso.');
             return res.redirect('/perfil/leitor');
     }
     } 
@@ -31,11 +33,12 @@ const addUser = async (req, res) => {
 
 const deletUser = async (req, res) => {
     const deletar = await model.deletUser(req.session.userId)
-    if(!deletar){
-        req.flash('success','conta apagada.');
-        return res.redirect('/');}
-    else {
-        res.status(400).send("Não foi possível concluir a ação")    
+    if (deletar) { // deleted === 1
+        req.flash('success', 'Conta apagada.');
+        return res.redirect('/');
+    } else {
+        req.flash('error', 'Não foi possível apagar a conta.');
+        return res.redirect('/perfil/leitor');
     }
 }
 
@@ -46,9 +49,11 @@ const buscar_idUser = async (req, res) => {
 
 const atualizarUser = async (req, res) => {
     if (await model.atualizarUser(req.body)){
-        res.status(200).send("Atualizado")
+        req.flash('success','dados atualizados com sucesso.');
+        return res.redirect('/perfil/leitor');
     } else { 
-        res.status(400).send("Não atualizado")
+        req.flash('error','erro ao atualizar dados.');
+        return res.redirect('/perfil/leitor');
     }
 }
 
@@ -62,6 +67,11 @@ const login = async (req, res) => {
     }
 
     const validacao = await model.validacao(req.body.senha, result.senha_cripto);
+    if (!validacao) {
+        req.flash('error','senha incorreta.');
+        return res.redirect('/login');
+    }
+
     console.log('[login] validacao: ', validacao); //só pra eu ver se ta funcionando, tava dando bo na cripto
 
     if (validacao) { //verifica se a senha tá correct
@@ -69,16 +79,13 @@ const login = async (req, res) => {
         if (result.tipo_conta == "user") { //Separa user
             req.session.userId = result.id; //armazena o id na sessao, fazendo o cara navegar e continuar logado
             res.redirect("/perfil/leitor");
-        } 
+        }
         if (result.tipo_conta == "adm"){ //separa adm
             req.session.admId = result.id; //armazena o id na sessao, fazendo o cara navegar e continuar logado
             res.redirect("/perfil/biblio");
         }
 
-    } else {
-        req.flash('error','senha incorreta.');
-        return res.redirect('/login');
-    }
+    } 
 } 
 
 const mostrarPerfilLeitor = async (req, res) => { //tava dsando erraado o result no ejs, dai fiz gambiarra rsrs

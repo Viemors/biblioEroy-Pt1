@@ -18,14 +18,19 @@ const add = async (req, res) => {
     datafinal.setDate(datainicial.getDate() + 7) //Tudo isso pra somar 7 dias
     const {id} = await modelLivro.buscar(req.body)
     const result = await model.add({Idleitor: req.body.idleitor, Idlivro: id, Idbiblio: req.session.admId, datainicial: datainicial, datafinal: datafinal})
-    if (result) res.status(200).redirect("/emprestimo")
-    else res.status(400).send("Erro")
+    if (result) {
+        res.status(200).redirect("/emprestimo")
+    } else {
+        req.flash('error','erro ao adicionar empréstimo.');
+        return res.redirect('/emprestimo');
+    }
 }
 
 const delet = async (req, res) => {
     const Idleitor = modelUser.buscar_idUser(req.body.nome)
     await model.delet(Idleitor, req.body.titulo)
-    res.status(200).send("Apagado com sucesso")
+     req.flash('success','empréstimo deletado com sucesso.');
+    return res.redirect('/emprestimo');
 }
 
 const buscar_id = async (req, res) => {
@@ -35,7 +40,8 @@ const buscar_id = async (req, res) => {
 
 const atualizar = async (req, res) => {
     await model.atualizar(req.query)
-    res.status(200).send("Atualizado")
+     req.flash('success','empréstimo atualizado com sucesso.');
+        return res.redirect('/emprestimo');
 }
 
 
