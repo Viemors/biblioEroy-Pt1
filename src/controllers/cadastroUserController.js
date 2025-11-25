@@ -1,4 +1,5 @@
-const model = require("../model/cadastroUserModel")
+const model = require("../model/cadastroUserModel");
+const modelEmprestimo = require("../model/emprestimoModel");
 
 const inicio = (req, res) =>  {
     res.json({Ver_todos: "/mostrar", delete: "/delete:id(o que tu quiser, mas que exista na tabela)", buscar_ID: "/buscar:id(o que tu quiser, mas que exista na tabela)", Adicionar: "/add?titulo=titulo(que tu quiser, sem aspas)&autor=autor(que tu quiser, sem aspas)", atualizar: "/atualizar?id=num(que quer mudar)&titulo=Titulo(novo)&autor=autor(novo)"})
@@ -39,6 +40,7 @@ const addUser = async (req, res) => {
 }
 
 const deletUser = async (req, res) => {
+    await modelEmprestimo.delete_LivroUser(req.session.userId) //Apaga os emprestimo 
     const deletar = await model.deletUser(req.session.userId)
     if (deletar) { // deleted === 1
         req.flash('success', 'Conta apagada.');
@@ -145,19 +147,5 @@ const mostrarPerfilLivro = async (req, res) => {
     }
 }
 
-const mostrarEmprestimo = async (req, res) =>{
-    if (!req.session.admId) {
-        return res.redirect('/login'); //Somente o adm tem acesso
-    }
-    const result = await model.buscar_idUser(req.session.admId);
-    if ((result.tipo_conta == "adm")) {
-        const todos = await model.TodosUser();
-        res.render("emprestimo/emprestimo", { todos });
 
-    } else {
-        res.redirect('/login');
-    }
-}
-
-
-module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login, mostrarPerfilLeitor, sair, mostrarPerfilBiblio, mostrarPerfilLivro, mostrarEmprestimo} 
+module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login, mostrarPerfilLeitor, sair, mostrarPerfilBiblio, mostrarPerfilLivro} 

@@ -70,6 +70,36 @@ body {
   color: #d1e1ff;
 }
 
+.header {
+  background-color: #42635b;
+  padding: 10px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 20px 0px;
+}
+
+.header ul {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  gap: 60px;
+  margin: 0;
+  padding-right: 100px;
+}
+
+.header a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.header a:hover {
+  color: #d1e1ff;
+}
 
 .footer {
   margin-top: auto;

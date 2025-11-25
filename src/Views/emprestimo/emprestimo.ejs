@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Empréstimo</title>
-    <link rel="stylesheet" href="/css/emprestimo.css">
+    <link rel="stylesheet" href="../css/emprestimo.css">
     <link rel="stylesheet" href="../js/emprestimo.js">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,21 +19,49 @@
 
 <body>
 
-    <%- include('../partials/header') %>
+    <%-include('../partials/header') %>
 
     <%-include("../partials/navbar") %>
         <section class="container my-5">
             <!-- Conteúdo principal -->
             <h2>Reserve seu livro</h2>
+            <!--Coloque aqui em cima pra ficar melhor pra ver-->
+            <% if (error && error.length) { %> <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
+                <div class="flash flash-error" style="color: red; text-align:center;">
+                    <% error.forEach(function(msg){ %>
+                    <p><%= msg %></p>
+                    <% }) %>
+                </div> <!--no ejs vc acessa error (que é res.locals.error) -->
+            <% } %>
+            <% if (success && success.length) { %>
+                <div class="flash flash-success" style="color: green; text-align:center;">
+                    <% success.forEach(function(msg){ %>
+                        <p><%= msg %></p>
+                    <% }) %>
+                </div>
+            <% } %>
+            <form action="/buscarLivro" method="POST"> 
+                titulo <input type="radio" name="tipo" value="titulo">
+            </br>
+                leitor <input type="radio" name="tipo" value="leitor">
+            </br>
+                categoria <input type="radio" name="tipo" value="categoria">
+            </br>
+                autor <input type="radio" name="tipo" value="autor">
+            </br>
+                <label>Buscar</label>
+                <input type="text" name="busca">
+            </form>
+        </br>
             <div>
                 <!--Função para escolher para qual usuário vai emprestar o livro
                     Object.Keys -> é como se transformasse o json em arranjo (pq o json não pega o lenght)
                     Aí no option aparece o nome dos candango (usuários) e salva o id deles -->
                 <label>Para qual usuário? </label>
                     <select name="Idleitor" id="select">
-                    <option selected disabled>Selecione um usuário</option> <!--Criar as opções com base nos usuários cadastrados-->
-                      <%for(let i = 0; i<Object.keys(todos).length; i++){%>
-                        <option value=<%=todos[i].id%>> <%=todos[i].username%> </option>
+                        <option selected disabled>Selecione um usuário</option> <!--Criar as opções com base nos usuários cadastrados-->
+                      <%for(let i = 0; i<Object.keys(todosUser).length; i++){%>
+                        <option value=<%=todosUser[i].id%>> <%=todosUser[i].username%> </option>
                       <%}%>
                     </select>
                 </br>
@@ -41,106 +69,24 @@
     
             <!--Todos os forms tem os inputs invíveis com os valores do livro-->
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                <!-- Card: Dom Casmurro -->
+                <!-- Card genérico para todos os livros do banco de dados -->
+                <%for(let i = 0; i<Object.keys(todosLivros).length; i++) {%>
                 <div class="col">
                     <div class="card h-100">
                         <img src="../imagens/livros/machado/dom casmuro.webp" class="card-img-top"
-                            alt="Capa do livro Dom Casmurro">
+                            alt="Capa do livro">
                         <form action="/addEmprestimo" method="POST" class="card-body">
-                            <input type="hidden" name="titulo" value="Dom Casmurro"> <h5 class="card-title">Dom Casmurro</h5>
-                            <input type="hidden" name="autor" value="Machado de Assis"> <p class="card-text">Autor: Machado de Assis</p>
-                            <input type="hidden" name="categoria" value="Romance realista"> <p class="card-text">Gênero: Romance realista</p>
-                            <input type="hidden" name="idleitor" value=0 class="idleitor">
-                            <button  class="btn btn-outline-primary btn-curtir" data-titulo="Dom Casmurro"
+                            <input type="hidden" name="titulo" value="<%=todosLivros[i].titulo%>"> <h5 class="card-title"><%=todosLivros[i].titulo%></h5>
+                            <input type="hidden" name="autor" value="<%=todosLivros[i].autor%>"> <p class="card-text">Autor: <%=todosLivros[i].autor%></p>
+                            <input type="hidden" name="categoria" value="<%=todosLivros[i].categoria%>"> <p class="card-text">Gênero: <%=todosLivros[i].categoria%></p>
+                            <input type="hidden" name="idleitor" value="" class="idleitor" required>
+                            <button  class="btn btn-outline-primary btn-curtir" data-titulo="<%=todosLivros[i].titulo%>"
                                 id="button">Realizar
                                 Empréstimo</button>
                         </form >
                     </div>
                 </div>
-
-                <!-- Card: O Cortiço -->
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="../imagens/livros/azevedo/o cortiço.webp" class="card-img-top"
-                            alt="Capa do livro O Cortiço">
-                        <form action="/addEmprestimo" method="POST" class="card-body">
-                            <input type="hidden" name="titulo" value="O Cortiço"> <h5 class="card-title">O Cortiço</h5>
-                            <input type="hidden" name="autor" value="Aluísio Azevedo"> <p class="card-text">Autor: Aluísio Azevedo</p>
-                            <input type="hidden" name="categoria" value="Naturalismo"> <p class="card-text">Gênero: Naturalismo</p>
-                            <input type="hidden" name="idleitor" value=0 class="idleitor">
-                            <button type="submit" class="btn btn-outline-primary btn-curtir" id="button"
-                                data-titulo="O Cortiço">Realizar
-                                Empréstimo</button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Card: Iracema -->
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="../imagens/livros/alencar/iracema.webp" class="card-img-top"
-                            alt="Capa do livro Iracema">
-                        <form action="/addEmprestimo" method="POST" class="card-body">
-                            <input type="hidden" name="titulo" value="Iracema"> <h5 class="card-title">Iracema</h5>
-                            <input type="hidden" name="autor" value="José de Alencar"> <p class="card-text">Autor: José de Alencar</p>
-                            <input type="hidden" name="categoria" value="Romantismo"> <p class="card-text">Gênero: Romantismo</p>
-                            <input type="hidden" name="idleitor" value=0 class="idleitor">
-                            <button type="submit" class="btn btn-outline-primary btn-curtir" data-titulo="Iracema"
-                                id="button">Realizar
-                                Empréstimo</button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Card: Memórias Póstumas -->
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="../imagens/livros/machado/memorias postumas.webp" class="card-img-top"
-                            alt="Capa do livro Memórias Póstumas de Brás Cubas">
-                        <form action="/addEmprestimo" method="POST" class="card-body">
-                            <input type="hidden" name="titulo" value="Memórias Póstumas de Brás Cubas"> <h5 class="card-title">Memórias Póstumas de Brás Cubas</h5>
-                            <input type="hidden" name="autor" value="Machado de Assis"> <p class="card-text">Autor: Machado de Assis</p>
-                            <input type="hidden" name="categoria" value="Realismo"> <p class="card-text">Gênero: Realismo</p>
-                            <input type="hidden" name="idleitor" value=0 class="idleitor">
-                            <button type="submit" class="btn btn-outline-primary btn-curtir"
-                                data-titulo="Memórias Póstumas de Brás Cubas" id="button">Realizar Empréstimo</button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Card: A Moreninha -->
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="../imagens/livros/macedo/a moreninha.webp" class="card-img-top"
-                            alt="Capa do livro A Moreninha">
-                        <form action="/addEmprestimo" method="POST" class="card-body">
-                            <input type="hidden" name="titulo" value="A Moreninha"> <h5 class="card-title">A Moreninha</h5>
-                            <input type="hidden" name="autor" value="Joaquim Manuel de Macedo"> <p class="card-text">Autor: Joaquim Manuel de Macedo</p>
-                            <input type="hidden" name="categoria" value="Romantismo"> <p class="card-text">Gênero: Romantismo</p>
-                            <input type="hidden" name="idleitor" value=0 class="idleitor">
-                            <button type="submit" class="btn btn-outline-primary btn-curtir" data-titulo="A Moreninha"
-                                id="button">Realizar
-                                Empréstimo</button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Card: Vidas Secas -->
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="../imagens/livros/graciliano/vidas secas.webp" class="card-img-top"
-                            alt="Capa do livro Vidas Secas">
-                        <form action="/addEmprestimo" method="POST" class="card-body">
-                            <input type="hidden" name="titulo" value="Vidas Secas"> <h5 class="card-title">Vidas Secas</h5>
-                            <input type="hidden" name="autor" value="Graciliano Ramos"> <p class="card-text">Autor: Graciliano Ramos</p>
-                            <input type="hidden" name="categoria" value="Romance regionalista"> <p class="card-text">Gênero: Romance regionalista</p>
-                            <input type="hidden" name="idleitor" value=0 class="idleitor">
-                            <button type="submit" class="btn btn-outline-primary btn-curtir" data-titulo="Vidas Secas"
-                                id="button">Realizar
-                                Empréstimo</button>
-                        </form>
-                    </div>
-                </div>
+                <%}%>
             </div>
         </section>
 
@@ -149,21 +95,6 @@
 
                 <form class="formi">
                     <h2>Empréstimo</h2>
-
-                     <% if (error && error.length) { %> <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
-                        <div class="flash flash-error" style="color: red; text-align:center;">
-                            <% error.forEach(function(msg){ %>
-                            <p><%= msg %></p>
-                            <% }) %>
-                        </div> <!--no ejs vc acessa error (que é res.locals.error) -->
-                    <% } %>
-                        <% if (success && success.length) { %>
-                            <div class="flash flash-success" style="color: green; text-align:center;">
-                                <% success.forEach(function(msg){ %>
-                                    <p><%= msg %></p>
-                                <% }) %>
-                            </div>
-                        <% } %>
 
                     <div class="slaa">
                         <label for="inputNome">Nome:</label>

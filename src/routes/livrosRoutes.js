@@ -6,7 +6,7 @@ const controller = require("../controllers/livrosController")
 router.get("/mostrarLivros", controller.teste)
 router.post("/addLivro", controller.add)
 router.get("/deleteLivro/:id", controller.delet)
-router.get("/buscarLivro/:id", controller.buscar_id)
+router.post("/buscarLivro", controller.buscar)
 router.post("/atualizarLivro", controller.atualizar)
 
 module.exports = router

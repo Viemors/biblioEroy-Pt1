@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize")
 const db = require("../config/bd_SEQUELIZE")
+const modelLeitor = require("../model/cadastroUserModel")
 
 //definindo a Tabela livros
 // com sequelize
@@ -24,7 +25,14 @@ const livros = db.define("livros", {
     }
 })
 
-livros.sync({force: true}) // Criar a tabela se não existir
+//arranjo de inicio
+const livros_iniciais = [{titulo: "Dom Casmurro", autor: "Machado de Assis", categoria: "Romance"}, {titulo: "O Cortiço", autor: "Aluísio Azevedo", categoria: "Naturalismo"}, {titulo: "Iracema", autor: "José de Alencar", categoria: "Romantismo" }, {titulo: "Memórias Póstumas de Brás Cubas", autor: "Machado de Assis", categoria: "Realismo"}, {titulo: "A Moreninha", autor: "Joaquim Manuel Macedo", categoria: "Romantismo"}, {titulo: "Vidas Secas", autor: "Graciliano Ramos", categoria: "Romance"}]
+
+livros.sync().then(async ()=>{ // Criar a tabela se não existir
+    if(await livros.count() == 0) { //Se a tabela estiver vazia ele atribui os dados iniciais
+        livros.bulkCreate(livros_iniciais) //bulkCreate -> Criar com arranjos
+    }
+});  
 
 //Funções do sequelize
 const Todos = () => livros.findAll()
@@ -37,6 +45,18 @@ const buscar = async (params) => await livros.findOne({
 const add = async (params) => await livros.create(params)
 
 const buscar_id = (id) => livros.findByPk(id)
+
+const buscar_titulo = async (titulo) => await livros.findAll({
+    where: {titulo: titulo}
+})
+
+const buscar_autor = async (autor) => await livros.findAll({
+    where: {autor: autor}
+})
+
+const buscar_categoria = async (categoria) => await livros.findAll({
+    where: {categoria: categoria}
+})
 
 const delet = async(id) => {
     await livros
@@ -51,4 +71,4 @@ const delet = async(id) => {
     
 
 
-module.exports = {livros, Todos, add, delet, buscar_id, buscar};
+module.exports = {livros, Todos, add, delet, buscar_id, buscar, buscar_titulo, buscar_autor, buscar_categoria};

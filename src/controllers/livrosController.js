@@ -1,4 +1,5 @@
 const model = require("../model/livrosModel") //isso aq é o mesmo que ta no bdcontroller, pq ambos fazem a mesma coisa
+const modelEmprestimo = require("../model/emprestimoModel")
 
 const inicio = (req, res) =>  {
     res.json({Ver_todos: "/mostrar", delete: "/delete:id(o que tu quiser, mas que exista na tabela)", buscar_ID: "/buscar:id(o que tu quiser, mas que exista na tabela)", Adicionar: "/add?titulo=titulo(que tu quiser, sem aspas)&autor=autor(que tu quiser, sem aspas)", atualizar: "/atualizar?id=num(que quer mudar)&titulo=Titulo(novo)&autor=autor(novo)"})
@@ -14,10 +15,10 @@ const add = async (req, res) => {
     const result = await model.add(req.body)
     if (result) {
         req.flash('success','livro adicionado com sucesso.');
-        return res.redirect('/livro');
+        return res.redirect('/perfil/livro');
     } else {
         req.flash('error','erro ao adicionar livro.');
-        return res.redirect('/livro');
+        return res.redirect('/perfil/livro');
     }
 }
 
@@ -27,9 +28,28 @@ const delet = async (req, res) => {
     return res.redirect('/livro');
 }
 
-const buscar_id = async (req, res) => {
-    const result = await model.buscar_id(req.params.id)
-    res.status(200).json(result)
+//Buscar por alguma coisa
+const buscar = async (req, res) => {
+    if (req.body.tipo == "titulo") {
+        const result = await model.buscar_titulo(req.body.busca);
+        req.flash("sucess", `Item ${req.body.busca}`)
+        return res.json(result);
+    }
+    if (req.body.tipo == "categoria") {
+        const result = await model.buscar_categoria(req.body.busca);
+        req.flash("sucess", `Item ${req.body.busca}`)
+        return res.json(result);
+    }
+    if (req.body.tipo == "autor") {
+        const result = await model.buscar_autor(req.body.busca);
+        req.flash("sucess", `Item ${req.body.busca}`)
+        return res.json(result);
+    }
+    if (req.body.tipo == "leitor") {
+        const result = await modelEmprestimo.buscar_LivrosLeitor(req.body.busca);
+        req.flash("sucess", `Item ${req.body.busca}`)
+        return res.json(result);
+    }
 }
 
 const atualizar = async (req, res) => {
@@ -40,4 +60,4 @@ const atualizar = async (req, res) => {
 
 
 
-module.exports = {add, teste, buscar_id, delet, atualizar, inicio}
+module.exports = {add, teste, buscar, delet, atualizar, inicio}

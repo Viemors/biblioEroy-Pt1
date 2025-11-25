@@ -50,6 +50,10 @@ const addUser = async (params) => {
 }
 const buscar_idUser = (id) => cadastroUser.findByPk(id)
 
+const buscar_nome = async (nome) => await cadastroUser.findOne({
+    where: { username: nome}
+})
+
 const deletUser = async(id) => {
     await cadastroUser
 .destroy({
@@ -85,4 +89,4 @@ const login = async(params) => {
 const validacao = (senha, senha_cripto) => cripto.compare(senha, senha_cripto)
 
 
-module.exports = {TodosUser, addUser, buscar_idUser, deletUser, atualizarUser, login, validacao, cadastroUser};
+module.exports = {TodosUser, addUser, buscar_idUser, deletUser, atualizarUser, login, validacao, buscar_nome, cadastroUser};
