@@ -102,13 +102,12 @@
                     <div class="card h-100">
                         <img src="../imagens/livros/machado/dom casmuro.webp" class="card-img-top"
                             alt="Capa do livro">
-                        <form action="/deleteEmprestimo" method="POST" class="card-body">
+                        <form action="/devolucao" method="POST" class="card-body">
                             <input type="hidden" name="titulo" value="<%=livros[i].titulo%>"> <h5 class="card-title"><%=livros[i].titulo%></h5>
                             <input type="hidden" name="autor" value="<%=livros[i].autor%>"> <p class="card-text">Autor: <%=livros[i].autor%></p>
                             <input type="hidden" name="categoria" value="<%=livros[i].categoria%>"> <p class="card-text">Gênero: <%=livros[i].categoria%></p>
                             <input type="hidden" name="idleitor" value="" class="idleitor" required>
-                            <button  class="btn btn-outline-primary btn-curtir" data-titulo="<%=livros[i].titulo%>"
-                                id="button"> Devolver </button>
+                            <button type="submit" class="btn btn-outline-primary btn-curtir" data-titulo="<%=livros[i].titulo%>" id="button"> Devolver </button>
                         </form >
                     </div>
                 </div>

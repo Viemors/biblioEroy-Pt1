@@ -111,7 +111,7 @@ const mostrarPerfilLeitor = async (req, res) => { //tava dsando erraado o result
             const livro = await modelLivros.buscar_id(emprestimos[i].Idlivro);
             livros.push(livro);
         };
-        res.render("/perfis/perfilLeitor", {result, livros});//se tiver logado, manda pro perfil
+        res.render("perfis/perfilLeitor", {result, livros});//se tiver logado, manda pro perfil
     } else {
         req.session.destroy(() => {
         res.redirect('/login');

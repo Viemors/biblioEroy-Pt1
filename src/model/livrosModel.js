@@ -46,7 +46,7 @@ const add = async (params) => await livros.create(params)
 
 const buscar_id = (id) => livros.findByPk(id)
 
-const buscar_titulo = async (titulo) => await livros.findAll({
+const buscar_titulo = async (titulo) => await livros.findOne({
     where: {titulo: titulo}
 })
 
