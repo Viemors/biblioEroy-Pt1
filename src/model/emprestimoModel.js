@@ -49,6 +49,7 @@ const buscar_LivrosLeitor = async (leitor) => {
     const result = await emprestimo.findAll({
         where: {Idleitor: parseInt(user.id)}
     })
+    return result;
 }
 
 const delete_LivroUser = async (id) => {

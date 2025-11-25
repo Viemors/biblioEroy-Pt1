@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meu Perfil</title>
   <link rel="stylesheet" href="../css/perfis.css">
+  <link rel="stylesheet" href="../css/emprestimo.css">
   <link rel="stylesheet" href="..//css/home.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
@@ -93,6 +94,26 @@
 
   </form>
    <button onclick="editar()">Editar</button>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <!-- Card genérico para todos os livros do banco de dados -->
+                <%for(let i = 0; i<Object.keys(livros).length; i++) {%>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="../imagens/livros/machado/dom casmuro.webp" class="card-img-top"
+                            alt="Capa do livro">
+                        <form action="/deleteEmprestimo" method="POST" class="card-body">
+                            <input type="hidden" name="titulo" value="<%=livros[i].titulo%>"> <h5 class="card-title"><%=livros[i].titulo%></h5>
+                            <input type="hidden" name="autor" value="<%=livros[i].autor%>"> <p class="card-text">Autor: <%=livros[i].autor%></p>
+                            <input type="hidden" name="categoria" value="<%=livros[i].categoria%>"> <p class="card-text">Gênero: <%=livros[i].categoria%></p>
+                            <input type="hidden" name="idleitor" value="" class="idleitor" required>
+                            <button  class="btn btn-outline-primary btn-curtir" data-titulo="<%=livros[i].titulo%>"
+                                id="button"> Devolver </button>
+                        </form >
+                    </div>
+                </div>
+                <%}%>
+            </div>
 
   <br>
 

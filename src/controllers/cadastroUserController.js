@@ -1,5 +1,6 @@
 const model = require("../model/cadastroUserModel");
 const modelEmprestimo = require("../model/emprestimoModel");
+const modelLivros = require("../model/livrosModel");
 
 const inicio = (req, res) =>  {
     res.json({Ver_todos: "/mostrar", delete: "/delete:id(o que tu quiser, mas que exista na tabela)", buscar_ID: "/buscar:id(o que tu quiser, mas que exista na tabela)", Adicionar: "/add?titulo=titulo(que tu quiser, sem aspas)&autor=autor(que tu quiser, sem aspas)", atualizar: "/atualizar?id=num(que quer mudar)&titulo=Titulo(novo)&autor=autor(novo)"})
@@ -14,10 +15,10 @@ const TodosUser = async (req, res) => {
 //Coloquei o adm e user tudo junto porque senão teria que criar duas páginas de login e cadastro. então só aqui diferencia no js
 const addUser = async (req, res) => {
     try {
-        const result = await model.addUser(req.body);
-        req.session.username = result.username;
-        if (result.tipo_conta == "adm"){
-            if (await model.validacao(req.body.senha_adm, "$2b$12$bbEewdeKF21wJ7S4.kG57en.p2BWMTDaL5DujkNMUr.aVkQEQW9ge")){
+        if (req.body.tipo_conta == "adm"){
+            if (await model.validacao(req.body.senha_adm, "$2b$12$bbEewdeKF21wJ7S4.kG57en.p2BWMTDaL5DujkNMUr.aVkQEQW9ge")){ //senha_adm: 123
+                const result = await model.addUser(req.body);
+                req.session.username = result.username;
                 req.session.admId = result.id;
                 req.flash('success', 'Conta criada com sucesso.');
                 return res.redirect('/perfil/biblio');
@@ -98,12 +99,19 @@ const login = async (req, res) => {
 } 
 
 const mostrarPerfilLeitor = async (req, res) => { //tava dsando erraado o result no ejs, dai fiz gambiarra rsrs
+
     if (!req.session.userId) {
         return res.redirect('/login'); //se nao tiver userId na sessao, redireciona pro login
     }
     const result = await model.buscar_idUser(req.session.userId);
     if (result) {
-        res.render("perfis/perfilLeitor", { result });//se tiver logado, manda pro perfil
+         const emprestimos = await modelEmprestimo.buscar_LivrosLeitor(req.session.username); //chama a funcao pra pegar os livros do leitor logado
+        const livros = []
+        for(let i = 0; i < emprestimos.length; i++) { //formata a data pra ficar bonitinha
+            const livro = await modelLivros.buscar_id(emprestimos[i].Idlivro);
+            livros.push(livro);
+        };
+        res.render("/perfis/perfilLeitor", {result, livros});//se tiver logado, manda pro perfil
     } else {
         req.session.destroy(() => {
         res.redirect('/login');
@@ -111,6 +119,7 @@ const mostrarPerfilLeitor = async (req, res) => { //tava dsando erraado o result
     }
 }
 
+//Função SAIR
 const sair = async (req, res) => {
     req.session.destroy(() => {
         res.redirect('/');
