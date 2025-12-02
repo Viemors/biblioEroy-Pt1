@@ -45,12 +45,21 @@ const add = async (req, res) => {
         return res.redirect("/emprestimo")
     }
 }
-
+//////////////////// devolucao adm //////////////////////////
 const delet = async (req, res) => {
     const Idleitor = modelUser.buscar_idUser(req.body.nome)
-    await model.devolucao(Idleitor, req.body.titulo) // devolucao == delete
+    const livro = await modelLivro.buscar_titulo(req.body.titulo)
+    await model.devolucao(Idleitor, livro.id) // devolucao == delete
      req.flash('success','empréstimo deletado com sucesso.');
     return res.redirect('/emprestimo');
+}
+
+//////////////////// devolucao leitor //////////////////////////
+const devolucao = async (req, res) => {
+    const livro = await modelLivro.buscar_titulo(req.body.titulo)
+    await model.devolucao(req.session.userId, livro.id) // devolucao == delete    
+    req.flash('success','empréstimo deletado com sucesso.');
+    return res.redirect("/perfil/leitor");
 }
 
 const buscar_id = async (req, res) => {
@@ -67,4 +76,4 @@ const atualizar = async (req, res) => {
 
 
 
-module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, mostrarEmprestimo}
+module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, mostrarEmprestimo, devolucao}
