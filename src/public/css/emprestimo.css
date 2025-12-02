@@ -40,7 +40,7 @@ body {
 }
 
 .navbar {
-  background-color: #323232;
+  background-color: #2b4b44;
   padding: 10px 0;
   position: fixed;
   top: 0;
@@ -104,9 +104,9 @@ body {
 .footer {
   margin-top: auto;
   padding: 15px 0;
-  background-color: #323232;
+  background-color: #2b4b44;
   text-align: center;
-  color: #ed8762;
+  color: #a8d1c8;
   font-size: 0.9rem;
 }
 
