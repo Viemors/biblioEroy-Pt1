@@ -28,21 +28,37 @@ const Todos = async (req, res) => {
 }
 
 const add = async (req, res) => {
-    try{
-        let datainicial = new Date(); //inicia o objeto tipo data
-        let datafinal = new Date(); //inicia o objeto tipo data
-        datafinal.setDate(datainicial.getDate() + 7) //Tudo isso pra somar 7 dias
-        const {id} = await modelLivro.buscar(req.body)
-        const result = await model.add({Idleitor: req.body.idleitor, Idlivro: id, Idbiblio: req.session.admId, datainicial: datainicial, datafinal: datafinal})
-        if (result) {
-            res.status(200).redirect("/emprestimo")
-        } else {
-            req.flash('error','erro ao adicionar empréstimo.');
-            return res.redirect('/emprestimo');
+    let validacao = true;
+    const {id} = await modelLivro.buscar(req.body)
+    const ids_livros = await model.Todos();
+    for(let i = 0; i<ids_livros.length; i++){
+        if(ids_livros[i].Idlivro == id) {
+            validacao = false;
+            break
         }
-    } catch(error){
-        req.flash("error", "selecione um usuário para emprestrar um livro.");
-        return res.redirect("/emprestimo")
+    }   
+
+    if (validacao){
+        try{
+            let datainicial = new Date(); //inicia o objeto tipo data
+            let datafinal = new Date(); //inicia o objeto tipo data
+            datafinal.setDate(datainicial.getDate() + 7) //Tudo isso pra somar 7 dias
+            const result = await model.add({Idleitor: req.body.idleitor, Idlivro: id, Idbiblio: req.session.admId, datainicial: datainicial, datafinal: datafinal})
+            if (result) {
+                req.flash('success','Livro emprestado com sucesso!');
+                return res.redirect('/emprestimo');
+            } else {
+                req.flash('error','erro ao adicionar empréstimo.');
+                return res.redirect('/emprestimo');
+            }
+        } catch(error){
+            req.flash("error", "selecione um usuário para emprestrar um livro.");
+            return res.redirect("/emprestimo")
+        }
+    }
+    else {
+         req.flash("error", "Livro já emprestado");
+         return res.redirect("/emprestimo");
     }
 }
 //////////////////// devolucao adm //////////////////////////
