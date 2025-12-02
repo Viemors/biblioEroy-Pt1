@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meu Perfil</title>
   <link rel="stylesheet" href="../css/perfis.css">
-  <link rel="stylesheet" href="../css/home.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
   </style>
@@ -21,82 +21,93 @@
       input.removeAttribute('readonly');
       input.placeholder = "digite o novo valor";
     });
-}
+  }
 </script>
 
 <style>
-  .only{
+  .only {
     font-weight: bold;
-    color:brown;
+    color: brown;
   }
 </style>
 
 <body>
   <%-include("../partials/header")%>
 
-  <%-include('../partials/navbar') %>
+    <%-include('../partials/navbar') %>
 
-  <h2>Meu Perfil</h2>
-  <h2>Olá <%=result.nome%>!</h2>
+      <h2>Meu Perfil</h2>
+      <h2>Olá <%=result.nome%>!</h2>
 
-  <% if (error && error.length) { %> <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
-      <div class="flash flash-error" style="color: red; text-align:center;">
-        <% error.forEach(function(msg){ %>
-          <p><%= msg %></p>
-        <% }) %>
-      </div> <!--no ejs vc acessa error (que é res.locals.error) -->  
-    <% } %>
-    <% if (success && success.length) { %>
-      <div class="flash flash-success" style="color: green; text-align:center;">
-        <% success.forEach(function(msg){ %>
-          <p><%= msg %></p>
-        <% }) %>
-      </div>
-    <% } %>
+      <% if (error && error.length) { %>
+        <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
+        <div class="flash flash-error" style="color: red; text-align:center;">
+          <% error.forEach(function(msg){ %>
+            <p>
+              <%= msg %>
+            </p>
+            <% }) %>
+        </div> <!--no ejs vc acessa error (que é res.locals.error) -->
+        <% } %>
+          <% if (success && success.length) { %>
+            <div class="flash flash-success" style="color: green; text-align:center;">
+              <% success.forEach(function(msg){ %>
+                <p>
+                  <%= msg %>
+                </p>
+                <% }) %>
+            </div>
+            <% } %>
 
-  <form action="/atualizarCadastro?_method=PUT" method="POST">
-    <div>
-      <label for="inputNome">Conta</label>
-      <input type="text" class="only" readonly value="<%=result.tipo_conta%>" name="tipo_conta">
-    </div><br>
+              <form action="/atualizarCadastro?_method=PUT" method="POST">
+                <div>
+                  <label for="inputNome">Conta</label>
+                  <input type="text" class="only" readonly value="<%=result.tipo_conta%>" name="tipo_conta">
+                </div><br>
 
-    <div>
-      <label for="inputNome">Nome</label>
-      <input type="text" class="only" readonly value="<%=result.nome%>" name="nome">
-    </div><br>
+                <div>
+                  <label for="inputNome">Nome</label>
+                  <input type="text" class="only" readonly value="<%=result.nome%>" name="nome">
+                </div><br>
 
-    <div>
-      <label for="inputUsuario">Usuário</label>
-      <input type="text" readonly placeholder="<%=result.username%>" name="username">
-    </div><br>
+                <div>
+                  <label for="inputUsuario">Usuário</label>
+                  <input type="text" readonly placeholder="<%=result.username%>" name="username">
+                </div><br>
 
-    <div>
-      <label for="inputEmail">Email</label>
-      <input type="email" readonly placeholder="<%=result.email%>" name="email">
-    </div><br>
-    
-    <div>
-      <label for="inputSenha">Senha</label>
-      <input type="password" readonly name="senha">
-    </div><br>
+                <div>
+                  <label for="inputEmail">Email</label>
+                  <input type="email" readonly placeholder="<%=result.email%>" name="email">
+                </div><br>
 
-    <div>
-     
-      <button type="submit">Salvar</button>
-      <button><a href="/perfil/biblio">Cancelar</a></button>
-    </div><br>
+                <div>
+                  <label for="inputSenha">Senha</label>
+                  <input type="password" readonly name="senha">
+                </div><br>
 
-    <div>
-      <a href="/sair">Sair da conta</a>
-      <a href="/deleteCadastro">excluir conta</a>
-    </div><br>
+                <div>
 
-  </form>
-   <button onclick="editar()">Editar</button>
+                  <button type="submit">Salvar</button>
+                  <button><a href="/perfil/biblio">Cancelar</a></button>
+                </div><br>
 
-  <br>
+                <div>
+                  <button><a href="/sair">Sair da Conta</a></button>
+                  <button><a href="/deleteCadastro">Excluir Conta</a></button>
+                </div>
 
-  <%- include('../partials/footer') %>
+                <br>
+
+              </form>
+
+              <div>
+                <button onclick="editar()">Editar</button>
+              </div>
+
+              <br>
+
+              <%- include('../partials/footer') %>
 
 </body>
+
 </html>

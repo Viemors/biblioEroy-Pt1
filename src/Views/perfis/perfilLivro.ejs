@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meu Perfil</title>
   <link rel="stylesheet" href="../css/perfis.css">
-  <link rel="stylesheet" href="../css/home.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
@@ -17,51 +16,58 @@
 
   <%-include('../partials/header') %>
 
-  <%-include("../partials/navbar") %>
-    <h2>Meu Perfil: <%= Object.keys(todos).length;%></h2> <!--Esse Object.Keys permite que o pc interprete o json como um arranjo e depois pegue a quantidade de elementos-->
-    
-    <% if (error && error.length) { %> <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
-      <div class="flash flash-error" style="color: red; text-align:center;">
-        <% error.forEach(function(msg){ %>
-          <p><%= msg %></p>
-        <% }) %>
-      </div> <!--no ejs vc acessa error (que é res.locals.error) -->  
-    <% } %>
-    <% if (success && success.length) { %>
-      <div class="flash flash-success" style="color: green; text-align:center;">
-        <% success.forEach(function(msg){ %>
-          <p><%= msg %></p>
-        <% }) %>
-      </div>
-    <% } %>
+    <%-include("../partials/navbar") %>
+      <h2>Livros Adicionados: <%= Object.keys(todos).length;%>
+      </h2>
+      <!--Esse Object.Keys permite que o pc interprete o json como um arranjo e depois pegue a quantidade de elementos-->
 
-    <form action="/addLivro" method="POST">
-      <div>
-        <label for="inputNome">Título</label>
-        <input type="text" placeholder="Digite o título" name="titulo">
-      </div><br>
+      <% if (error && error.length) { %>
+        <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
+        <div class="flash flash-error" style="color: red; text-align:center;">
+          <% error.forEach(function(msg){ %>
+            <p>
+              <%= msg %>
+            </p>
+            <% }) %>
+        </div> <!--no ejs vc acessa error (que é res.locals.error) -->
+        <% } %>
+          <% if (success && success.length) { %>
+            <div class="flash flash-success" style="color: green; text-align:center;">
+              <% success.forEach(function(msg){ %>
+                <p>
+                  <%= msg %>
+                </p>
+                <% }) %>
+            </div>
+            <% } %>
 
-      <div>
-        <label for="inputNome">Autor</label>
-        <input type="text" placeholder="Digite o autor" name="autor">
-      </div><br>
+              <form action="/addLivro" method="POST">
+                <div>
+                  <label for="inputNome">Título</label>
+                  <input type="text" placeholder="Digite o título" name="titulo">
+                </div><br>
 
-      <div>
-        <label for="inputSobrenome">Categoria</label>
-        <input type="text" placeholder="Digite a categoria" name="categoria">
-      </div><br>
+                <div>
+                  <label for="inputNome">Autor</label>
+                  <input type="text" placeholder="Digite o autor" name="autor">
+                </div><br>
 
-      <div>
-        <button type="submit"> Salvar </button>
-        <button> <a href="/deleteLivro"> Excluir </a></button>
-        <button><a href="/perfilLivro">Cancelar</a></button>
-      </div><br>
+                <div>
+                  <label for="inputSobrenome">Categoria</label>
+                  <input type="text" placeholder="Digite a categoria" name="categoria">
+                </div><br>
 
-    </form>
+                <div>
+                  <button type="submit"> Salvar </button>
+                  <button> <a href="/deleteLivro"> Excluir </a></button>
+                  <button><a href="/perfilLivro">Cancelar</a></button>
+                </div><br>
 
-    <br>
+              </form>
 
-    <%-include('../partials/footer') %>
+              <br>
+
+              <%-include('../partials/footer') %>
 
 </body>
 
