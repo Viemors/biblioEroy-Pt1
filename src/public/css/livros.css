@@ -1,0 +1,180 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Libre Baskerville", serif;
+  font-size: 20px;
+}
+
+:root {
+  --jumbotron-padding-y: 3rem;
+}
+
+.text-center {
+  padding-top: var(--jumbotron-padding-y);
+  padding-bottom: var(--jumbotron-padding-y);
+}
+
+.card {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+footer {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+footer p {
+  margin-bottom: .25rem;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Estiliza cabeçalho e rodapé com altura fixa */
+header,
+footer {
+  background-color: #52357b;
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* Faz o conteúdo principal ocupar o restante da tela */
+main {
+  flex: 1;
+  padding: 16px;
+  background-color: #fff;
+  color: #22092C;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+#explore{
+  color: #5459ac;
+}
+.hamburguer {
+    font-size: 2rem;
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 2;
+}
+
+#menuHamb{
+    padding: 20px;
+}
+#menuHamb:checked ~ .menuLateral{
+    left: 0;
+    visibility: inherit;
+    transition: 0.5 ease;
+}
+
+.menuLateral{
+    position: absolute;
+    top: 2;
+    left: -300px;
+    width: 300px;
+    height: 100%;
+    background: #52357bbd;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    padding-top: 4rem;
+    gap: 1rem;
+    z-index: 999;
+    transition: left 0.3s ease;
+    border-radius: 5px;
+}
+
+nav ul li {
+  list-style: none;
+  display: inline-block;
+}
+
+nav ul li a {
+  text-decoration: none;
+  padding: 15px;
+  text-transform: capitalize;
+  color: #fff;
+}
+
+
+p, .texto {
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Transição suave ao entrar na tela */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 991px) {
+  .col-md-4 {
+    flex: 0 0 75%;
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .card-text {
+    font-size: 1.15rem;
+  }
+
+  #explore {
+    font-size: 2rem;
+  }
+
+  .btn {
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .col-md-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .card-text {
+    font-size: 1.2rem;
+    line-height: 1.4;
+  }
+
+  #explore {
+    font-size: 1.8rem;
+  }
+
+  .btn {
+    font-size: 1.1rem;
+    padding: 0.7rem 1.2rem;
+  }
+}

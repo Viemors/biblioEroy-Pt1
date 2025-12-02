@@ -1,5 +1,6 @@
 const model = require("../model/livrosModel") //isso aq é o mesmo que ta no bdcontroller, pq ambos fazem a mesma coisa
 const modelEmprestimo = require("../model/emprestimoModel")
+const modelUser = require("../model/cadastroUserModel")
 
 const inicio = (req, res) =>  {
     res.json({Ver_todos: "/mostrar", delete: "/delete:id(o que tu quiser, mas que exista na tabela)", buscar_ID: "/buscar:id(o que tu quiser, mas que exista na tabela)", Adicionar: "/add?titulo=titulo(que tu quiser, sem aspas)&autor=autor(que tu quiser, sem aspas)", atualizar: "/atualizar?id=num(que quer mudar)&titulo=Titulo(novo)&autor=autor(novo)"})
@@ -31,24 +32,44 @@ const delet = async (req, res) => {
 //Buscar por alguma coisa
 const buscar = async (req, res) => {
     if (req.body.tipo == "titulo") {
-        const result = await model.buscar_titulo(req.body.busca);
-        req.flash("sucess", `Item ${req.body.busca}`)
-        return res.json(result);
+        if (await modelUser.buscar_nome(req.body.busca)){
+          const result = await model.buscar_titulo(req.body.busca);
+            req.flash("success", `Item ${req.body.busca}`)
+            return res.json(result);
+    } else {
+        req.flash("error", "Leitor não encontado.")
+        return res.redirect("/emprestimo");
+    }
     }
     if (req.body.tipo == "categoria") {
-        const result = await model.buscar_categoria(req.body.busca);
-        req.flash("sucess", `Item ${req.body.busca}`)
-        return res.json(result);
+        if (await modelUser.buscar_nome(req.body.busca)){
+           const result = await model.buscar_categoria(req.body.busca);
+            req.flash("success", `Item ${req.body.busca}`)
+            return res.json(result);
+    } else {
+        req.flash("error", "Leitor não encontado.")
+        return res.redirect("/emprestimo");
+    }
     }
     if (req.body.tipo == "autor") {
-        const result = await model.buscar_autor(req.body.busca);
-        req.flash("sucess", `Item ${req.body.busca}`)
-        return res.json(result);
+        if (await modelUser.buscar_nome(req.body.busca)){
+            const result = await model.buscar_autor(req.body.busca);
+            req.flash("success", `Item ${req.body.busca}`)
+            return res.json(result);
+    } else {
+        req.flash("error", "Leitor não encontado.")
+        return res.redirect("/emprestimo");
+    }
     }
     if (req.body.tipo == "leitor") {
-        const result = await modelEmprestimo.buscar_LivrosLeitor(req.body.busca);
-        req.flash("sucess", `Item ${req.body.busca}`)
-        return res.json(result);
+        if (await modelUser.buscar_nome(req.body.busca)){
+            const result = await modelEmprestimo.buscar_LivrosLeitor(req.body.busca)
+            req.flash("success", `Item ${req.body.busca}`)
+            return res.json(result);
+    } else {
+        req.flash("error", "Leitor não encontado.")
+        return res.redirect("/emprestimo");
+    }
     }
 }
 

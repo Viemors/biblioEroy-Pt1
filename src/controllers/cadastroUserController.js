@@ -15,10 +15,10 @@ const TodosUser = async (req, res) => {
 //Coloquei o adm e user tudo junto porque senão teria que criar duas páginas de login e cadastro. então só aqui diferencia no js
 const addUser = async (req, res) => {
     try {
+        const result = await model.addUser(req.body);
+        req.session.username = req.body.username;
         if (req.body.tipo_conta == "adm"){
             if (await model.validacao(req.body.senha_adm, "$2b$12$bbEewdeKF21wJ7S4.kG57en.p2BWMTDaL5DujkNMUr.aVkQEQW9ge")){ //senha_adm: 123
-                const result = await model.addUser(req.body);
-                req.session.username = result.username;
                 req.session.admId = result.id;
                 req.flash('success', 'Conta criada com sucesso.');
                 return res.redirect('/perfil/biblio');
@@ -27,15 +27,14 @@ const addUser = async (req, res) => {
                 req.flash("error", "Senha de acesso incorreta."); 
                 return res.redirect("/cadastro") ;
             }
-        }
-        else {
+        }else {
             req.session.userId = result.id;
             req.flash('success', 'Conta criada com sucesso.');
             return res.redirect('/perfil/leitor');
-    }
+        }
     } 
     catch (error) {
-        req.flash('error', error.errors[0].message); //Mostra o erro pra gente saber o que tá acontecendo (em inglês e erro de mysql)
+        req.flash('error', "Usuário já cadastrado"); //Mostra o erro pra gente saber o que tá acontecendo (em inglês e erro de mysql)
         return res.redirect("/cadastro");
     }
 }
@@ -143,11 +142,11 @@ const mostrarPerfilBiblio = async (req, res) => { //tava dsando erraado o result
 }
 
 const mostrarPerfilLivro = async (req, res) => { 
-    if (!req.session.admId) {
+    if (!req.session) {
         return res.redirect('/login'); //Somente o adm tem acesso
     }
     const result = await model.buscar_idUser(req.session.admId);
-    if ((result.tipo_conta == "adm")) {
+    if ((result)) {
         const todos = await model.TodosUser();
         res.render("perfis/perfilLivro", { todos });
 
