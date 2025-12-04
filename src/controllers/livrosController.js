@@ -79,6 +79,14 @@ const atualizar = async (req, res) => {
     return res.redirect('/livro');
 }
 
+const mostrar = async (req, res) => {
+    const result = await model.mostrarDados();
+    if (result) res.render("tabelaLivro/tabelaLivro", {result});
+    else {
+        req.flash("error", "Deu ruim")
+        return res.redirect("/perfis/perfilLivro");
+    }
+}
 
 
-module.exports = {add, teste, buscar, delet, atualizar, inicio}
+module.exports = {add, teste, buscar, delet, atualizar, inicio, mostrar}

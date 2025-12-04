@@ -5,7 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dados do livro</title>
 </head>
-<body>
+<style>
+    /*OBS: Não foi feito por mim hehe (um dia eu aprendo a fazer coisas bonitinhas S2 )*/      
+    /* A propriedade border-collapse remove o espaço entre as bordas das células */
+    table {
+      border-collapse: collapse; /* Valor padrão é 'separate' */
+      width: 80%;
+    }
     
+    th, td {
+      border: 1px solid #04470a; /* Adiciona uma borda fina e cinza */
+      padding: 8px;
+      text-align: left;
+    }
+    
+    /* Adiciona um fundo diferente para a linha do cabeçalho */
+    thead {
+      background-color: #c3e071;
+    }
+    
+    /* Adiciona cores alternadas para as linhas do corpo da tabela */
+    tbody tr:nth-child(even) {
+      background-color: #4cda14;
+    }
+
+    tbody tr {
+        background-color: #a4d420;
+    }
+    
+    /* Efeitos de hover para a tabela */
+    tbody tr:hover {
+      background-color: #3eb399;
+    }
+</style>
+
+<body>
+    <%for (let i = 0; i<result.length; i++) { %>
+        <table>
+        <thead>
+            <tr>
+                <%for (let c = 0; c<result[i].colunas.length; c++) { %>
+                <th> <%=result[i].colunas[c].name%> </th>
+                <%}%>
+            </tr>
+            </thead>
+        Tabela <%=result[i].colunas[0].table%>
+        <tbody>
+            <% for (let r = 0; r<result[i].resultados.length; r++) { %>
+            <tr>
+                <% for (let t = 0; t<result[i].colunas.length; t++) { %>
+                <td> <%=result[i].resultados[r][result[i].colunas[t].name]%></td>
+                <%}%>
+            </tr>
+            <%}%> 
+        </tbody>
+
+
+    </table>
+    <%}%>
 </body>
 </html>

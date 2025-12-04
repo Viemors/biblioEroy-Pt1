@@ -67,8 +67,29 @@ const delet = async(id) => {
     });
 }
 
+const mostrarDados = async () => {
+    const tabelas = await db.query("show tables")
+    .then(([rows, fields]) => {console.log(fields);return rows }
+    )
+    .catch (err => {return err}
+    )
+    const result = [];
+    if (tabelas) {    
+        for(let i = 0; i<tabelas.length; i++) {
+            const n1 = await db.query(`select * from ${tabelas[i].Tables_in_bioeroy}`)
+            .then(([rows, fields]) => {return {resultados: rows, colunas: fields} }
+            )
+            .catch(([erro]) => {return erro}
+            )
+
+            result.push(n1)  
+        };
+    }
+    console.log(result[0].colunas[0])
+    return result
+}
 
     
 
 
-module.exports = {livros, Todos, add, delet, buscar_id, buscar, buscar_titulo, buscar_autor, buscar_categoria};
+module.exports = {livros, Todos, add, delet, buscar_id, buscar, buscar_titulo, buscar_autor, buscar_categoria, mostrarDados};

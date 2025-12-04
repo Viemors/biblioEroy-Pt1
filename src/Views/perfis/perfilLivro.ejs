@@ -17,6 +17,11 @@
   <%-include('../partials/header') %>
 
     <%-include("../partials/navbar") %>
+
+    <form action="/mostrarLivros" method="get">
+      <button type="submit"> Ver Dados </button>
+    </form>
+
       <h2>Livros Adicionados: <%= Object.keys(todos).length;%>
       </h2>
       <!--Esse Object.Keys permite que o pc interprete o json como um arranjo e depois pegue a quantidade de elementos-->
