@@ -62,7 +62,10 @@
                 <form action="/atualizarCadastro?_method=PUT" method="POST">
 
                   <h1>Meu Perfil</h1>
+                  <div><img src="../img/leitor.jpeg" class="foto"></div>
+                  <br>
                   <h2>Olá <%=result.nome%>!</h2>
+                  <br>
                   <div>
                     <label for="inputNome">Conta</label>
                     <input type="text" class="only" readonly value="<%=result.tipo_conta%>" name="tipo_conta">
@@ -89,19 +92,19 @@
                   </div><br>
 
                   <div>
-                    <button type="submit">Salvar</button>
-                    <button><a href="/perfil/leitor">Cancelar</a></button>
-                    <button onclick="editar()">Editar</button>
-                  </div><br>
+                    <button type="submit" class="btn btn-outline-primary btn-curtir" id="button">Salvar</button>
+                    <button class="btn btn-outline-primary btn-curtir" id="button" onclick="editar()">Editar</button>
+                    <button class="btn btn-outline-primary btn-curtir" id="button-sair"><a href="/perfil/leitor" style="text-decoration: none; color: inherit;">Cancelar</a></button>
+                  </div>
+            
+                  <br>
 
                   <div>
-                    <button><a href="/sair">Sair da conta</a></button>
-                    <button><a href="/deleteCadastro">Excluir conta</a></button>
+                    <button class="btn btn-outline-primary btn-curtir" id="button-sair"><a href="/sair" style="text-decoration: none; color: inherit;">Sair da conta</a></button>
+                    <button class="btn btn-outline-primary btn-curtir" id="button-sair"><a href="/deleteCadastro" style="text-decoration: none; color: inherit;">Excluir conta</a></button>
                   </div><br>
 
               </form>
-
-              <div> <button onclick="editar()">Editar</button> </div>
               
               <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <!-- Card genérico para todos os livros do banco de dados -->

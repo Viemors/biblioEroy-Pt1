@@ -9,6 +9,11 @@
   font-family: "Lexend Deca", sans-serif;
 }
 
+html {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   padding: 0;
   margin: 0;
@@ -16,13 +21,24 @@ body {
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  overflow-X: hidden;
+  overflow-x: hidden;
+}
+
+body {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+body.mostrar {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 #home {
   height: 100vh;
   width: 100%;
-  background-image: url("../img/fundohome.png");
+  background-image: url("../img/fundohome1.png");
   background-size: cover;
   background-position: center;
 }
@@ -33,21 +49,47 @@ body {
   background-image: url("../img/fundohome2.png");
   background-size: cover;
   background-position: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  align-items: start;
+  justify-items: center;
+  gap: 20px;
 }
+
+#topicos .titulo {
+  grid-column: span 2;
+  text-align: center;
+}
+
+.texto1 ul, .texto2 ul {
+  list-style-type: circle;
+  text-align: center;
+  padding: 0;
+  font-size: 1.4rem;
+  color: #42635b;
+  font-weight: 600;
+}
+
 
 #sobre {
   height: 100vh;
   width: 100%;
-  background-image: url("../img/fundohome3.png");
+  background-image: url("../img/fundo.home3.png");
   background-size: cover;
   background-position: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* duas colunas iguais */
+  align-items: center;
+  justify-items: center;
+  gap: 20px;
+  padding: 40px;
 }
 
 h1 {
   font-family: "EB Garamond", sans-serif;
   font-optical-sizing: auto;
   font-weight: 600;
-  font-style: italic;
   font-size: 10rem;
   color: #fff5e8;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -60,18 +102,15 @@ h2 {
   font-style: normal;
   font-size: 5rem;
   color: #42635b;
-  margin-bottom: 550px;
 }
 
 h3 {
   font-family: "EB Garamond", serif;
-  font-optical-sizing: auto;
   font-weight: 500;
   font-style: none;
-  font-size: 8rem;
+  font-size: 6rem;
   color: #fff5e8;
-  margin-top: 570px;
-  padding-right: 800px;
+  margin: 80px;
 }
 
 section {
@@ -81,7 +120,7 @@ section {
   font-size: 2rem;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition: opacity 0.8s ease, transform 0.8s ease; /** aq nas section, elas pertencem ao js, ja que vai ser ele qm vai identificar esse objeto e executa-lo **/
 }
 
 section.active {
@@ -106,13 +145,20 @@ section.active {
   color: white;
 }
 
-/** suspeito alteraçoes **/ h1, h2, h3 {
+/** suspeito alteraçoes **/ h1, h2, h3, p {
   transition: transform 0.3s ease, text-shadow 0.3s ease; /** p ficar com uma sombra qnd o user passar o mouse **/
   cursor: default; 
 }
 
-h1:hover, h2:hover, h3:hover {
+h1:hover, h2:hover, h3:hover, p:hover, .texto1 ul li:hover, .texto2 ul li:hover {
   transform: translateY(-5px); /** desloca o texto pra cima **/
-  text-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+  text-shadow: 3px 3px 10px rgba(61, 61, 61, 0.3);
+}
+
+#escrita {
+  color: #fff5e8;
+  text-align: justify;
+  padding-left: 60px;
+  font-size: 1.4rem;
 }
 

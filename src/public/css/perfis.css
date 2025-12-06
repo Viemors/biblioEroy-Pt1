@@ -40,6 +40,17 @@ form {
   color: #a8d1c8;
 }
 
+#button-sair {
+  border-color: #882727;
+  color: #882727;
+}
+
+#button-sair:hover {
+  border-color: #882727;
+  background-color: #882727;
+  color: #ff6868;
+}
+
 input {
   border-radius: 5px;
 }
@@ -75,4 +86,11 @@ h2 {
 .botao:hover {
   background-color: #cecdde42;
   color: white;
+}
+
+.foto {
+  width: 150px;     /* tamanho da imagem */
+  height: 150px;    /* precisa ser igual para ficar 100% redonda */
+  border-radius: 50%;
+  object-fit: cover; /* evita distorção */
 }

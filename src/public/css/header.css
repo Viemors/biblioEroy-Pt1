@@ -1,4 +1,4 @@
-.header {
+#header {
     background-color: #42635b;
     padding: 10px 0;
     position: static;
@@ -8,25 +8,25 @@
     z-index: 1000;
     padding: 20px 0px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
-.header ul {
+#header ul {
     list-style: none;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 60px;
     margin: 0;
     padding-right: 100px;
 }
 
-.header a {
-    color: white;
+#header a {
+    color: #fff5e8;
     text-decoration: none;
     font-weight: bold;
     transition: 0.3s;
 }
 
-.header a:hover {
+#header a:hover {
     color: #d1e1ff;
 }

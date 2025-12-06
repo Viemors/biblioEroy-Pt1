@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="../css/home.css">
+  <script defer src="./js/home.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
@@ -16,24 +17,47 @@
 
   <%- include('partials/header') %>
 
-
-    <div>
-      <section id="home" class="active">
-        <div class="container">
+    <div class="container-my-5">
+      <section id="home">
+        <div>
           <h1>BiblioEroy</h1>
         </div>
 
       </section>
 
-      <section id="topicos" class="active">
-        <div class="topic">
+      <section id="topicos">
+        <div class="titulo">
           <h2>Tópicos</h2>
+          </div>
+          <div class="texto1">
+            <ul>
+              <li>Gêneros Literários: Descubra os principais gêneros 
+                <br>e suas características.</li>
+              <br>
+              <li>Sugestões de Leitura: Recomendações personalizadas 
+                <br>para cada perfil.</li>
+            </ul>
+          </div>
+          <div class="texto2">
+            <ul>
+              <li>Livros Digitais: Explore obras clássicas, contemporâneas 
+                <br>e independentes.</li>
+              <br>
+              <li>Resumos e Análises: Acesse resumos completos e análises <br> interpretativas.</li>
+            </ul>
+          </div>
         </div>
       </section>
 
-      <section id="sobre" class="active">
-        <div class="container">
-          <h3>Sobre</h3>
+      <section id="sobre">
+        <div>
+          <h3>Quem Somos?</h3>
+          <p id="escrita">A BiblioEroy surgiu com a proposta de organizar informações, leituras e conteúdos educacionais
+            em um único
+            lugar. Acreditamos que a educação e a literatura devem ser acessíveis para todos, por isso criamos uma
+            plataforma intuitiva, com materiais claros, categorizados e de fácil navegação.
+            Nosso compromisso é oferecer conteúdo de qualidade que ajude estudantes, leitores e curiosos a aprender de
+            forma leve e eficiente.</p>
         </div>
       </section>
     </div>

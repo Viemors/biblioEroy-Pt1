@@ -14,112 +14,112 @@
   <title>Cadastro</title>
 </head>
 
-<body>
+<body class="d-flex justify-content-center align-items-center vh-100" style="background:#f2f4f7;">
 
-  <%- include('../partials/header') %>
+  <!-- Botão voltar -->
+  <a href="/" class="btn btn-secondary position-absolute" style="top: 20px; left: 20px;font-family: Lexend Deca; z-index: 200;" id="button">
+    <i class="bi bi-arrow-left"></i> Voltar
+  </a>
 
-    <%- include('../partials/navbar') %>
+  <div class="card shadow p-4" style="width: 450px; border-radius: 15px;">
 
-      <% if (error && error.length) { %>
-        <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
-        <div class="flash flash-error" style="color: red; text-align:center;">
-          <% error.forEach(function(msg){ %>
-            <p>
-              <%= msg %>
-            </p>
-            <% }) %>
-        </div> <!--no ejs vc acessa error (que é res.locals.error) -->
-        <% } %>
-          <% if (success && success.length) { %>
-            <div class="flash flash-success" style="color: green; text-align:center;">
-              <% success.forEach(function(msg){ %>
-                <p>
-                  <%= msg %>
-                </p>
-                <% }) %>
-            </div>
-            <% } %>
+    <% if (error && error.length) { %>
+      <div class="alert alert-danger text-center">
+        <% error.forEach(function(msg){ %>
+          <p>
+            <%= msg %>
+          </p>
+          <% }) %>
+      </div>
+      <% } %>
 
-              <form action="/addCadastro" method="POST">
+        <% if (success && success.length) { %>
+          <div class="alert alert-success text-center">
+            <% success.forEach(function(msg){ %>
+              <p>
+                <%= msg %>
+              </p>
+              <% }) %>
+          </div>
+          <% } %>
 
-                <div>
-                  <h1 style="margin-top: 49px;">Cadastro</h1>
-                </div>
+            <h2 class="text-center mb-3">Cadastro</h2>
 
-                <div>
-                  <label for="nome">Nome Completo</label><br>
-                  <input type="text" id="nome" name="nome" placeholder="Digite seu nome" style="text-align: center;"
-                    required>
-                </div><br>
+            <form action="/addCadastro" method="POST">
 
-                <div>
-                  <label for="username">Nome de Usuário</label><br>
-                  <input type="text" id="username" name="username" placeholder="Digite seu nome de usuário"
-                    style="width: 230px; text-align: center;" required>
-                </div><br>
+              <div class="mb-3">
+                <label for="nome" class="form-label">Nome Completo</label>
+                <input type="text" id="nome" name="nome" class="form-control text-center" placeholder="Digite seu nome"
+                  required>
+              </div>
 
-                <div>
-                  <label for="email">Email</label><br>
-                  <input type="email" id="email" name="email" placeholder="Digite seu email" style="text-align: center;"
-                    required>
-                </div><br>
+              <div class="mb-3">
+                <label for="username" class="form-label">Nome de Usuário</label>
+                <input type="text" id="username" name="username" class="form-control text-center"
+                  placeholder="Digite seu nome de usuário" required>
+              </div>
 
-                <div>
-                  <label for="senha">Senha</label><br>
-                  <input type="password" id="senha" name="senha_cripto" placeholder="Digite sua senha"
-                    style="text-align: center;" required minlength="6">
-                </div><br>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" class="form-control text-center"
+                  placeholder="Digite seu email" required>
+              </div>
 
-                <div>
-                  <input type="checkbox" id="termos" required>
-                  <label for="termos">Concordo com os termos e condições.</label>
-                </div><br>
+              <div class="mb-3">
+                <label for="senha" class="form-label">Senha</label>
+                <input type="password" id="senha" name="senha_cripto" class="form-control text-center"
+                  placeholder="Digite sua senha" minlength="6" required>
+              </div>
 
-                <!--O Mano que escolhe qual tipo de conta ele quer (tem que mudar isso com a senha de acesso provavelmente)-->
-                <div>
-                  <label>Tipo de Conta</label>
-                  <select id="select" name="tipo_conta">
-                    <option selected disabled>Selecione um tipo</option>
-                    <option value="user">Leitor</option>
-                    <option value="adm">Bibliotecário</option>
-                  </select>
-                </div>
-                </br>
-                <div hidden id="div">
-                  <label>Senha ADM</label>
-                  <input type="password" id="senha_adm" name="senha_adm" placeholder="Senha de Acesso"
-                    style="text-align: center;" required>
-                </div>
+              <div class="form-check mb-3">
+                <input type="checkbox" id="termos" class="form-check-input" required>
+                <label for="termos" class="form-check-label">
+                  Concordo com os termos e condições.
+                </label>
+              </div>
 
-                <br>
+              <div class="mb-3">
+                <label class="form-label">Tipo de Conta</label>
+                <select id="select" name="tipo_conta" class="form-select text-center">
+                  <option selected disabled>Selecione um tipo</option>
+                  <option value="user">Leitor</option>
+                  <option value="adm">Bibliotecário</option>
+                </select>
+              </div>
 
-                <div>
-                  <button type="submit" class="btn btn-outline-primary btn-curtir" id="button" style="text-decoration: none;">Enviar Cadastro</button>
-                </div><br>
+              <div class="mb-3" id="div" hidden>
+                <label class="form-label">Senha ADM</label>
+                <input type="password" id="senha_adm" name="senha_adm" class="form-control text-center"
+                  placeholder="Senha de Acesso">
+              </div>
 
-                <div>
-                  <button class="btn btn-outline-primary btn-curtir" id="button"><a href="/login"style="text-decoration: none;">Já tenho uma conta</a></button>
-                </div><br>
-              </form>
+              <button type="submit" class="btn btn-primary w-100 mb-3" id="button">
+                Enviar Cadastro
+              </button>
 
-              <br>
+              <a href="/login" class="btn btn-outline-primary w-100" id="button">
+                Já tenho uma conta
+              </a>
+
+            </form>
+  </div>
+
+  <script>
+    const select = document.querySelector("#select");
+    const div = document.getElementById('div');
+    const senha = document.getElementById('senha_adm');
+
+    select.addEventListener("change", () => {
+      if (select.value == "adm") {
+        div.hidden = false;
+        senha.required = true;
+      } else {
+        div.hidden = true;
+        senha.required = false;
+      }
+    });
+  </script>
 
 </body>
-
-<script>
-  const select = document.querySelector("#select");
-  const div = document.getElementById('div');
-  const senha = document.getElementById('senha_adm');
-  select.addEventListener("change", () => {
-    if (select.value == "adm") {
-      div.hidden = false;
-      senha.required = true;
-    }
-    else {
-      div.hidden = true;
-      senha.required = false
-    }
-  });
-</script>
 
 </html>
