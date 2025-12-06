@@ -2,7 +2,6 @@
 
 * {
   font-family: "Lexend Deca", sans-serif;
- 
 }
 
 #button {
@@ -39,79 +38,13 @@ body {
   text-align: center;
 }
 
-.navbar {
-  background-color: #2b4b44;
-  padding: 10px 0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  padding: 20px 0px;
-}
-
-.navbar ul {
-  list-style: none;
+.container-my-5 {
   display: flex;
-  justify-content: flex-end;
-  gap: 60px;
+  justify-content: center;
   margin: 0;
-  padding-right: 100px;
-}
-
-.navbar a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.navbar a:hover {
-  color: #d1e1ff;
-}
-
-.header {
-  background-color: #42635b;
-  padding: 10px 0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  padding: 20px 0px;
-}
-
-.header ul {
-  list-style: none;
-  display: flex;
-  justify-content: flex-end;
-  gap: 60px;
-  margin: 0;
-  padding-right: 100px;
-}
-
-.header a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.header a:hover {
-  color: #d1e1ff;
-}
-
-.footer {
-  margin-top: auto;
-  padding: 15px 0;
-  background-color: #2b4b44;
-  text-align: center;
-  color: #a8d1c8;
-  font-size: 0.9rem;
 }
 
 .botao {
-  
   border: none;
   outline: none;
   border-radius: 8px;
@@ -132,14 +65,14 @@ nav.menu-lateral {
   width: 80px;
   height: 100%;
   background-color: #42635b;
-  padding: 40px 0 2000px;
+  padding: 40px 0 20px;
   box-shadow: 3px 0 0 #5fa898;
   position: fixed;
   top: 0;
   left: 0;
   overflow: hidden;
   transition: .5s;
-  z-index: 1;
+  z-index: 3000;
 }
 
 nav.menu-lateral:hover {
@@ -154,6 +87,7 @@ nav.menu-lateral:hover {
   display: flex;
   justify-content: flex-start;
   padding-left: 20px;
+  padding-bottom: 20px;
   color: #fff;
   font-size: 25px;
   cursor: pointer;
@@ -162,7 +96,7 @@ nav.menu-lateral:hover {
 ul {
   height: 100%;
   list-style-type: none;
-  padding-left: 20%;
+  padding-left: 10%;
 }
 
 ul li.item-menu {
@@ -185,12 +119,11 @@ ul li.item-menu a {
 
 ul li.item-menu a .txt-link {
   margin-left: 40px;
-  padding-right: 90px;
+  padding-right: 10px;
 }
 
 ul li.item-menu a .icon>i {
-  padding-right: 30;
+  padding-right: 0px;
   font-size: 25px;
   width: 100%;
-
 }

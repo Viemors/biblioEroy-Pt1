@@ -10,9 +10,6 @@
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
-    body {
-      background-color: #ffefdb;
-    }
   </style>
   <title>Cadastro</title>
 </head>
@@ -97,19 +94,18 @@
                 <br>
 
                 <div>
-                  <button type="submit">Enviar Cadastro</button>
+                  <button type="submit" class="btn btn-outline-primary btn-curtir" id="button" style="text-decoration: none;">Enviar Cadastro</button>
                 </div><br>
 
                 <div>
-                  <button><a href="/login">Já tenho uma conta</a></button>
+                  <button class="btn btn-outline-primary btn-curtir" id="button"><a href="/login"style="text-decoration: none;">Já tenho uma conta</a></button>
                 </div><br>
               </form>
 
               <br>
 
-              <%- include('../partials/footer') %>
-
 </body>
+
 <script>
   const select = document.querySelector("#select");
   const div = document.getElementById('div');
