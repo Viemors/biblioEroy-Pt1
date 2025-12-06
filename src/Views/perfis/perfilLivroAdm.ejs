@@ -22,8 +22,6 @@
       <button type="submit"> Ver Dados </button>
     </form>
 
-      <h2>Livros Adicionados: <%= Object.keys(todos).length;%>
-      </h2>
       <!--Esse Object.Keys permite que o pc interprete o json como um arranjo e depois pegue a quantidade de elementos-->
 
       <% if (error && error.length) { %>
@@ -60,6 +58,11 @@
                 <div>
                   <label for="inputSobrenome">Categoria</label>
                   <input type="text" placeholder="Digite a categoria" name="categoria">
+                </div><br>
+
+                <div>
+                  <label for="inputSobrenome">Descrição</label>
+                  <input type="text" placeholder="Digite a descrição" name="descricao">
                 </div><br>
 
                 <div>

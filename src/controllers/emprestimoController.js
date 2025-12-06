@@ -4,6 +4,7 @@ const modelUser = require("../model/cadastroUserModel")
 
 const mostrarEmprestimo = async (req, res) =>{
     if (!req.session.admId) {
+        req.flash('error', "Faça login como adm para emprestar livros e pesquisar dados.");
         return res.redirect('/login'); //Somente o adm tem acesso
     }
     const result = await modelUser.buscar_idUser(req.session.admId);
@@ -43,7 +44,7 @@ const add = async (req, res) => {
             let datainicial = new Date(); //inicia o objeto tipo data
             let datafinal = new Date(); //inicia o objeto tipo data
             datafinal.setDate(datainicial.getDate() + 7) //Tudo isso pra somar 7 dias
-            const result = await model.add({Idleitor: req.body.idleitor, Idlivro: id, Idbiblio: req.session.admId, datainicial: datainicial, datafinal: datafinal})
+            const result = await model.add({Idleitor: req.body.idleitor, Idlivro: id, Idbiblio: req.session.admId, datainicial: datainicial.toLocaleDateString(), datafinal: datafinal.toLocaleDateString()})
             if (result) {
                 req.flash('success','Livro emprestado com sucesso!');
                 return res.redirect('/emprestimo');
@@ -52,7 +53,7 @@ const add = async (req, res) => {
                 return res.redirect('/emprestimo');
             }
         } catch(error){
-            req.flash("error", "selecione um usuário para emprestrar um livro.");
+            req.flash("error", error.message);
             return res.redirect("/emprestimo")
         }
     }

@@ -16,4 +16,4 @@ conn.authenticate()
     console.log("Banco não conectado")
 })
 
-module.exports = conn
+module.exports = conn;

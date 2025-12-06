@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize")
 const db = require("../config/bd_SEQUELIZE")
 const modelLeitor = require("../model/cadastroUserModel")
+const bd = require("../config/bd")
 
 //definindo a Tabela emprestimo
 // com sequelize
@@ -12,11 +13,11 @@ const emprestimo = db.define("emprestimo", {
     primaryKey: true
     },
     datainicial: {
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
         allowNull: false
     },
     datafinal: {
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
         allowNull: false
     },
 
@@ -46,9 +47,10 @@ const buscar_id = (id) => emprestimo.findByPk(id)
 
 const buscar_LivrosLeitor = async (leitor) => { 
     const user = await modelLeitor.buscar_nome(leitor);
-    const result = await emprestimo.findAll({
-        where: {Idleitor: parseInt(user.id)}
-    })
+    const result = await bd.promise().query(`SELECT * FROM emprestimos WHERE emprestimos.Idleitor = ${user.id}`)
+    .then(([rows, fields]) => {return {resultados: rows, colunas: fields} })
+    .catch((erro) => {return erro})
+
     return result;
 }
 

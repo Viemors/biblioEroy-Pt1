@@ -49,7 +49,7 @@ const addUser = async (params) => {
     const resultado = await cadastroUser.create(params);
     return resultado;
 }
-const buscar_idUser = (id) => cadastroUser.findByPk(id)
+const buscar_idUser = async (id) => await cadastroUser.findByPk(id)
 
 const buscar_nome = async (nome) => await cadastroUser.findOne({
     where: { username: nome}

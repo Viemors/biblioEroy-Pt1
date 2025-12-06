@@ -31,41 +31,50 @@ const delet = async (req, res) => {
 
 //Buscar por alguma coisa
 const buscar = async (req, res) => {
+    if (!req.body.tipo){ 
+        req.flash("error", "Selecione um tipo para busca.")
+        return res.redirect("/emprestimo");
+    }
     if (req.body.tipo == "titulo") {
-        if (await modelUser.buscar_nome(req.body.busca)){
+       try{
           const result = await model.buscar_titulo(req.body.busca);
-            req.flash("success", `Item ${req.body.busca}`)
-            return res.json(result);
-    } else {
-        req.flash("error", "Leitor não encontado.")
+          res.render("tabelaLivro/consultas", {result});
+    } catch(error){
+        req.flash("error", "Titulo não encontado.")
         return res.redirect("/emprestimo");
     }
     }
     if (req.body.tipo == "categoria") {
-        if (await modelUser.buscar_nome(req.body.busca)){
+        try {
            const result = await model.buscar_categoria(req.body.busca);
-            req.flash("success", `Item ${req.body.busca}`)
-            return res.json(result);
-    } else {
-        req.flash("error", "Leitor não encontado.")
+           console.log(result);
+           res.render("tabelaLivro/consultas", {result});
+           if (!result) {
+            req.flash("error", "Categoria não encontrada.")
+            return res.redirect("/emprestimo");
+           }
+    } catch(error){
+        req.flash("error", error.message)
         return res.redirect("/emprestimo");
     }
     }
     if (req.body.tipo == "autor") {
-        if (await modelUser.buscar_nome(req.body.busca)){
+       try{
             const result = await model.buscar_autor(req.body.busca);
-            req.flash("success", `Item ${req.body.busca}`)
-            return res.json(result);
-    } else {
-        req.flash("error", "Leitor não encontado.")
+            if (result.resultados.length == 0) {
+                req.flash("error", "autor não encontrado.")
+                return res.redirect("/emprestimo");
+           }
+           res.render("tabelaLivro/consultas", {result});
+    } catch(error){
+        req.flash("error", error.message)
         return res.redirect("/emprestimo");
     }
     }
     if (req.body.tipo == "leitor") {
         if (await modelUser.buscar_nome(req.body.busca)){
-            const result = await modelEmprestimo.buscar_LivrosLeitor(req.body.busca)
-            req.flash("success", `Item ${req.body.busca}`)
-            return res.json(result);
+            const result = await modelEmprestimo.buscar_LivrosLeitor(req.body.busca);
+            res.render("tabelaLivro/consultas", {result});
     } else {
         req.flash("error", "Leitor não encontado.")
         return res.redirect("/emprestimo");

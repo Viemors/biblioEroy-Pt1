@@ -9,8 +9,8 @@ router.get('/', initialController.paginaInicial);
 router.get('/login', initialController.login);
 router.get('/cadastro', initialController.cadastro);
 router.get('/perfil/livro', cadastroUserController.mostrarPerfilLivro); //Mesma fita dos outros
-router.get('/perfil/leitor', cadastroUserController.mostrarPerfilLeitor); //aq a função
-router.get('/perfil/biblio', cadastroUserController.mostrarPerfilBiblio); //aq a função
+router.get('/perfil/leitor', cadastroUserController.mostrarPerfil); // O leitor e o biblio usam a mesma função, por que tava dando erro
+router.get('/perfil/biblio', cadastroUserController.mostrarPerfil); // tinha uma só página pra duas funções, aí ele chamava as duas e dava pau
 router.get('/emprestimo', emprestimoController.mostrarEmprestimo); //Mesma fita dos outros
 
 //As funções do emprestimo e do livro estão no cadastro user porque não queria colocar outro model aqui :( mas tem que mudar depois

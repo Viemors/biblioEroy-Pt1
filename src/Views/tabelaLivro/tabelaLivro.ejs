@@ -3,43 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/tabela.css">
     <title>Dados do livro</title>
 </head>
-<style>
-    /*OBS: Não foi feito por mim hehe (um dia eu aprendo a fazer coisas bonitinhas S2 )*/      
-    /* A propriedade border-collapse remove o espaço entre as bordas das células */
-    table {
-      border-collapse: collapse; /* Valor padrão é 'separate' */
-      width: 80%;
-    }
-    
-    th, td {
-      border: 1px solid #04470a; /* Adiciona uma borda fina e cinza */
-      padding: 8px;
-      text-align: left;
-    }
-    
-    /* Adiciona um fundo diferente para a linha do cabeçalho */
-    thead {
-      background-color: #c3e071;
-    }
-    
-    /* Adiciona cores alternadas para as linhas do corpo da tabela */
-    tbody tr:nth-child(even) {
-      background-color: #4cda14;
-    }
-
-    tbody tr {
-        background-color: #a4d420;
-    }
-    
-    /* Efeitos de hover para a tabela */
-    tbody tr:hover {
-      background-color: #3eb399;
-    }
-</style>
-
 <body>
+  <%-include("../partials/header")%>
+
+    <%-include('../partials/navbar') %>
+<main>
     <%for (let i = 0; i<result.length; i++) { %>
         <table>
         <thead>
@@ -59,9 +30,11 @@
             </tr>
             <%}%> 
         </tbody>
-
-
     </table>
     <%}%>
+</main>
+<footer>
+    <%-include('../partials/footer') %>
+</footer>
 </body>
 </html>

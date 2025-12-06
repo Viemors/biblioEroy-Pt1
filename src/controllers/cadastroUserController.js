@@ -40,8 +40,13 @@ const addUser = async (req, res) => {
 }
 
 const deletUser = async (req, res) => {
-    await modelEmprestimo.delete_LivroUser(req.session.userId) //Apaga os emprestimo 
-    const deletar = await model.deletUser(req.session.userId)
+    let deletar = null;
+    if (req.session.id) {
+        await modelEmprestimo.delete_LivroUser(req.session.userId) //Apaga os emprestimo 
+        deletar = await model.deletUser(req.session.userId)
+    } else if (req.session.admId) {
+        deletar = await model.deletUser(req.session.admId)
+    }
     if (deletar) { // deleted === 1
         req.flash('success', 'Conta apagada.');
         return res.redirect('/');
@@ -57,6 +62,11 @@ const buscar_idUser = async (req, res) => {
 }
 
 const atualizarUser = async (req, res) => {
+    console.log(req.body.email);
+    if (req.body.email == ''|| req.body.username == ''|| req.body.senha == ''){
+        req.flash('error','Insira todos os dados para atualização pelo botão editar.');
+        return res.redirect('/perfil/leitor');
+    }
     if (await model.atualizarUser(req.body)){
         req.flash('success','dados atualizados com sucesso.');
         return res.redirect('/perfil/leitor');
@@ -97,26 +107,6 @@ const login = async (req, res) => {
     } 
 } 
 
-const mostrarPerfilLeitor = async (req, res) => { //tava dsando erraado o result no ejs, dai fiz gambiarra rsrs
-
-    if (!req.session.userId) {
-        return res.redirect('/login'); //se nao tiver userId na sessao, redireciona pro login
-    }
-    const result = await model.buscar_idUser(req.session.userId);
-    if (result) {
-         const emprestimos = await modelEmprestimo.buscar_LivrosLeitor(req.session.username); //chama a funcao pra pegar os livros do leitor logado
-        const livros = []
-        for(let i = 0; i < emprestimos.length; i++) { //formata a data pra ficar bonitinha
-            const livro = await modelLivros.buscar_id(emprestimos[i].Idlivro);
-            livros.push(livro);
-        };
-        res.render("perfis/perfilLeitor", {result, livros});//se tiver logado, manda pro perfil
-    } else {
-        req.session.destroy(() => {
-        res.redirect('/login');
-        });
-    }
-}
 
 //Função SAIR
 const sair = async (req, res) => {
@@ -125,35 +115,46 @@ const sair = async (req, res) => {
     })
 }
 
-//TEMPORÀRIO
-const mostrarPerfilBiblio = async (req, res) => { //tava dsando erraado o result no ejs, dai fiz gambiarra rsrs
-    if (!req.session.admId) {
-        return res.redirect('/login'); //se nao tiver id na sessao, redireciona pro login
+//Tava dando erro nas rotas de perfil pq tem duas funções pra mesma coisa. Portanto só teremos uma função agora, pra adm e pra user.
+const mostrarPerfil = async (req, res) => { //tava dsando erraado o result no ejs, dai fiz gambiarra rsrs
+    if (!req.session.admId && !req.session.userId) {
+        req.flash('error', "Faça login para ter acesso ao perfil.");
+        return res.redirect('/login');
     }
-    const result = await model.buscar_idUser(req.session.admId);
-    if ((result.tipo_conta == "adm")) {
-        res.render("perfis/perfilBiblio", { result });//se tiver logado, manda pro perfil
-
-    } else {
-        req.session.destroy(() => {
-        res.redirect('/login');
-        });
+    if (req.session.admId){
+        const result = await model.buscar_idUser(req.session.admId);
+        if (result) {
+            res.render("perfis/perfilBiblio", {result});//se tiver logado, manda pro perfil
+        }
+        else {
+            req.flash('error', "Usuário não encontrado");
+            return res.redirect('/login');
+        }
+    } else if (req.session.userId){
+        const result = await model.buscar_idUser(req.session.userId);
+        if (result) {
+            const emprestimos = await modelEmprestimo.buscar_LivrosLeitor(req.session.username); //chama a funcao pra pegar os livros do leitor logado
+            const livros = []
+            for(let i = 0; i < emprestimos.length; i++) { //formata a data pra ficar bonitinha
+                const livro = await modelLivros.buscar_id(emprestimos[i].Idlivro);
+                livros.push(livro);
+            };
+            res.render("perfis/perfilLeitor", {result, livros});//se tiver logado, manda pro perfil
+        } else {
+            req.flash('error', "Usuário não encontrado");
+            return res.redirect('/login');
+        };
     }
 }
 
 const mostrarPerfilLivro = async (req, res) => { 
-    if (!req.session) {
-        return res.redirect('/login'); //Somente o adm tem acesso
+    if (!req.session.userId && !req.session.admId) {
+        req.flash('error', "Faça login para continuar.");
+        return res.redirect('/login');
     }
-    const result = await model.buscar_idUser(req.session.admId);
-    if ((result)) {
-        const todos = await model.TodosUser();
-        res.render("perfis/perfilLivro", { todos });
-
-    } else {
-        res.redirect('/login');
-    }
+        if(req.session.userId){
+            const todosLivros = await modelLivros.Todos();
+            res.render("perfis/perfilLivroUser", {todosLivros}); // Se for user, a página é de ver os livros
+        } else res.render("perfis/perfilLivroAdm"); // Se for adm, a página é de adicionar os livros
 }
-
-
-module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login, mostrarPerfilLeitor, sair, mostrarPerfilBiblio, mostrarPerfilLivro} 
+module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login, mostrarPerfil, sair, mostrarPerfilLivro} 

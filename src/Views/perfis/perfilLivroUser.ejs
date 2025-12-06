@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Livros</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../public/css/livros.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <script src="../../public/js/livros.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+  <%-include('../partials/header') %>
+
+    <%-include("../partials/navbar") %>
+      <main>
+        <section class="text-center py-5">
+          <div class="container">
+            <h1 id="explore">Explore a nossa Biblioteca!</h1>
+            <p class="lead text-muted">Algo curto e cativante... role para saber mais.</p>
+            <p>
+              <a id="btnEditarListaGeral" href="livrosedit.html" class="btn btn-primary">Edite sua lista!</a>
+            </p>
+          </div>
+        </section>
+
+        <div class="album py-5 bg-light">
+          <div class="container">
+            <div class="row">
+              <%for (let i=0; i<Object.keys(todosLivros).length; i++) { %>
+                <div class="col-md-4">
+                  <div class="card mb-4 box-shadow">
+                    <!--esse "class="img-fluid"" é pra deixar as imagens responsivas -->
+                    <img src="../imagens/livros/<%=todosLivros[i].titulo%>.webp" class="img-fluid"
+                      style="border-radius: 5px; margin-bottom: 10px;" width="100%" height="225"
+                      xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"
+                      preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#55595c"></rect>
+                    <text x="50%" y="50%" fill="#eceeef" dy=".3em" style="padding: 10px;">
+                      <%=todosLivros[i].titulo%>
+                    </text>
+
+                    <div class="card-body">
+                      <p class="card-text">
+                        <%=todosLivros[i].descricao%>
+                      </p>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-outline-danger btn-curtir" data-titulo="<%=todosLivros.titulo%>">Curtir</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <%- include('../partials/footer') %>
+      </footer>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
