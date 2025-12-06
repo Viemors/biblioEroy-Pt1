@@ -22,7 +22,7 @@
     <%-include('../partials/header') %>
 
     <%-include("../partials/navbar") %>
-        <section class="container my-5">
+        <div class="container my-5">
             <!-- Conteúdo principal -->
             <h2>Reserve seu livro</h2>
             <!--Coloque aqui em cima pra ficar melhor pra ver-->
@@ -66,6 +66,8 @@
                     </select>
                 </br>
             </div>
+
+            <br>
     
             <!--Todos os forms tem os inputs invíveis com os valores do livro-->
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -80,7 +82,7 @@
                             <input type="hidden" name="autor" value="<%=todosLivros[i].autor%>"> <p class="card-text">Autor: <%=todosLivros[i].autor%></p>
                             <input type="hidden" name="categoria" value="<%=todosLivros[i].categoria%>"> <p class="card-text">Gênero: <%=todosLivros[i].categoria%></p>
                             <input type="hidden" name="idleitor" value="" class="idleitor" required>
-                            <button  class="btn btn-outline-primary btn-curtir" data-titulo="<%=todosLivros[i].titulo%>"
+                            <button class="btn btn-outline-primary btn-curtir" data-titulo="<%=todosLivros[i].titulo%>"
                                 id="button">Realizar
                                 Empréstimo</button>
                         </form >
@@ -88,9 +90,9 @@
                 </div>
                 <%}%>
             </div>
-        </section>
+        </div>
 
-        <section class="container my-5">
+        <div class="container my-5">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 
                 <form class="formi">
@@ -186,7 +188,7 @@
                 </form>
 
             </div>
-        </section>
+        </div>
 
         <%- include('../partials/footer') %>
 
@@ -204,10 +206,3 @@
 </body>
 
 </html>
-
-<style>
-    body {
-        background-color: #f9f0e5;
-        padding-top: 60px;
-    }
-</style>
