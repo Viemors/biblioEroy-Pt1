@@ -41,10 +41,10 @@ const addUser = async (req, res) => {
 
 const deletUser = async (req, res) => {
     let deletar = null;
-    if (req.session.id) {
+    if (req.session.userId) {
         await modelEmprestimo.delete_LivroUser(req.session.userId) //Apaga os emprestimo 
         deletar = await model.deletUser(req.session.userId)
-    } else if (req.session.admId) {
+    } else {
         deletar = await model.deletUser(req.session.admId)
     }
     if (deletar) { // deleted === 1

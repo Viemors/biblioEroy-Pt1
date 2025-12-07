@@ -33,7 +33,7 @@
           <div class="container">
             <div class="row">
               <%for (let i=0; i<Object.keys(todosLivros).length; i++) { %>
-                <div class="col-md-4">
+                <form action="/solicitar" method="POST" class="col-md-4">
                   <div class="card mb-4 box-shadow">
                     <!--esse "class="img-fluid"" é pra deixar as imagens responsivas -->
                     <img src="../imagens/livros/<%=todosLivros[i].titulo%>.webp" class="img-fluid"
@@ -42,9 +42,9 @@
                       preserveAspectRatio="xMidYMid slice" focusable="false">
                     <title>Placeholder</title>
                     <rect width="100%" height="100%" fill="#55595c"></rect>
-                    <text x="50%" y="50%" fill="#eceeef" dy=".3em" style="padding: 10px;">
+                    <input type="hidden" x="50%" y="50%" fill="#eceeef" dy=".3em" style="padding: 10px;">
                       <%=todosLivros[i].titulo%>
-                    </text>
+                  </input>
 
                     <div class="card-body">
                       <p class="card-text">
@@ -54,6 +54,9 @@
                         <div class="btn-group">
                           <div class="d-flex justify-content-between align-items-center">
                             <button class="btn btn-outline-danger btn-curtir" data-titulo="<%=todosLivros.titulo%>">Curtir</button>
+                          </div>
+                          <div>
+                            <button type="submit" class="btn btn-outline-danger btn-curtir">Solicitar emprestímo</button>
                           </div>
                         </div>
                       </div>

@@ -83,4 +83,25 @@ const atualizar = async(params) => {
     )
 }
 
+//Solicitar Emprestimo -------------------
+const solicitacoes = db.define("solicitacoes", {
+    id:{
+    type: Sequelize.INTEGER,
+    autoIncrement: true, 
+    allowNull: false,
+    primaryKey: true
+    },
+    Idlivro: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    },
+    
+    Idleitor: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    }
+})
+
+solicitacoes.sync()
+
 module.exports = {emprestimo, Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser};

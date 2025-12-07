@@ -90,7 +90,15 @@ const atualizar = async (req, res) => {
         return res.redirect('/emprestimo');
 }
 
+//solitações --------------
 
+const solicitar = async (req, res) => {
+    const {id} = await modelLivro.buscar_titulo(req.body.titulo)
+    const solicitar = await model.solicitar(id, req.session.userId)
+    if (solicitar) {
+        
+    }
+}
 
 
 module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, mostrarEmprestimo, devolucao}
