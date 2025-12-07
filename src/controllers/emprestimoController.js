@@ -92,16 +92,29 @@ const atualizar = async (req, res) => {
 
 //solitações --------------
 
-const solicitar = async (req, res) => {
+const solicitar = async (req, res) => { 
+    let validacao = true;
+    const ids_livros = await model.TodasSolicitacoes();
+    for(let i = 0; i<ids_livros.length; i++){
+        if(ids_livros[i].Idlivro == req.body.id) {
+            validacao = false;
+            break
+        }
+    }
     //const {id} = await modelLivro.buscar_titulo(req.body.titulo)
     const solicitar = await model.solicitar(parseInt(req.body.id), req.session.userId)
-    if (solicitar) {
+    if (validacao) {
+        if (solicitar){
         req.flash('success','Empréstimo solicitado com sucesso.');
         return res.redirect('/perfil/livro');
-        
+        }
+        else {
+            req.flash('error','Não foi possivel solicitar o empréstimo.');
+            return res.redirect('/perfil/livro');
+        }
     } else {
-        req.flash('error','Não foi possivel solicitar o empréstimo.');
-        return res.redirect('/perfil/livro');
+       req.flash('error','livro já emprestado.');
+        return res.redirect('/perfil/livro'); 
     }
 }
 

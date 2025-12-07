@@ -113,10 +113,10 @@ const solicitar = async(Idlivro, Idleitor) => {
     )
 }
 
-//const TodasSolicitacoes = () => solicitacoes.findAll()
+const TodasSolicit = () => solicitacoes.findAll()
 
 const TodasSolicitacoes = async (solicitacoes) => await bd.promise().query(`SELECT * FROM solicitacoes`)
     .then(([rows, fields]) => {return {resultados: rows, colunas: fields} })
     .catch((erro) => {return erro})
 
-module.exports = {emprestimo, Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser, solicitar, TodasSolicitacoes};
+module.exports = {emprestimo, Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser, solicitar, TodasSolicitacoes, TodasSolicit};
