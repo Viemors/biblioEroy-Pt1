@@ -47,7 +47,6 @@ const buscar = async (req, res) => {
     if (req.body.tipo == "categoria") {
         try {
            const result = await model.buscar_categoria(req.body.busca);
-           console.log(result);
            res.render("tabelaLivro/consultas", {result});
            if (!result) {
             req.flash("error", "Categoria não encontrada.")

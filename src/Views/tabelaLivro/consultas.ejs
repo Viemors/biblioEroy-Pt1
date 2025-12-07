@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/tabela.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style> @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap'); </style>
     <title>Consultas</title>
 </head>
 <body>
@@ -11,8 +14,11 @@
 
     <%-include('../partials/navbar') %>
 <main>
-      <table>
-        <thead>
+    <h4 class="mb-3">
+        Tabela: <%= result.colunas[0].table %>
+    </h4>
+      <table class="table table-hover table-striped table-bordered">
+        <thead class="table-white">
             <tr>
                 <%for (let c = 0; c<result.colunas.length; c++) { %>
                 <th> <%=result.colunas[c].name%> </th>
