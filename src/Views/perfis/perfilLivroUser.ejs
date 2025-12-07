@@ -29,6 +29,26 @@
           </div>
         </section>
 
+        <% if (error && error.length) { %>
+                        <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
+                        <div class="flash flash-error" style="color: red; text-align:center;">
+                          <% error.forEach(function(msg){ %>
+                            <p>
+                              <%= msg %>
+                            </p>
+                            <% }) %>
+                        </div> <!--no ejs vc acessa error (que é res.locals.error) -->
+                        <% } %>
+                          <% if (success && success.length) { %>
+                            <div class="flash flash-success" style="color: green; text-align:center;">
+                              <% success.forEach(function(msg){ %>
+                                <p>
+                                  <%= msg %>
+                                </p>
+                              <% }) %>
+                          </div>
+                        <% } %>
+
         <div class="album py-5 bg-light">
           <div class="container">
             <div class="row">
@@ -40,9 +60,10 @@
                       style="border-radius: 5px; margin-bottom: 10px;" width="100%" height="225"
                       xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"
                       preserveAspectRatio="xMidYMid slice" focusable="false">
+                      
                     <title>Placeholder</title>
                     <rect width="100%" height="100%" fill="#55595c"></rect>
-                    <input type="hidden" x="50%" y="50%" fill="#eceeef" dy=".3em" style="padding: 10px;">
+                    <input type="hidden" x="50%" y="50%" fill="#eceeef" name="id" value="<%=todosLivros[i].id%>" dy=".3em" style="padding: 10px;">
                       <%=todosLivros[i].titulo%>
                   </input>
 
@@ -63,11 +84,13 @@
                     </div>
                   </div>
                 </div>
+              </form>
                 <% } %>
-
+          
             </div>
           </div>
         </div>
+      
       </main>
 
       <footer>

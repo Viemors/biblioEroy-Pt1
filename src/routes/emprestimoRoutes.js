@@ -13,4 +13,5 @@ router.post("/atualizarEmprestimo", controller.atualizar)//rota para mudar o sta
 //Solicitações
 router.post("/solicitar", controller.solicitar) //rota para solicitar o emprestimo
 
+
 module.exports = router

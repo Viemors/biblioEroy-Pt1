@@ -104,4 +104,19 @@ const solicitacoes = db.define("solicitacoes", {
 
 solicitacoes.sync()
 
-module.exports = {emprestimo, Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser};
+const solicitar = async(Idlivro, Idleitor) => {
+    solicitacoes.create(
+        {
+            Idlivro: Idlivro,
+            Idleitor: Idleitor
+        }
+    )
+}
+
+//const TodasSolicitacoes = () => solicitacoes.findAll()
+
+const TodasSolicitacoes = async (solicitacoes) => await bd.promise().query(`SELECT * FROM solicitacoes`)
+    .then(([rows, fields]) => {return {resultados: rows, colunas: fields} })
+    .catch((erro) => {return erro})
+
+module.exports = {emprestimo, Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser, solicitar, TodasSolicitacoes};

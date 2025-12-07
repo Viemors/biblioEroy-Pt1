@@ -75,7 +75,7 @@ const delet = async (req, res) => {
 const devolucao = async (req, res) => {
     const livro = await modelLivro.buscar_titulo(req.body.titulo)
     await model.devolucao(req.session.userId, livro.id) // devolucao == delete    
-    req.flash('success','empréstimo deletado com sucesso.');
+    req.flash('success','Empréstimo deletado com sucesso.');
     return res.redirect("/perfil/leitor");
 }
 
@@ -86,19 +86,33 @@ const buscar_id = async (req, res) => {
 
 const atualizar = async (req, res) => {
     await model.atualizar(req.query)
-     req.flash('success','empréstimo atualizado com sucesso.');
+     req.flash('success','Empréstimo atualizado com sucesso.');
         return res.redirect('/emprestimo');
 }
 
 //solitações --------------
 
 const solicitar = async (req, res) => {
-    const {id} = await modelLivro.buscar_titulo(req.body.titulo)
-    const solicitar = await model.solicitar(id, req.session.userId)
+    //const {id} = await modelLivro.buscar_titulo(req.body.titulo)
+    const solicitar = await model.solicitar(parseInt(req.body.id), req.session.userId)
     if (solicitar) {
+        req.flash('success','Empréstimo solicitado com sucesso.');
+        return res.redirect('/perfil/livro');
         
+    } else {
+        req.flash('error','Não foi possivel solicitar o empréstimo.');
+        return res.redirect('/perfil/livro');
     }
 }
 
+const TodasSolicitacoes = async (req, res) => {
+    const result = await model.TodasSolicitacoes()
+    console.log(result)
+    if (result) res.render("tabelaLivro/consultas", {result});
+    else {
+        req.flash("error", "Deu ruim")
+        return res.redirect("/perfis/perfilBiblio");
+    }
+}
 
-module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, mostrarEmprestimo, devolucao}
+module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, mostrarEmprestimo, devolucao, solicitar, TodasSolicitacoes}
