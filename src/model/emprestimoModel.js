@@ -45,9 +45,9 @@ const add = async (params) => await emprestimo.create(params)
 
 const buscar_id = (id) => emprestimo.findByPk(id)
 
-const buscar_LivrosLeitor = async (leitor) => { 
-    const user = await modelLeitor.buscar_nome(leitor);
-    const result = await bd.promise().query(`SELECT * FROM emprestimos WHERE emprestimos.Idleitor = ${user.id}`)
+const buscar_LivrosLeitor = async (leitor) => { //essa aq já nao funciona, nao tem emprestimo nenhum
+    const user = await modelLeitor.buscar_username(leitor);
+    const result = await bd.promise().query(`SELECT * FROM emprestimos WHERE emprestimos.Idleitor = ${user.id}`)//tanto que aq ta errado
     .then(([rows, fields]) => {return {resultados: rows, colunas: fields} })
     .catch((erro) => {return erro})
 
@@ -125,9 +125,7 @@ const solicitar = async(titulo, username) => {return solicitacoes.create(
     )
 }
 
-//const TodasSolicit = () => solicitacoes.findAll()
-
-const TodasSolicitacoes = async (solicitacoes) => await bd.promise().query(`SELECT * FROM solicitacoes`)
+const TodasSolicitacoes = async () => await bd.promise().query(`SELECT * FROM solicitacoes`)
     .then(([rows, fields]) => {return {resultados: rows, colunas: fields} })
     .catch((erro) => {return erro})
 
@@ -137,14 +135,13 @@ const deleteSolicitacaoUser = async (username) => {
     });
 }
 
-/*testeeeeee
-    const buscar_solicitacoesLeitor = async (leitor) => { 
-    const user = await modelLeitor.buscar_nome(leitor);
-    const result = await bd.promise().query(`SELECT * FROM emprestimos WHERE emprestimos.Idleitor = ${user.id}`)
+const buscar_solicitacoesLeitor = async (leitor) => { 
+    const user = await modelLeitor.buscar_username(leitor);
+    const result = await bd.promise().query(`SELECT * FROM solicitacoes WHERE username = '${user}'`) //faltava aspas T-T
     .then(([rows, fields]) => {return {resultados: rows, colunas: fields} })
     .catch((erro) => {return erro})
 
     return result;
-}*/
+}
 
-module.exports = {Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser,emprestimosAtrasados, solicitar, TodasSolicitacoes, deleteSolicitacaoUser};
+module.exports = {Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser,emprestimosAtrasados, solicitar, TodasSolicitacoes, deleteSolicitacaoUser, buscar_solicitacoesLeitor};

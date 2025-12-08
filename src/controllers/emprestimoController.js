@@ -3,19 +3,26 @@ const modelLivro = require("../model/livrosModel")
 const modelUser = require("../model/cadastroUserModel")
 
 const mostrarEmprestimo = async (req, res) =>{
-    if (!req.session.admId) {
-        req.flash('error', "Faça login como adm para emprestar livros e pesquisar dados.");
-        return res.redirect('/login'); //Somente o adm tem acesso
-    }
-    const result = await modelUser.buscar_idUser(req.session.admId);
-    if ((result.tipo_conta == "adm")) {
-        const todosUser = await modelUser.TodosUser();
-        const todosLivros = await modelLivro.Todos();
-        res.render("emprestimo/emprestimo", {todosUser, todosLivros});
-
+    if (req.session.admId) {
+        const result = await modelUser.buscar_idUser(req.session.admId);
+        if (result) {
+            const result = await model.TodasSolicitacoes();
+            //const todosUser = await modelUser.TodosUser();
+            //const todosLivros = await modelLivro.Todos();
+            res.render("emprestimo/emprestimoAdm", {result/*, todosUser, todosLivros*/});
+        }
     } else {
-        res.redirect('/login');
-    }
+        const result = await modelUser.buscar_idUser(req.session.userId);
+        if (result) {
+            const result = await model.buscar_solicitacoesLeitor(req.session.userId);
+            res.render("emprestimo/emprestimoLeitor", {result});
+        }
+    
+        else{
+            req.flash('error', "Faça login para visualizar os livros emprestados e solicitações");
+            return res.redirect('/login');
+        }
+}
 }
 
 const inicio = (req, res) =>  {
@@ -139,15 +146,14 @@ const TodasSolicitacoes = async (req, res) => {
     }
 }
 
-/*testeeeeeeee
 const buscar_solicitacoesLeitor = async (req, res) => {
-    const result = await model.buscar_solicitacoesLeitor()
+    const result = await model.buscar_solicitacoesLeitor(req.session.username)
     console.log(result)
     if (result) res.render("emprestimo/emprestimoLeitor", {result});
     else {
         req.flash("error", "Deu ruim")
-        return res.redirect("/perfis/perfilLeitor");
+        return res.redirect("/perfil/leitor");
     }
-}*/
+}
 
-module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, mostrarEmprestimo, devolucao, emprestimosAtrasados, solicitar, TodasSolicitacoes}
+module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, mostrarEmprestimo, devolucao, emprestimosAtrasados, solicitar, TodasSolicitacoes, buscar_solicitacoesLeitor}
