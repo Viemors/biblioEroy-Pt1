@@ -83,6 +83,18 @@ const atualizar = async(params) => {
     )
 }
 
+const emprestimosAtrasados = async (todos) => {
+    const atual = new Date(2025, 11, 16, 0, 0, 0);
+    const atrasados = [];
+    for (let i = 0; i<todos.length; i++) {
+        let data_emprestimo = new Date(todos[i].datafinal.split('/')[2], todos[i].datafinal.split('/')[1] - 1, todos[i].datafinal.split('/')[0]); //Corta a string e converte em date
+        if (data_emprestimo <= atual) {
+            atrasados.push(todos[i])
+        }
+    }
+    return atrasados;
+}
+
 //Solicitar Emprestimo -------------------
 const solicitacoes = db.define("solicitacoes", {
     id:{
@@ -119,6 +131,12 @@ const TodasSolicitacoes = async (solicitacoes) => await bd.promise().query(`SELE
     .then(([rows, fields]) => {return {resultados: rows, colunas: fields} })
     .catch((erro) => {return erro})
 
+const deleteSolicitacaoUser = async (username) => {
+    await solicitacoes.destroy({
+        where: {username: username}
+    });
+}
+
 /*testeeeeee
     const buscar_solicitacoesLeitor = async (leitor) => { 
     const user = await modelLeitor.buscar_nome(leitor);
@@ -129,4 +147,4 @@ const TodasSolicitacoes = async (solicitacoes) => await bd.promise().query(`SELE
     return result;
 }*/
 
-module.exports = {emprestimo, Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser, solicitar, TodasSolicitacoes};
+module.exports = {Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser,emprestimosAtrasados, solicitar, TodasSolicitacoes, deleteSolicitacaoUser};

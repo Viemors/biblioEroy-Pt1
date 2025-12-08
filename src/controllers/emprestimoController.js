@@ -90,6 +90,17 @@ const atualizar = async (req, res) => {
         return res.redirect('/emprestimo');
 }
 
+const emprestimosAtrasados = async (req, res) => {
+    try{
+        const {resultados} = await model.buscar_LivrosLeitor(req.session.userId);
+        const result = await model.emprestimosAtrasados(resultados);
+        res.render("perfil/leitor", {result});
+    } catch (error){
+        req.flash('error', `Não foi possível buscar os empréstimos atrasados: ${error.message}`);
+        return res.redirect('/perfil/leitor');
+    }
+}
+
 //solitações --------------
 
 const solicitar = async (req, res) => { 
@@ -139,4 +150,4 @@ const buscar_solicitacoesLeitor = async (req, res) => {
     }
 }*/
 
-module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, mostrarEmprestimo, devolucao, solicitar, TodasSolicitacoes}
+module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, mostrarEmprestimo, devolucao, emprestimosAtrasados, solicitar, TodasSolicitacoes}
