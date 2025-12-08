@@ -48,11 +48,10 @@
                               <% }) %>
                           </div>
                         <% } %>
-
-        <div class="album py-5 bg-light">
+      <%for (let i=0; i<Object.keys(todosLivros).length; i++) { %>
+        <div class="livros" class="album py-5 bg-light">
           <div class="container">
             <div class="row">
-              <%for (let i=0; i<Object.keys(todosLivros).length; i++) { %>
                 <form action="/solicitar" method="POST" class="col-md-4">
                   <div class="card mb-4 box-shadow">
                     <!--esse "class="img-fluid"" é pra deixar as imagens responsivas -->
@@ -82,12 +81,10 @@
                   </div>
                 </div>
               </form>
-                <% } %>
-          
             </div>
           </div>
         </div>
-      
+      <% } %>
       </main>
 
       <footer>
