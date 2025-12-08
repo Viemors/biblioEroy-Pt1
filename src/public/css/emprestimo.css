@@ -15,6 +15,17 @@
   color: #a8d1c8;
 }
 
+#button-sair {
+  border-color: #882727;
+  color: #882727;
+}
+
+#button-sair:hover {
+  border-color: #882727;
+  background-color: #882727;
+  color: #ff6868;
+}
+
 input {
   border-radius: 5px;
 }
@@ -59,71 +70,4 @@ body {
 .botao:hover {
   background-color: #cecdde42;
   color: white;
-}
-
-nav.menu-lateral {
-  width: 80px;
-  height: 100%;
-  background-color: #42635b;
-  padding: 40px 0 20px;
-  box-shadow: 3px 0 0 #5fa898;
-  position: fixed;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  transition: .5s;
-  z-index: 3000;
-}
-
-nav.menu-lateral:hover {
-  width: 300px;
-}
-
-.btn-expandir {
-  width: 100%;
-}
-
-.btn-expandir>i {
-  display: flex;
-  justify-content: flex-start;
-  padding-left: 20px;
-  padding-bottom: 20px;
-  color: #fff;
-  font-size: 25px;
-  cursor: pointer;
-}
-
-ul {
-  height: 100%;
-  list-style-type: none;
-  padding-left: 10%;
-}
-
-ul li.item-menu {
-  transition: .7s;
-}
-
-ul li.item-menu:hover {
-  background-color: #5fa898;
-}
-
-ul li.item-menu a {
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 20px;
-  padding: 20px 4%;
-  display: flex;
-  margin-bottom: 20px;
-  line-height: 40px;
-}
-
-ul li.item-menu a .txt-link {
-  margin-left: 40px;
-  padding-right: 10px;
-}
-
-ul li.item-menu a .icon>i {
-  padding-right: 0px;
-  font-size: 25px;
-  width: 100%;
 }

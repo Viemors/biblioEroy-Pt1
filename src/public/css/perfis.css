@@ -51,6 +51,17 @@ form {
   color: #ff6868;
 }
 
+#button-curtir {
+  border-color: #d55564;
+  color: #d55564;
+}
+
+#button-curtir:hover {
+  border-color: #e78894;
+  background-color: #e78894;
+  color: #b04343;
+}
+
 input {
   border-radius: 5px;
 }

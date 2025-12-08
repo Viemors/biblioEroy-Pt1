@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Empréstimo</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
     <link rel="stylesheet" href="../css/emprestimo.css">
     <link rel="stylesheet" href="../js/emprestimo.js">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
@@ -21,187 +22,213 @@
 
     <%-include('../partials/header') %>
 
-    <%-include("../partials/navbar") %>
-        <div class="container my-5">
-            <!-- Conteúdo principal -->
-            <h2>Reserve seu livro</h2>
-            <!--Coloque aqui em cima pra ficar melhor pra ver-->
-            <% if (error && error.length) { %> <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
-                <div class="flash flash-error" style="color: red; text-align:center;">
-                    <% error.forEach(function(msg){ %>
-                    <p><%= msg %></p>
-                    <% }) %>
-                </div> <!--no ejs vc acessa error (que é res.locals.error) -->
-            <% } %>
-            <% if (success && success.length) { %>
-                <div class="flash flash-success" style="color: green; text-align:center;">
-                    <% success.forEach(function(msg){ %>
-                        <p><%= msg %></p>
-                    <% }) %>
-                </div>
-            <% } %>
-            <form action="/buscarLivro" method="POST"> 
-                titulo <input type="radio" name="tipo" value="titulo">
-            </br>
-                leitor <input type="radio" name="tipo" value="leitor">
-            </br>
-                categoria <input type="radio" name="tipo" value="categoria">
-            </br>
-                autor <input type="radio" name="tipo" value="autor">
-            </br>
-                <label>Buscar</label>
-                <input type="text" name="busca">
-            </form>
-        </br>
-            <div>
-                <!--Função para escolher para qual usuário vai emprestar o livro
-                    Object.Keys -> é como se transformasse o json em arranjo (pq o json não pega o lenght)
-                    Aí no option aparece o nome dos candango (usuários) e salva o id deles -->
-                <label>Para qual usuário? </label>
-                    <select name="Idleitor" id="select">
-                        <option selected disabled>Selecione um usuário</option> <!--Criar as opções com base nos usuários cadastrados-->
-                      <%for(let i = 0; i<Object.keys(todosUser).length; i++){%>
-                        <option value=<%=todosUser[i].id%>> <%=todosUser[i].username%> </option>
-                      <%}%>
-                    </select>
-                </br>
-            </div>
+        <%-include("../partials/navbar") %>
+            <div class="container my-5">
+                <!-- Conteúdo principal -->
+                <h2>Reserve seu livro!</h2>
 
-            <br>
-    
-            <!--Todos os forms tem os inputs invíveis com os valores do livro-->
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                <!-- Card genérico para todos os livros do banco de dados -->
-                <%for(let i = 0; i<Object.keys(todosLivros).length; i++) {%>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="../imagens/livros/machado/dom casmuro.webp" class="card-img-top"
-                            alt="Capa do livro">
-                        <form action="/addEmprestimo" method="POST" class="card-body">
-                            <input type="hidden" name="titulo" value="<%=todosLivros[i].titulo%>"> <h5 class="card-title"><%=todosLivros[i].titulo%></h5>
-                            <input type="hidden" name="autor" value="<%=todosLivros[i].autor%>"> <p class="card-text">Autor: <%=todosLivros[i].autor%></p>
-                            <input type="hidden" name="categoria" value="<%=todosLivros[i].categoria%>"> <p class="card-text">Gênero: <%=todosLivros[i].categoria%></p>
-                            <input type="hidden" name="idleitor" value="" class="idleitor" required>
-                            <button class="btn btn-outline-primary btn-curtir" data-titulo="<%=todosLivros[i].titulo%>"
-                                id="button">Realizar
-                                Empréstimo</button>
-                        </form >
-                    </div>
-                </div>
-                <%}%>
-            </div>
-        </div>
-
-        <div class="container my-5">
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-
-                <form class="formi">
-                    <h2>Empréstimo</h2>
-
-                    <div class="slaa">
-                        <label for="inputNome">Nome:</label>
-                        <input type="text" placeholder="Digite o nome" required>
-                    </div><br>
-
-                    <div>
-                        <label for="inputUsuario">Usuário:</label>
-                        <input type="text" placeholder="Digite o nome de usuário" required>
-                    </div><br>
-
-                    <div>
-                        <label for="inputUsuario">Email:</label>
-                        <input type="text" placeholder="Digite seu email" required>
-                    </div><br>
-
-                    <div>
-                        <label for="inputUsuario">Senha:</label>
-                        <input type="text" placeholder="Digite sua senha" required>
-                    </div><br>
-
-                    <div>
-                        <a href="/" class="btn btn-outline-primary btn-curtir" id="button">Editar</a>
-                        <a href="/" class="btn btn-outline-primary btn-curtir" id="button">Enviar</a>
-                        <a href="/" class="btn btn-outline-primary btn-curtir" id="button">Cancelar</a>
-                    </div><br>
-                </form>
-
-                <details>
-                    <summary style="font-size: 30px;">Devolução</summary>
-                    <br>
-                    <% if (error && error.length) { %> <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
-                        <div class="flash flash-error" style="color: red; text-align:center;">
-                            <% error.forEach(function(msg){ %>
-                            <p><%= msg %></p>
+                <!--Coloque aqui em cima pra ficar melhor pra ver-->
+                <% if (error && error.length) { %>
+                    <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
+                    <div class="flash flash-error" style="color: red; text-align:center;">
+                        <% error.forEach(function(msg){ %>
+                            <p>
+                                <%= msg %>
+                            </p>
                             <% }) %>
-                        </div> <!--no ejs vc acessa error (que é res.locals.error) -->
+                    </div> <!--no ejs vc acessa error (que é res.locals.error) -->
                     <% } %>
                         <% if (success && success.length) { %>
                             <div class="flash flash-success" style="color: green; text-align:center;">
                                 <% success.forEach(function(msg){ %>
-                                    <p><%= msg %></p>
-                                <% }) %>
+                                    <p>
+                                        <%= msg %>
+                                    </p>
+                                    <% }) %>
                             </div>
-                        <% } %>
+                            <% } %>
+                                <form action="/buscarLivro" method="POST">
+                                    Título <input type="radio" name="tipo" value="titulo">
+                                    <br>
+                                    Leitor <input type="radio" name="tipo" value="leitor">
+                                    <br>
+                                    Categoria <input type="radio" name="tipo" value="categoria">
+                                    <br>
+                                    Autor <input type="radio" name="tipo" value="autor">
+                                    <br>
+                                    <br>
+                                    <label><i class="bi bi-search" style="padding-right: 5px;"></i>Buscar</label>
+                                    <input type="text" name="busca" placeholder="" required>
+                                </form>
+                                <br>
+                                <br>
+                                <div>
+                                    <!--Função para escolher para qual usuário vai emprestar o livro
+                    Object.Keys -> é como se transformasse o json em arranjo (pq o json não pega o lenght)
+                    Aí no option aparece o nome dos candango (usuários) e salva o id deles -->
+                                    <label style="font-weight: 600;">Para qual usuário?</label>
+                                    <select name="Idleitor" id="select">
+                                        <option selected disabled>Selecione um usuário</option>
+                                        <!--Criar as opções com base nos usuários cadastrados-->
+                                        <%for(let i=0; i<Object.keys(todosUser).length; i++){%>
+                                            <option value=<%=todosUser[i].id%>> <%=todosUser[i].username%>
+                                            </option>
+                                            <%}%>
+                                    </select>
+                                    </br>
+                                </div>
 
-                    <!--Por hora devolução tá sendo só apagar o emprestimo, só usa o nome do leitor e o titulo-->
-                    <form action="/deleteEmprestimo" method="POST">
-                        <div>
-                            <label>Nome do Leitor:</label>
-                            <input name="leitor" type="text" placeholder="Digite o nome">
-                        </div><br>
+                                <br>
 
-                        <div>
-                            <label>Título do Livro:</label>
-                            <input name="titulo" type="text" placeholder="Digite o título do livro">
-                        </div><br>
-
-                        <div>
-                            <label>Data do Empréstimo:</label>
-                            <input type="date">
-                        </div><br>
-
-                        <div>
-                            <label>Data da Devolução:</label>
-                            <input type="date">
-                        </div><br>
-
-                        <div>
-                            <label>Estado do Livro:</label>
-                            <select>
-                                <option>Bom estado</option>
-                                <option>Com leves danos</option>
-                                <option>Danificado</option>
-                            </select>
-                        </div><br>
-
-                        <div>
-                            <label>Observações:</label>
-                            <textarea rows="3" placeholder="Ex: atraso, rasura..."></textarea>
-                        </div><br>
-
-                        <button type="submit" class="btn btn-outline-primary btn-curtir" id="button">Confirmar Devolução</button>
-                    </form>
-                </details>
-
-                <br>
-
-                </form>
-
+                                <!--Todos os forms tem os inputs invíveis com os valores do livro-->
+                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                                    <!-- Card genérico para todos os livros do banco de dados -->
+                                    <%for(let i=0; i<Object.keys(todosLivros).length; i++) {%>
+                                        <div class="col">
+                                            <div class="card h-100">
+                                                <img src="../imagens/livros/machado/dom casmuro.webp"
+                                                    class="card-img-top" alt="Capa do livro">
+                                                <form action="/addEmprestimo" method="POST" class="card-body">
+                                                    <input type="hidden" name="titulo"
+                                                        value="<%=todosLivros[i].titulo%>">
+                                                    <h5 class="card-title">
+                                                        <%=todosLivros[i].titulo%>
+                                                    </h5>
+                                                    <input type="hidden" name="autor" value="<%=todosLivros[i].autor%>">
+                                                    <p class="card-text">Autor: <%=todosLivros[i].autor%>
+                                                    </p>
+                                                    <input type="hidden" name="categoria"
+                                                        value="<%=todosLivros[i].categoria%>">
+                                                    <p class="card-text">Gênero: <%=todosLivros[i].categoria%>
+                                                    </p>
+                                                    <input type="hidden" name="idleitor" value="" class="idleitor"
+                                                        required>
+                                                    <button class="btn btn-outline-primary btn-curtir"
+                                                        data-titulo="<%=todosLivros[i].titulo%>" id="button">Realizar
+                                                        Empréstimo</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <%}%>
+                                </div>
             </div>
-        </div>
 
-        <%- include('../partials/footer') %>
+            <div class="container my-5">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 
-        <!--Tentei quase tudo possível pra salvar esse IdLeitor em forms diferentes e não deu, aí apelei pra gambiarra hehe -->
-        <script>
-            const select = document.querySelector("#select")
-            select.addEventListener("change", () => {
-                const idleitor = document.querySelectorAll(".idleitor")
-                idleitor.forEach(a => {
-                    a.value = select.value
-                }); 
-            });
-        </script>
+                    <form class="formi">
+                        <h2>Empréstimo</h2>
+
+                        <div class="slaa">
+                            <label for="inputNome">Nome:</label>
+                            <input type="text" placeholder="Digite o nome" required>
+                        </div><br>
+
+                        <div>
+                            <label for="inputUsuario">Usuário:</label>
+                            <input type="text" placeholder="Digite o nome de usuário" required>
+                        </div><br>
+
+                        <div>
+                            <label for="inputUsuario">Email:</label>
+                            <input type="text" placeholder="Digite seu email" required>
+                        </div><br>
+
+                        <div>
+                            <label for="inputUsuario">Senha:</label>
+                            <input type="text" placeholder="Digite sua senha" required>
+                        </div><br>
+
+                        <div>
+                            <a href="/" class="btn btn-outline-primary btn-curtir" id="button">Editar</a>
+                            <a href="/" class="btn btn-outline-primary btn-curtir" id="button">Enviar</a>
+                            <a href="/" class="btn btn-outline-primary btn-curtir" id="button-sair">Cancelar</a>
+                        </div><br>
+                    </form>
+
+                    <details>
+                        <summary style="font-size: 30px;">Devolução</summary>
+                        <br>
+                        <% if (error && error.length) { %>
+                            <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
+                            <div class="flash flash-error" style="color: red; text-align:center;">
+                                <% error.forEach(function(msg){ %>
+                                    <p>
+                                        <%= msg %>
+                                    </p>
+                                    <% }) %>
+                            </div> <!--no ejs vc acessa error (que é res.locals.error) -->
+                            <% } %>
+                                <% if (success && success.length) { %>
+                                    <div class="flash flash-success" style="color: green; text-align:center;">
+                                        <% success.forEach(function(msg){ %>
+                                            <p>
+                                                <%= msg %>
+                                            </p>
+                                            <% }) %>
+                                    </div>
+                                    <% } %>
+
+                                        <!--Por hora devolução tá sendo só apagar o emprestimo, só usa o nome do leitor e o titulo-->
+                                        <form action="/deleteEmprestimo" method="POST">
+                                            <div>
+                                                <label>Nome do Leitor:</label>
+                                                <input name="leitor" type="text" placeholder="Digite o nome">
+                                            </div><br>
+
+                                            <div>
+                                                <label>Título do Livro:</label>
+                                                <input name="titulo" type="text" placeholder="Digite o título do livro">
+                                            </div><br>
+
+                                            <div>
+                                                <label>Data do Empréstimo:</label>
+                                                <input type="date">
+                                            </div><br>
+
+                                            <div>
+                                                <label>Data da Devolução:</label>
+                                                <input type="date">
+                                            </div><br>
+
+                                            <div>
+                                                <label>Estado do Livro:</label>
+                                                <select>
+                                                    <option>Bom estado</option>
+                                                    <option>Com leves danos</option>
+                                                    <option>Danificado</option>
+                                                </select>
+                                            </div><br>
+
+                                            <div>
+                                                <label>Observações:</label>
+                                                <textarea rows="3" placeholder="Ex: atraso, rasura..."></textarea>
+                                            </div><br>
+
+                                            <button type="submit" class="btn btn-outline-primary btn-curtir"
+                                                id="button">Confirmar Devolução</button>
+                                        </form>
+                    </details>
+
+                    <br>
+
+                    </form>
+
+                </div>
+            </div>
+
+            <%- include('../partials/footer') %>
+
+                <!--Tentei quase tudo possível pra salvar esse IdLeitor em forms diferentes e não deu, aí apelei pra gambiarra hehe -->
+                <script>
+                    const select = document.querySelector("#select")
+                    select.addEventListener("change", () => {
+                        const idleitor = document.querySelectorAll(".idleitor")
+                        idleitor.forEach(a => {
+                            a.value = select.value
+                        });
+                    });
+                </script>
 
 </body>
 
