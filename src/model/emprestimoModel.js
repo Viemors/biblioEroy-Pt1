@@ -91,32 +91,42 @@ const solicitacoes = db.define("solicitacoes", {
     allowNull: false,
     primaryKey: true
     },
-    Idlivro: {
-        type: Sequelize.INTEGER,
+
+    username: {
+        type: Sequelize.STRING,
         allowNull: false,
     },
-    
-    Idleitor: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+
+    titulo: {
+            type: Sequelize.STRING,
+            allowNull: false
     }
 })
 
 solicitacoes.sync()
 
-const solicitar = async(Idlivro, Idleitor) => {
-    solicitacoes.create(
+const solicitar = async(titulo, username) => {return solicitacoes.create(
         {
-            Idlivro: Idlivro,
-            Idleitor: Idleitor
+            titulo: titulo,
+            username: username
         }
     )
 }
 
-const TodasSolicit = () => solicitacoes.findAll()
+//const TodasSolicit = () => solicitacoes.findAll()
 
 const TodasSolicitacoes = async (solicitacoes) => await bd.promise().query(`SELECT * FROM solicitacoes`)
     .then(([rows, fields]) => {return {resultados: rows, colunas: fields} })
     .catch((erro) => {return erro})
 
-module.exports = {emprestimo, Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser, solicitar, TodasSolicitacoes, TodasSolicit};
+/*testeeeeee
+    const buscar_solicitacoesLeitor = async (leitor) => { 
+    const user = await modelLeitor.buscar_nome(leitor);
+    const result = await bd.promise().query(`SELECT * FROM emprestimos WHERE emprestimos.Idleitor = ${user.id}`)
+    .then(([rows, fields]) => {return {resultados: rows, colunas: fields} })
+    .catch((erro) => {return erro})
+
+    return result;
+}*/
+
+module.exports = {emprestimo, Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser, solicitar, TodasSolicitacoes};

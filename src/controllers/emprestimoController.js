@@ -94,26 +94,26 @@ const atualizar = async (req, res) => {
 
 const solicitar = async (req, res) => { 
     let validacao = true;
-    const ids_livros = await model.TodasSolicitacoes();
-    for(let i = 0; i<ids_livros.length; i++){
-        if(ids_livros[i].Idlivro == req.body.id) {
+    const {resultados} = await model.TodasSolicitacoes();
+    for(let i = 0; i<resultados.length; i++){
+        if(resultados[i].titulo == req.body.titulo) {
             validacao = false;
             break
         }
     }
     //const {id} = await modelLivro.buscar_titulo(req.body.titulo)
-    const solicitar = await model.solicitar(parseInt(req.body.id), req.session.userId)
+    
     if (validacao) {
         if (solicitar){
-        req.flash('success','Empréstimo solicitado com sucesso.');
-        return res.redirect('/perfil/livro');
-        }
-        else {
+            const solicitar = await model.solicitar(req.body.titulo, req.session.username)
+            req.flash('success','Empréstimo solicitado com sucesso.');
+            return res.redirect('/perfil/livro');
+        } else {
             req.flash('error','Não foi possivel solicitar o empréstimo.');
             return res.redirect('/perfil/livro');
         }
     } else {
-       req.flash('error','livro já emprestado.');
+        req.flash('error','livro já emprestado.');
         return res.redirect('/perfil/livro'); 
     }
 }
@@ -127,5 +127,16 @@ const TodasSolicitacoes = async (req, res) => {
         return res.redirect("/perfis/perfilBiblio");
     }
 }
+
+/*testeeeeeeee
+const buscar_solicitacoesLeitor = async (req, res) => {
+    const result = await model.buscar_solicitacoesLeitor()
+    console.log(result)
+    if (result) res.render("emprestimo/emprestimoLeitor", {result});
+    else {
+        req.flash("error", "Deu ruim")
+        return res.redirect("/perfis/perfilLeitor");
+    }
+}*/
 
 module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, mostrarEmprestimo, devolucao, solicitar, TodasSolicitacoes}

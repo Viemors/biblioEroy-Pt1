@@ -15,7 +15,8 @@ const livros = db.define("livros", {
     },
     titulo: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     autor: {
         type: Sequelize.STRING,
