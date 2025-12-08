@@ -21,17 +21,17 @@ const emprestimo = db.define("emprestimo", {
         allowNull: false
     },
 
-    Idlivro: {
-        type: Sequelize.INTEGER,
+    tituloLivro: {
+        type: Sequelize.STRING,
         allowNull: false,
     },
     
-    Idleitor: {
-        type: Sequelize.INTEGER,
+    nomeLeitor: {
+        type: Sequelize.STRING,
         allowNull: false,
     },
-    Idbiblio: {
-        type: Sequelize.INTEGER,
+    nomeAdm: {
+        type: Sequelize.STRING,
         allowNull: false,
     }
 })
@@ -46,25 +46,31 @@ const add = async (params) => await emprestimo.create(params)
 const buscar_id = (id) => emprestimo.findByPk(id)
 
 const buscar_LivrosLeitor = async (leitor) => { //essa aq já nao funciona, nao tem emprestimo nenhum
-    const user = await modelLeitor.buscar_username(leitor);
-    const result = await bd.promise().query(`SELECT * FROM emprestimos WHERE emprestimos.Idleitor = ${user.id}`)//tanto que aq ta errado
+    const result = await bd.promise().query(`SELECT * FROM emprestimos WHERE emprestimos.nomeLeitor = '${leitor}'`)//tanto que aq ta errado
     .then(([rows, fields]) => {return {resultados: rows, colunas: fields} })
     .catch((erro) => {return erro})
 
     return result;
 }
 
-const delete_LivroUser = async (id) => {
+const buscar_LivrosADM = async (biblio) => await emprestimo.findAll({
+    where:{
+        nomeAdm: biblio
+    }
+})
+
+
+const delete_LivroUser = async (username) => {
     await emprestimo.destroy({
-        where: {Idleitor: id}
+        where: {nomeLeitor: username}
     });
 }
 
-const devolucao = async(id_leitor, id_livro) => {
+const devolucao = async(nomeLeitor, tituloLivro) => {
     await emprestimo
 .destroy({
         where: {
-            Idleitor: id_leitor, Idlivro: id_livro
+            nomeLeitor: nomeLeitor, tituloLivro: tituloLivro
         }
     });
 }
@@ -84,7 +90,7 @@ const atualizar = async(params) => {
 }
 
 const emprestimosAtrasados = async (todos) => {
-    const atual = new Date(2025, 11, 16, 0, 0, 0);
+    const atual = new Date();
     const atrasados = [];
     for (let i = 0; i<todos.length; i++) {
         let data_emprestimo = new Date(todos[i].datafinal.split('/')[2], todos[i].datafinal.split('/')[1] - 1, todos[i].datafinal.split('/')[0]); //Corta a string e converte em date
@@ -94,6 +100,7 @@ const emprestimosAtrasados = async (todos) => {
     }
     return atrasados;
 }
+
 
 //Solicitar Emprestimo -------------------
 const solicitacoes = db.define("solicitacoes", {
@@ -136,12 +143,11 @@ const deleteSolicitacaoUser = async (username) => {
 }
 
 const buscar_solicitacoesLeitor = async (leitor) => { 
-    const user = await modelLeitor.buscar_username(leitor);
-    const result = await bd.promise().query(`SELECT * FROM solicitacoes WHERE username = '${user}'`) //faltava aspas T-T
+    const result = await bd.promise().query(`SELECT * FROM solicitacoes WHERE username = '${leitor}'`) //faltava aspas T-T
     .then(([rows, fields]) => {return {resultados: rows, colunas: fields} })
     .catch((erro) => {return erro})
 
     return result;
 }
 
-module.exports = {Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser,emprestimosAtrasados, solicitar, TodasSolicitacoes, deleteSolicitacaoUser, buscar_solicitacoesLeitor};
+module.exports = {Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser,emprestimosAtrasados, solicitar, TodasSolicitacoes, deleteSolicitacaoUser, buscar_solicitacoesLeitor, buscar_LivrosADM};

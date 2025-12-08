@@ -18,38 +18,54 @@
     <%-include("../partials/header")%>
 
         <div class="container mt-4">
+            
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <!-- Card genérico para todos os emprestimos do banco de dados -->
+                <%for(let i=0; i<Object.keys(emprestimos).length; i++) {%>
+                  <div class="col">
+                    <div class="card h-100">
+                      <img src="../imagens/livros/machado/dom casmuro.webp" class="card-img-top" alt="Capa do livro">
+                      <form action="/atualizarEmprestimo" method="POST" class="card-body">
+                        <input type="hidden" name="titulo" value="<%=emprestimos[i].titulo%>">
+                        <h5 class="card-title">
+                          <%=emprestimos[i].titulo%>
+                        </h5>
+                        <input type="hidden" name="nomeLeitor" value="<%=emprestimos[i].nomeLeitor%>">
+                        <p class="card-text">Usuário: <%=emprestimos[i].nomeLeitor%>
+                        </p>
+                        <input type="hidden" name="datainicial" value="<%=emprestimos[i].datainicial%>">
+                        <p class="card-text">Usuário: <%=emprestimos[i].datainicial%>
+                        </p>
+                        <input type="hidden" name="datafinal" value="<%=emprestimos[i].datafinal%>">
+                        <p class="card-text">Usuário: <%=emprestimos[i].datafinal%>
+                        </p>
+                        <input type="hidden" name="nomeAdm" value="<%req.session.username%>" class="nomeAdm" required>
+                        <button type="submit" class="btn btn-outline-primary btn-curtir" id="button"> Renovar </button>
+                      </form>
+                    </div>
+                  </div>
+                  <%}%>
 
-            <% for (let i=0; i < Object.keys(result).length; i++) { %>
-
-                <h4 class="mb-3">
-                    Tabela: <%= result.colunas[0].table %>
-                </h4>
-
-                <table class="table table-hover table-striped table-bordered">
-                    <thead class="table-white">
-                        <tr>
-                            <% for (let c=0; c < result.colunas.length; c++) { %>
-                                <th>
-                                    <%= result.colunas[c].name %>
-                                </th>
-                                <% } %>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <% for (let r=0; r < result.resultados.length; r++) { %>
-                            <tr>
-                                <% for (let t=0; t < result.colunas.length; t++) { %>
-                                    <td>
-                                        <%= result.resultados[r][result.colunas[t].name] %>
-                                    </td>
-                                    <% } %>
-                            </tr>
-                            <% } %>
-                    </tbody>
-                </table>
-
-                <% } %>
+                  <!-- Card genérico para todos as solicitações do banco de dados -->
+                <%for(let i=0; i<Object.keys(solicitacoes).length; i++) {%>
+                  <div class="col">
+                    <div class="card h-100">
+                      <img src="../imagens/livros/machado/dom casmuro.webp" class="card-img-top" alt="Capa do livro">
+                      <form action="/addEmprestimo" method="POST" class="card-body">
+                        <input type="hidden" name="titulo" value="<%=solicitacoes[i].titulo%>">
+                        <h5 class="card-title">
+                          <%=solicitacoes[i].titulo%>
+                        </h5>
+                        <input type="hidden" name="nomeLeitor" value="<%=solicitacoes[i].username%>">
+                        <p class="card-text">Usuário: <%=solicitacoes[i].username%>
+                        </p>
+                        <input type="hidden" name="nomeAdm" value="<%req.session.username%>" class="nomeAdm" required>
+                        <button type="submit" class="btn btn-outline-primary btn-curtir" id="button"> Emprestar </button>
+                      </form>
+                    </div>
+                  </div>
+                  <%}%>
+              </div>
 
         </div>
 

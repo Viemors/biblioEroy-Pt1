@@ -16,11 +16,7 @@
 <body>
 
     <%-include("../partials/header")%>
-
-        <div class="container mt-4">
-
-            <% for (let i=0; i < Object.keys(result).length; i++) { %>
-
+<div class="container mt-4">
                 <h4 class="mb-3">
                     Tabela: <%= result.colunas[0].table %>
                 </h4>
@@ -48,10 +44,6 @@
                             <% } %>
                     </tbody>
                 </table>
-
-                <% } %>
-
-        </div>
 
         <%-include('../partials/footer') %>
 
