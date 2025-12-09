@@ -18,6 +18,37 @@
     <%-include("../partials/header")%>
 <div class="container mt-4">
                 <h4 class="mb-3">
+                    Tabela: <%= solicitacoes.colunas[0].table %>
+                </h4>
+
+                <table class="table table-hover table-striped table-bordered">
+                    <thead class="table-white">
+                        <tr>
+                            <% for (let c=0; c < solicitacoes.colunas.length; c++) { %>
+                                <th>
+                                    <%= solicitacoes.colunas[c].name %>
+                                </th>
+                                <% } %>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% for (let r=0; r < solicitacoes.resultados.length; r++) { %>
+                            <tr>
+                                <% for (let t=0; t < solicitacoes.colunas.length; t++) { %>
+                                    <td>
+                                        <%= solicitacoes.resultados[r][solicitacoes.colunas[t].name] %>
+                                    </td>
+                                    <% } %>
+                            </tr>
+                            <% } %>
+                    </tbody>
+                </table>
+               </div>
+
+
+                <div class="container mt-4">
+                <h4 class="mb-3">
                     Tabela: <%= emprestimos.colunas[0].table %>
                 </h4>
 
@@ -44,7 +75,7 @@
                             <% } %>
                     </tbody>
                 </table>
-
+            </div>
         <%-include('../partials/footer') %>
 
 </body>

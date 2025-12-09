@@ -42,7 +42,9 @@
                       <img src="../imagens/livros/machado/dom casmuro.webp" class="card-img-top" alt="Capa do livro">
                       <form action="/atualizarEmprestimo" method="POST" class="card-body">
                         <input type="hidden" name="titulo" value="<%=emprestimos[i].tituloLivro%>">
+                        <input type="hidden" name="titulo" value="<%=emprestimos[i].tituloLivro%>">
                         <h5 class="card-title">
+                          <%=emprestimos[i].tituloLivro%>
                           <%=emprestimos[i].tituloLivro%>
                         </h5>
                         <input type="hidden" name="nomeLeitor" value="<%=emprestimos[i].nomeLeitor%>">
@@ -50,10 +52,13 @@
                         </p>
                         <input type="hidden" name="datainicial" value="<%=emprestimos[i].datainicial%>">
                         <p class="card-text">inicio: <%=emprestimos[i].datainicial%>
+                        <p class="card-text">inicio: <%=emprestimos[i].datainicial%>
                         </p>
                         <input type="hidden" name="datafinal" value="<%=emprestimos[i].datafinal%>">
                         <p class="card-text">fim: <%=emprestimos[i].datafinal%>
+                        <p class="card-text">fim: <%=emprestimos[i].datafinal%>
                         </p>
+                        <input type="hidden" name="nomeAdm" value="<%=emprestimos[i].nomeAdm%>" class="nomeAdm" required>
                         <input type="hidden" name="nomeAdm" value="<%=emprestimos[i].nomeAdm%>" class="nomeAdm" required>
                         <button type="submit" class="btn btn-outline-primary btn-curtir" id="button"> Renovar </button>
                       </form>
@@ -62,6 +67,7 @@
                   <%}%>
 
                   <!-- Card genérico para todos as solicitações do banco de dados -->
+                <%for(let i=0; i<Object.keys(resultados).length; i++) {%>
                 <%for(let i=0; i<Object.keys(resultados).length; i++) {%>
                   <div class="col">
                     <div class="card h-100">
@@ -83,6 +89,7 @@
                         <input type="hidden" name="descricao" value="<%=livros[i][0].descricao%>">
                         <p class="card-text">descricao: <%=livros[i][0].descricao%>
                         </p>
+                        <input type="hidden" name="nomeAdm" value="<%=emprestimos[0].nomeAdm%>" class="nomeAdm" required>
                         <input type="hidden" name="nomeAdm" value="<%=emprestimos[0].nomeAdm%>" class="nomeAdm" required>
                         <button type="submit" class="btn btn-outline-primary btn-curtir" id="button"> Emprestar </button>
                       </form>

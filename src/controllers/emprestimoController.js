@@ -33,17 +33,18 @@ const mostrarEmprestimo = async (req, res) => {
             if (emprestimos || solicitacoes) {
                 if (Object.keys(emprestimos).length > 0 || Object.keys(solicitacoes).length > 0) { 
                     res.render("emprestimo/emprestimoLeitor", {solicitacoes, emprestimos});
+                
                 } else {
                     req.flash("error", "Nenhum empréstimo ou solicitação encontrado.")
                     return res.redirect("/perfil/leitor");
                 }
             }
-        } else {
+        } else { //esse da certo.
                 req.flash('error', "Faça login para visualizar os livros emprestados e solicitações");
                 return res.redirect('/login');
             }
         }
-    }
+}
 
 const inicio = (req, res) =>  {
     res.json({Ver_todos: "/mostrar", delete: "/delete:id(o que tu quiser, mas que exista na tabela)", buscar_ID: "/buscar:id(o que tu quiser, mas que exista na tabela)", Adicionar: "/add?titulo=titulo(que tu quiser, sem aspas)&autor=autor(que tu quiser, sem aspas)", atualizar: "/atualizar?id=num(que quer mudar)&titulo=Titulo(novo)&autor=autor(novo)"})
