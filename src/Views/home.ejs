@@ -23,6 +23,27 @@
     <div class="container-my-5">
       <section id="home">
         <div>
+
+          <% if (error && error.length) { %>
+      <div class="alert alert-danger text-center">
+        <% error.forEach(function(msg){ %>
+          <p>
+            <%= msg %>
+          </p>
+          <% }) %>
+      </div>
+      <% } %>
+
+        <% if (success && success.length) { %>
+          <div class="alert alert-success text-center">
+            <% success.forEach(function(msg){ %>
+              <p>
+                <%= msg %>
+              </p>
+              <% }) %>
+          </div>
+          <% } %>
+          
           <h1>BiblioEroy</h1>
         </div>
 

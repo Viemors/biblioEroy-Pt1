@@ -2,20 +2,48 @@ const model = require("../model/emprestimoModel")
 const modelLivro = require("../model/livrosModel")
 const modelUser = require("../model/cadastroUserModel")
 
-const mostrarEmprestimo = async (req, res) =>{
-    if (!req.session.admId) {
-        req.flash('error', "Faça login como adm para emprestar livros e pesquisar dados.");
-        return res.redirect('/login'); //Somente o adm tem acesso
-    }
-    const result = await modelUser.buscar_idUser(req.session.admId);
-    if ((result.tipo_conta == "adm")) {
-        const todosUser = await modelUser.TodosUser();
-        const todosLivros = await modelLivro.Todos();
-        res.render("emprestimo/emprestimo", {todosUser, todosLivros});
-
+const mostrarEmprestimo = async (req, res) => {
+    if (req.session.admId) {
+        const result = await modelUser.buscar_idUser(req.session.admId);
+        if (result) {
+            const {resultados} = await model.TodasSolicitacoes()
+            const emprestimos = await model.buscar_LivrosADM(req.session.username);
+            if (emprestimos || resultados) {
+                if (Object.keys(emprestimos).length > 0 || Object.keys(resultados).length > 0) { 
+                    const livros = [];
+                    for (let i = 0; i<Object.keys(resultados).length; i++){
+                        const livro = await modelLivro.buscar_titulo(resultados[i].titulo);
+                        livros.push(livro.resultados);                
+                    };
+                    res.render("emprestimo/emprestimoAdm", {emprestimos, resultados,livros});
+                } else {
+                    req.flash("error", "Nenhum empréstimo ou solicitação encontrado.")
+                    return res.redirect("/perfil/biblio");
+                }
+            } else {
+                req.flash("error", "Deu ruim")
+                return res.redirect("/perfis/perfilBiblio");
+            }
+        }
     } else {
-        res.redirect('/login');
-    }
+        const result = await modelUser.buscar_idUser(req.session.userId);
+        if (result) {
+            const solicitacoes = await model.buscar_solicitacoesLeitor(req.session.username);
+            const emprestimos = await model.buscar_LivrosLeitor(req.session.username);
+            if (emprestimos || solicitacoes) {
+                if (Object.keys(emprestimos).length > 0 || Object.keys(solicitacoes).length > 0) { 
+                    res.render("emprestimo/emprestimoLeitor", {solicitacoes, emprestimos});
+                
+                } else {
+                    req.flash("error", "Nenhum empréstimo ou solicitação encontrado.")
+                    return res.redirect("/perfil/leitor");
+                }
+            }
+        } else { //esse da certo.
+                req.flash('error', "Faça login para visualizar os livros emprestados e solicitações");
+                return res.redirect('/login');
+            }
+        }
 }
 
 const inicio = (req, res) =>  {
@@ -30,10 +58,10 @@ const Todos = async (req, res) => {
 
 const add = async (req, res) => {
     let validacao = true;
-    const {id} = await modelLivro.buscar(req.body)
-    const ids_livros = await model.Todos();
-    for(let i = 0; i<ids_livros.length; i++){
-        if(ids_livros[i].Idlivro == id) {
+    const livro = await modelLivro.buscar(req.body)
+    const Livros_emprestados = await model.Todos();
+    for(let i = 0; i<Livros_emprestados.length; i++){
+        if(Livros_emprestados[i].tituloLivro == livro.titulo) {
             validacao = false;
             break
         }
@@ -44,8 +72,9 @@ const add = async (req, res) => {
             let datainicial = new Date(); //inicia o objeto tipo data
             let datafinal = new Date(); //inicia o objeto tipo data
             datafinal.setDate(datainicial.getDate() + 7) //Tudo isso pra somar 7 dias
-            const result = await model.add({Idleitor: req.body.idleitor, Idlivro: id, Idbiblio: req.session.admId, datainicial: datainicial.toLocaleDateString(), datafinal: datafinal.toLocaleDateString()})
+            const result = await model.add({nomeLeitor: req.body.nomeLeitor, tituloLivro: req.body.titulo, nomeAdm: req.session.username, datainicial: datainicial.toLocaleDateString(), datafinal: datafinal.toLocaleDateString()})
             if (result) {
+                await model.deleteSolicitacao(req.body.titulo, req.body.nomeLeitor);
                 req.flash('success','Livro emprestado com sucesso!');
                 return res.redirect('/emprestimo');
             } else {
@@ -73,8 +102,7 @@ const delet = async (req, res) => {
 
 //////////////////// devolucao leitor //////////////////////////
 const devolucao = async (req, res) => {
-    const livro = await modelLivro.buscar_titulo(req.body.titulo)
-    await model.devolucao(req.session.userId, livro.id) // devolucao == delete    
+    await model.devolucao(req.session.username, req.body.titulo) // devolucao == delete    
     req.flash('success','Empréstimo deletado com sucesso.');
     return res.redirect("/perfil/leitor");
 }
@@ -129,25 +157,14 @@ const solicitar = async (req, res) => {
     }
 }
 
-const TodasSolicitacoes = async (req, res) => {
-    const result = await model.TodasSolicitacoes()
-    console.log(result)
-    if (result) res.render("tabelaLivro/consultas", {result});
-    else {
-        req.flash("error", "Deu ruim")
-        return res.redirect("/perfis/perfilBiblio");
-    }
-}
-
-/*testeeeeeeee
 const buscar_solicitacoesLeitor = async (req, res) => {
-    const result = await model.buscar_solicitacoesLeitor()
+    const result = await model.buscar_solicitacoesLeitor(req.session.username)
     console.log(result)
     if (result) res.render("emprestimo/emprestimoLeitor", {result});
     else {
         req.flash("error", "Deu ruim")
-        return res.redirect("/perfis/perfilLeitor");
+        return res.redirect("/perfil/leitor");
     }
-}*/
+}
 
-module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, mostrarEmprestimo, devolucao, emprestimosAtrasados, solicitar, TodasSolicitacoes}
+module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, mostrarEmprestimo, devolucao, emprestimosAtrasados, solicitar, buscar_solicitacoesLeitor}

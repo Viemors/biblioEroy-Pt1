@@ -42,7 +42,7 @@ const addUser = async (req, res) => {
 const deletUser = async (req, res) => {
     try{
     if (req.session.userId) {
-        await modelEmprestimo.delete_LivroUser(req.session.userId) //Apaga os emprestimo 
+        await modelEmprestimo.delete_LivroUser(req.session.username) //Apaga os emprestimo 
         await modelEmprestimo.deleteSolicitacaoUser(req.session.username) //Apaga as solicitações
         await model.deletUser(req.session.userId)
     } else {
@@ -133,9 +133,9 @@ const mostrarPerfil = async (req, res) => { //tava dsando erraado o result no ej
     } else if (req.session.userId){
         const result = await model.buscar_idUser(req.session.userId);
         if (result) {
-            const {resultados} = await modelEmprestimo.buscar_LivrosLeitor(req.session.username); //chama a funcao pra pegar os livros do leitor logado
+            const resultados = await modelEmprestimo.buscar_LivrosLeitor(req.session.username); //chama a funcao pra pegar os livros do leitor logado
             const livros = []
-            for(let i = 0; i < resultados.length; i++) { //formata a data pra ficar bonitinha
+            for(let i = 0; i < resultados.lenght; i++) { 
                 const livro = await modelLivros.buscar_id(resultados[i].Idlivro);
                 livros.push(livro);
             };
@@ -158,4 +158,4 @@ const mostrarPerfilLivro = async (req, res) => {
             res.render("perfis/perfilLivroUser", {todosLivros}); // Se for user, a página é de ver os livros
         } else res.render("perfis/perfilLivroAdm"); // Se for adm, a página é de adicionar os livros
 }
-module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login, mostrarPerfil, sair, mostrarPerfilLivro} 
+module.exports = {addUser, TodosUser, buscar_idUser, deletUser, atualizarUser, inicio, login, mostrarPerfil, sair, mostrarPerfilLivro}
