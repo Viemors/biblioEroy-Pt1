@@ -53,3 +53,5 @@ SOBRE NÓS
 
     4.0 Para a execução do programa é nescessário a ultilização do "código de início" via terminal, sendo:
     node server.js
+
+    5.0 Para a visualização do site, é preciso abrir um navegador web (google, edge) e colocar na barra de navegação http://localhost:3000

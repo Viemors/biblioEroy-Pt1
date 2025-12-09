@@ -14,8 +14,8 @@
 </head>
 
 <body>
-
     <%-include("../partials/header")%>
+    <%-include('../partials/navbar') %>
     <% if (error && error.length) { %> <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
                 <div class="flash flash-error" style="color: red; text-align:center;">
                     <% error.forEach(function(msg){ %>
@@ -38,7 +38,6 @@
                 <%for(let i=0; i<Object.keys(emprestimos).length; i++) {%>
                   <div class="col">
                     <div class="card h-100">
-                      <img src="../imagens/livros/machado/dom casmuro.webp" class="card-img-top" alt="Capa do livro">
                       <form action="/atualizarEmprestimo" method="POST" class="card-body">
                         <input type="hidden" name="titulo" value="<%=emprestimos[i].tituloLivro%>">
                         <input type="hidden" name="titulo" value="<%=emprestimos[i].tituloLivro%>">
@@ -65,7 +64,6 @@
                 <%for(let i=0; i<Object.keys(resultados).length; i++) {%>
                   <div class="col">
                     <div class="card h-100">
-                      <img src="../imagens/livros/machado/dom casmuro.webp" class="card-img-top" alt="Capa do livro">
                       <form action="/atualizarEmprestimo" method="POST" class="card-body">
                         <input type="hidden" name="nomeLeitor" value="<%=resultados[i].username%>">
                         <h5 class="card-title">
