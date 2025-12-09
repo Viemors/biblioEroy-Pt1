@@ -6,11 +6,16 @@ const mostrarEmprestimo = async (req, res) => {
     if (req.session.admId) {
         const result = await modelUser.buscar_idUser(req.session.admId);
         if (result) {
-            const solicitacoes = await model.TodasSolicitacoes()
-            const emprestimos = await model.buscar_LivrosADM(req.session.username)
-            if (emprestimos && solicitacoes) {
-                if (emprestimos.length > 0 && solicitacoes.length > 0) { 
-                    res.render("emprestimo/emprestimoAdm", {solicitacoes, emprestimos});
+            const {resultados} = await model.TodasSolicitacoes()
+            const emprestimos = await model.buscar_LivrosADM(req.session.username);
+            if (emprestimos || resultados) {
+                if (Object.keys(emprestimos).length > 0 || Object.keys(resultados).length > 0) { 
+                    const livros = [];
+                    for (let i = 0; i<Object.keys(resultados).length; i++){
+                        const livro = await modelLivro.buscar_titulo(resultados[i].titulo);
+                        livros.push(livro.resultados);                
+                    };
+                    res.render("emprestimo/emprestimoAdm", {emprestimos, resultados,livros});
                 } else {
                     req.flash("error", "Nenhum empréstimo ou solicitação encontrado.")
                     return res.redirect("/perfil/biblio");
@@ -25,8 +30,8 @@ const mostrarEmprestimo = async (req, res) => {
         if (result) {
             const solicitacoes = await model.buscar_solicitacoesLeitor(req.session.username);
             const emprestimos = await model.buscar_LivrosLeitor(req.session.username);
-            if (emprestimos && solicitacoes) {
-                if (emprestimos.length > 0 && solicitacoes.length > 0) { 
+            if (emprestimos || solicitacoes) {
+                if (Object.keys(emprestimos).length > 0 || Object.keys(solicitacoes).length > 0) { 
                     res.render("emprestimo/emprestimoLeitor", {solicitacoes, emprestimos});
                 } else {
                     req.flash("error", "Nenhum empréstimo ou solicitação encontrado.")
@@ -52,10 +57,10 @@ const Todos = async (req, res) => {
 
 const add = async (req, res) => {
     let validacao = true;
-    const {id} = await modelLivro.buscar(req.body)
-    const ids_livros = await model.Todos();
-    for(let i = 0; i<ids_livros.length; i++){
-        if(ids_livros[i].Idlivro == id) {
+    const livro = await modelLivro.buscar(req.body)
+    const Livros_emprestados = await model.Todos();
+    for(let i = 0; i<Livros_emprestados.length; i++){
+        if(Livros_emprestados[i].tituloLivro == livro.titulo) {
             validacao = false;
             break
         }
@@ -66,8 +71,9 @@ const add = async (req, res) => {
             let datainicial = new Date(); //inicia o objeto tipo data
             let datafinal = new Date(); //inicia o objeto tipo data
             datafinal.setDate(datainicial.getDate() + 7) //Tudo isso pra somar 7 dias
-            const result = await model.add({Idleitor: req.body.idleitor, Idlivro: id, Idbiblio: req.session.admId, datainicial: datainicial.toLocaleDateString(), datafinal: datafinal.toLocaleDateString()})
+            const result = await model.add({nomeLeitor: req.body.nomeLeitor, tituloLivro: req.body.titulo, nomeAdm: req.session.username, datainicial: datainicial.toLocaleDateString(), datafinal: datafinal.toLocaleDateString()})
             if (result) {
+                await model.deleteSolicitacao(req.body.titulo, req.body.nomeLeitor);
                 req.flash('success','Livro emprestado com sucesso!');
                 return res.redirect('/emprestimo');
             } else {

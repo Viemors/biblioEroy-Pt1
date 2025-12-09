@@ -150,4 +150,12 @@ const buscar_solicitacoesLeitor = async (leitor) => {
     return result;
 }
 
-module.exports = {Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser,emprestimosAtrasados, solicitar, TodasSolicitacoes, deleteSolicitacaoUser, buscar_solicitacoesLeitor, buscar_LivrosADM};
+const deleteSolicitacao = async (titulo, leitor) => {
+    await solicitacoes.destroy({
+        where: {titulo: titulo, username: leitor}
+    }
+
+    )
+}
+
+module.exports = {Todos, add, devolucao, buscar_id, atualizar, buscar_LivrosLeitor, delete_LivroUser,emprestimosAtrasados, solicitar, TodasSolicitacoes, deleteSolicitacaoUser, buscar_solicitacoesLeitor, buscar_LivrosADM, deleteSolicitacao};
