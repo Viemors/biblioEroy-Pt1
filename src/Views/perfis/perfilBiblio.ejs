@@ -25,6 +25,17 @@
       input.placeholder = "digite o novo valor";
     });
   }
+  function abrir(){
+  const modal = document.querySelector(".modal-fundo");
+  modal.style.opacity = 1;
+  modal.style.pointerEvents = "all";
+}
+function fechar(){
+  const modal = document.querySelector(".modal-fundo");
+  modal.style.opacity = 0;
+  modal.style.pointerEvents = "none";
+}
+
 </script>
 
 <style>
@@ -40,6 +51,20 @@
     <%-include('../partials/navbar') %>
 
       <div class=".container-my-5">
+
+        <button id="btn" onclick="abrir()"> Abrir modal </button>
+    
+    <!--MODAL!!!!!-->
+    <div class="modal-fundo">
+      <div class="modal-cont">
+        <h1> Olá <%=result.username%>! Tem certeza que pretende continuar? </h1>
+        <p> Apagar a sua conta é uma ação irreversível, todos os seus dados seram apagados. </p>
+        <button type="button" class="btn btn-outline-primary btn-curtir" id="button-sair"> <a href="/deleteCadastro" style="text-decoration: none; color: inherit;"> Apagar Conta </a></button>
+        <button type="button" class="btn btn-outline-primary btn-curtir" onclick="fechar()">Cancelar</button>
+        <!-- <span class="fechar" onclick="fechar()">&times;</span> -->
+      </div>
+    </div>
+
 
         <% if (error && error.length) { %>
           <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
@@ -95,19 +120,21 @@
 
                   <div>
                     <button type="submit" class="btn btn-outline-primary btn-curtir" id="button">Salvar</button>
-                    <button onclick="editar()" class="btn btn-outline-primary btn-curtir" id="button">Editar</button>
-                    <button class="btn btn-outline-primary btn-curtir" id="button-sair"><a href="/perfil/biblio" style="text-decoration: none; color: inherit;">Cancelar</a></button>
+                    <button type="button" onclick="editar()" class="btn btn-outline-primary btn-curtir" id="button">Editar</button>
+                    <button type="button" class="btn btn-outline-primary btn-curtir" id="button-sair"><a href="/perfil/biblio" style="text-decoration: none; color: inherit;">Cancelar</a></button>
                   </div><br>
 
                   <div>
                     <button class="btn btn-outline-primary btn-curtir" id="button-sair"><a href="/sair" style="text-decoration: none; color: inherit;">Sair da Conta</a></button>
-                    <button class="btn btn-outline-primary btn-curtir" id="button-sair"><a href="/deleteCadastro" style="text-decoration: none; color: inherit;">Excluir Conta</a></button>
+                    <button type="button" class="btn btn-outline-primary btn-curtir" id="button-sair" onclick="abrir()" >Excluir Conta </button>
                   </div>
 
                   <br>
 
                 </form>
       </div>
+
+      <button class="btn btn-outline-primary btn-curtir"><a href="/emprestimo/emprestimoAdm" style="text-decoration: none; color: inherit;">Ver minhas solicitações</a></button>
 
       <%- include('../partials/footer') %>
 

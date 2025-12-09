@@ -13,6 +13,7 @@ const teste = async (req, res) => {
 }
 
 const add = async (req, res) => {
+    if (!req.body.descricao) delete req.body.descricao; //remove o campo vazio pra aparecer "sem descrição" no sequelize
     const result = await model.add(req.body)
     if (result) {
         req.flash('success','livro adicionado com sucesso.');
@@ -47,7 +48,6 @@ const buscar = async (req, res) => {
     if (req.body.tipo == "categoria") {
         try {
            const result = await model.buscar_categoria(req.body.busca);
-           console.log(result);
            res.render("tabelaLivro/consultas", {result});
            if (!result) {
             req.flash("error", "Categoria não encontrada.")

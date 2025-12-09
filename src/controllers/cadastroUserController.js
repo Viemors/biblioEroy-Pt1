@@ -40,19 +40,19 @@ const addUser = async (req, res) => {
 }
 
 const deletUser = async (req, res) => {
-    let deletar = null;
-    if (req.session.id) {
+    try{
+    if (req.session.userId) {
         await modelEmprestimo.delete_LivroUser(req.session.userId) //Apaga os emprestimo 
-        deletar = await model.deletUser(req.session.userId)
-    } else if (req.session.admId) {
-        deletar = await model.deletUser(req.session.admId)
-    }
-    if (deletar) { // deleted === 1
-        req.flash('success', 'Conta apagada.');
-        return res.redirect('/');
+        await modelEmprestimo.deleteSolicitacaoUser(req.session.username) //Apaga as solicitações
+        await model.deletUser(req.session.userId)
     } else {
-        req.flash('error', 'Não foi possível apagar a conta.');
-        return res.redirect('/perfil/leitor');
+        await model.deletUser(req.session.admId)
+    }
+    req.flash('success', 'Conta apagada.');
+    return res.redirect('/login');
+    } catch (error){
+        req.flash('error', `Não foi possível apagar a conta: ${error.message}`);
+        return res.redirect('/login');
     }
 }
 
@@ -133,13 +133,14 @@ const mostrarPerfil = async (req, res) => { //tava dsando erraado o result no ej
     } else if (req.session.userId){
         const result = await model.buscar_idUser(req.session.userId);
         if (result) {
-            const emprestimos = await modelEmprestimo.buscar_LivrosLeitor(req.session.username); //chama a funcao pra pegar os livros do leitor logado
+            const {resultados} = await modelEmprestimo.buscar_LivrosLeitor(req.session.username); //chama a funcao pra pegar os livros do leitor logado
             const livros = []
-            for(let i = 0; i < emprestimos.length; i++) { //formata a data pra ficar bonitinha
-                const livro = await modelLivros.buscar_id(emprestimos[i].Idlivro);
+            for(let i = 0; i < resultados.length; i++) { //formata a data pra ficar bonitinha
+                const livro = await modelLivros.buscar_id(resultados[i].Idlivro);
                 livros.push(livro);
             };
-            res.render("perfis/perfilLeitor", {result, livros});//se tiver logado, manda pro perfil
+            const atrasos = await modelEmprestimo.emprestimosAtrasados(resultados);
+            res.render("perfis/perfilLeitor", {result, livros, atrasos});//se tiver logado, manda pro perfil
         } else {
             req.flash('error', "Usuário não encontrado");
             return res.redirect('/login');

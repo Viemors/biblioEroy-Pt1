@@ -75,7 +75,7 @@ const delet = async (req, res) => {
 const devolucao = async (req, res) => {
     const livro = await modelLivro.buscar_titulo(req.body.titulo)
     await model.devolucao(req.session.userId, livro.id) // devolucao == delete    
-    req.flash('success','empréstimo deletado com sucesso.');
+    req.flash('success','Empréstimo deletado com sucesso.');
     return res.redirect("/perfil/leitor");
 }
 
@@ -86,11 +86,68 @@ const buscar_id = async (req, res) => {
 
 const atualizar = async (req, res) => {
     await model.atualizar(req.query)
-     req.flash('success','empréstimo atualizado com sucesso.');
+     req.flash('success','Empréstimo atualizado com sucesso.');
         return res.redirect('/emprestimo');
 }
 
+const emprestimosAtrasados = async (req, res) => {
+    try{
+        const {resultados} = await model.buscar_LivrosLeitor(req.session.userId);
+        const result = await model.emprestimosAtrasados(resultados);
+        res.render("perfil/leitor", {result});
+    } catch (error){
+        req.flash('error', `Não foi possível buscar os empréstimos atrasados: ${error.message}`);
+        return res.redirect('/perfil/leitor');
+    }
+}
 
+//solitações --------------
 
+const solicitar = async (req, res) => { 
+    let validacao = true;
+    const {resultados} = await model.TodasSolicitacoes();
+    for(let i = 0; i<resultados.length; i++){
+        if(resultados[i].titulo == req.body.titulo) {
+            validacao = false;
+            break
+        }
+    }
+    //const {id} = await modelLivro.buscar_titulo(req.body.titulo)
+    
+    if (validacao) {
+        if (solicitar){
+            const solicitar = await model.solicitar(req.body.titulo, req.session.username)
+            req.flash('success','Empréstimo solicitado com sucesso.');
+            return res.redirect('/perfil/livro');
+        } else {
+            req.flash('error','Não foi possivel solicitar o empréstimo.');
+            return res.redirect('/perfil/livro');
+        }
+    } else {
+        req.flash('error','livro já emprestado.');
+        return res.redirect('/perfil/livro'); 
+    }
+}
 
-module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, mostrarEmprestimo, devolucao}
+const TodasSolicitacoes = async (req, res) => {
+    const result = await model.TodasSolicitacoes()
+    console.log(result)
+    if (result) res.render("tabelaLivro/consultas", {result});
+    else {
+        req.flash("error", "Deu ruim")
+        return res.redirect("/perfis/perfilBiblio");
+    }
+}
+
+/*testeeeeeeee
+const buscar_solicitacoesLeitor = async (req, res) => {
+    const result = await model.buscar_solicitacoesLeitor()
+    console.log(result)
+    if (result) res.render("emprestimo/emprestimoLeitor", {result});
+    else {
+        req.flash("error", "Deu ruim")
+        return res.redirect("/perfis/perfilLeitor");
+    }
+}*/
+
+module.exports = {add, Todos, buscar_id, delet, atualizar, inicio, mostrarEmprestimo, devolucao, emprestimosAtrasados, solicitar, TodasSolicitacoes}

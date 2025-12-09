@@ -10,5 +10,8 @@ router.post("/devolucao", controller.devolucao)
 router.get("/buscarEmprestimo/:id", controller.buscar_id)//aq tem que vincular o emprestimo ao usuario, dai pega todos que estao vinculados a ele, do jeito que tá, ele pega todos do bd
 router.post("/atualizarEmprestimo", controller.atualizar)//rota para mudar o status do emprestimo
 
+//Solicitações
+router.post("/solicitar", controller.solicitar) //rota para solicitar o emprestimo
+
 
 module.exports = router

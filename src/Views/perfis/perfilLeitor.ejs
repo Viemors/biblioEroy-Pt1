@@ -25,6 +25,26 @@
       input.placeholder = "digite o novo valor";
     });
   }
+  function abrir(){
+    const modal = document.querySelector(".modal-fundo");
+    modal.style.opacity = 1;
+    modal.style.pointerEvents = "all";
+  }
+  function fechar(){
+    const modal = document.querySelector(".modal-fundo");
+    modal.style.opacity = 0;
+    modal.style.pointerEvents = "none";
+  }
+  function fecharConfirmacao(){
+    const modal = document.querySelector(".modal-fundo-confirmacao");
+    modal.style.opacity = 0;
+    modal.style.pointerEvents = "none";
+  }
+  function abrirConfirmacao(){
+    const modal = document.querySelector(".modal-fundo-confirmacao");
+    modal.style.opacity = 1;
+    modal.style.pointerEvents = "all";
+  }
 </script>
 
 <style>
@@ -38,6 +58,35 @@
   <%-include("../partials/header")%>
 
     <%-include('../partials/navbar') %>
+
+    <!--MODAL CONFIRMAÇÃO DE APAGAR CONTA-->
+    <div class="modal-fundo-confirmacao">
+      <div class="modal-cont">
+        <h1> Olá <%=result.username%>! Tem certeza que pretende continuar? </h1>
+        <p> Apagar a sua conta é uma ação irreversível, todos os seus dados seram apagados. </p>
+        <button type="button" class="btn btn-outline-primary btn-curtir" id="button-sair"> <a href="/deleteCadastro" style="text-decoration: none; color: inherit;"> Apagar Conta </a></button>
+        <button type="button" class="btn btn-outline-primary btn-curtir" onclick="fecharConfirmacao()">Cancelar</button>
+        <!-- <span class="fechar" onclick="fechar()">&times;</span> -->
+      </div>
+    </div>
+
+    <!--MODAL!!!!! ODS LIVROS ATRASADOS-->
+    <div class="modal-fundo">
+      <div class="modal-cont">
+        <h1> Olá <%=result.username%>!</h1>
+        <%if (Object.keys(atrasos).length > 0) { %>
+          <p> Opa! Parece que você possui empréstimos atrasados, por favor verifique.</p>
+          <ul>
+          <%for (let i=0; i<Object.keys(atrasos).length; i++) { %>
+            <li> Livro: <%=atrasos[i].Idlivro%> - Data de devolução: <%=atrasos[i].datafinal%> </li>
+          <%}%>
+          </ul>
+        <%} else { %>
+          <p> Não há empréstimos atrasados no momento, parabéns! </p>
+        <% } %>
+          <span class="fechar" onclick="fechar()">&times;</span>
+      </div>
+    </div>
 
       <div class=".container-my-5">
         <% if (error && error.length) { %>
@@ -94,19 +143,21 @@
 
                   <div>
                     <button type="submit" class="btn btn-outline-primary btn-curtir" id="button">Salvar</button>
-                    <button class="btn btn-outline-primary btn-curtir" id="button" onclick="editar()">Editar</button>
-                    <button class="btn btn-outline-primary btn-curtir" id="button-sair"><a href="/perfil/leitor" style="text-decoration: none; color: inherit;">Cancelar</a></button>
+                    <button type="button" class="btn btn-outline-primary btn-curtir" id="button" onclick="editar()">Editar</button>
+                    <button type="button" class="btn btn-outline-primary btn-curtir" id="button-sair"><a href="/perfil/leitor" style="text-decoration: none; color: inherit;">Cancelar</a></button>
                   </div>
             
                   <br>
 
                   <div>
-                    <button class="btn btn-outline-primary btn-curtir" id="button-sair"><a href="/sair" style="text-decoration: none; color: inherit;">Sair da conta</a></button>
-                    <button class="btn btn-outline-primary btn-curtir" id="button-sair"><a href="/deleteCadastro" style="text-decoration: none; color: inherit;">Excluir conta</a></button>
+                    <button type="button" class="btn btn-outline-primary btn-curtir" id="button-sair"><a href="/sair" style="text-decoration: none; color: inherit;">Sair da conta</a></button>
+                    <button type="button" class="btn btn-outline-primary btn-curtir" id="button-sair" onclick="abrirConfirmacao()"> Excluir conta </button>
                   </div><br>
 
               </form>
               
+              <button id="btn" onclick="abrir()"> Abrir modal </button>
+
               <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <!-- Card genérico para todos os livros do banco de dados -->
                 <%for(let i=0; i<Object.keys(livros).length; i++) {%>

@@ -15,7 +15,8 @@ const livros = db.define("livros", {
     },
     titulo: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     autor: {
         type: Sequelize.STRING,
@@ -38,7 +39,7 @@ const livros_iniciais = [
     {titulo: "O Cortiço", autor: "Aluísio Azevedo", categoria: "Naturalismo", descricao: "Romance de caracteres múltiplos, mas de destino coletivo, esta obra aborda temáticas pouco comuns para sua época – sexualidade, adultério, racismo, prostituição –, para expor os males da promiscuidade da vida de trabalhadores pobres, amontoados em habitações coletivas e submetidos à exploração inescrupulosa. Alegorizando o Brasil do século XIX, Aluísio Azevedo exprime a visão pessimista de sua época, marcada pela concepção determinista do meio físico."}, 
     {titulo: "Iracema", autor: "José de Alencar", categoria: "Romantismo", descricao: "É um romance da literatura romântica brasileira publicado em 1865 e escrito por José de Alencar, fazendo parte da trilogia indianista do autor. O romance conta, de forma quase poética, o amor de um branco, Martim Soares Moreno, pela índia Iracema, a virgem dos lábios de mel e de cabelos mais negros que a asa da graúna e explica poeticamente as origens da terra natal do autor, o Ceará." }, 
     {titulo: "Memórias Póstumas de Brás Cubas", autor: "Machado de Assis", categoria: "Realismo", descricao: "Memórias Póstumas de Brás Cubas (1881), um dos principais romances da literatura brasileira, inaugura a fase madura de Machado de Assis e concretiza o ideal estético que consagrou o autor e marca sua obra. Revolucionário e provocativo, o romance rompe com tradições literárias e sintetiza a crítica machadiana à elite brasileira da época. Um dos personagens mais populares da nossa literatura, Brás Cubas é um defunto-autor que dedica sua obra ao verme que primeiro roeu as frias carnes de seu cadáver. O protagonista narra suas memórias, intercalando episódios, delírios, reflexões e teorias, não poupando ninguém do seu olhar crítico e expondo as atitudes mesquinhas que teve em vida. É definitivamente uma obra imperdível que, com linguagem fluente e coesa, conduz sedutoramente o leitor por uma narrativa que deixa nas entrelinhas muito material para reflexões mais profundas."}, 
-    {titulo: "A Moreninha", autor: "Joaquim Manuel Macedo", categoria: "Romantismo", descricao: null}, 
+    {titulo: "A Moreninha", autor: "Joaquim Manuel Macedo", categoria: "Romantismo"}, 
     {titulo: "Vidas Secas", autor: "Graciliano Ramos", categoria: "Romance", descricao: "Vidas Secas é um romance de Graciliano Ramos, publicado em 1938, que retrata a vida difícil de uma família de retirantes nordestinos durante a seca. A obra é conhecida por sua linguagem simples e direta, e por sua crítica social contundente. A narrativa acompanha Fabiano, sua esposa Sinhá Vitória, seus filhos e a cachorra Baleia enquanto lutam para sobreviver em um ambiente hostil e árido. Vidas Secas é uma obra fundamental da literatura brasileira, que aborda temas como a pobreza, a injustiça social e a luta pela sobrevivência."}]
 
 livros.sync().then(async ()=>{ // Criar a tabela se não existir

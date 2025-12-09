@@ -12,6 +12,9 @@ router.get('/perfil/livro', cadastroUserController.mostrarPerfilLivro); //Mesma 
 router.get('/perfil/leitor', cadastroUserController.mostrarPerfil); // O leitor e o biblio usam a mesma função, por que tava dando erro
 router.get('/perfil/biblio', cadastroUserController.mostrarPerfil); // tinha uma só página pra duas funções, aí ele chamava as duas e dava pau
 router.get('/emprestimo', emprestimoController.mostrarEmprestimo); //Mesma fita dos outros
+router.get('/solicitar', emprestimoController.solicitar);
+router.get('/emprestimo/emprestimoAdm', emprestimoController.TodasSolicitacoes);
+/*router.get('/emprestimo/emprestimoLeitor', emprestimoController.buscar_solicitacoesLeitor); */
 
 //As funções do emprestimo e do livro estão no cadastro user porque não queria colocar outro model aqui :( mas tem que mudar depois
 
