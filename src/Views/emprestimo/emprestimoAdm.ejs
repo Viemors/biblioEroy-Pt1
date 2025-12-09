@@ -15,7 +15,8 @@
 
 <body>
 
-  <% if (error && error.length) { %> <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
+    <%-include("../partials/header")%>
+    <% if (error && error.length) { %> <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
                 <div class="flash flash-error" style="color: red; text-align:center;">
                     <% error.forEach(function(msg){ %>
                     <p><%= msg %></p>
@@ -29,8 +30,6 @@
                     <% }) %>
                 </div>
             <% } %>
-
-    <%-include("../partials/header")%>
 
         <div class="container mt-4">
             
@@ -67,7 +66,6 @@
                   <%}%>
 
                   <!-- Card genérico para todos as solicitações do banco de dados -->
-                <%for(let i=0; i<Object.keys(resultados).length; i++) {%>
                 <%for(let i=0; i<Object.keys(resultados).length; i++) {%>
                   <div class="col">
                     <div class="card h-100">
