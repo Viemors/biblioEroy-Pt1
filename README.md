@@ -1,5 +1,14 @@
 SOBRE NÓS
 
+    Github's:
+    
+    @biab00
+    @Viemors
+    @NataliPRibeiro
+    @isabellinobrega-blip 
+    @becakkj
+
+
     GitHub: https://github.com/Viemors/biblioEroy-Pt1
 
     Esse projeto tem como objetivo a criação de um sistema para uma biblioteca, buscando atender suas principais demandas: a navegação entre os livros oferecidos e o empréstimo
