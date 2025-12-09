@@ -124,14 +124,13 @@ footer {
   padding: 20px;
 }
 
-/* Transição suave ao entrar na tela */
 .fade-in {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateY(20px);
+  transition: .6s ease;
 }
 
-.fade-in.show {
+.show {
   opacity: 1;
   transform: translateY(0);
 }

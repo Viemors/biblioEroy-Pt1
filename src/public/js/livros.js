@@ -128,5 +128,29 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
-  
+
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const elementos = document.querySelectorAll('div, h1, p, form');
+
+  elementos.forEach(el => {
+    el.classList.add('fade-in');
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  elementos.forEach(el => {
+    observer.observe(el);
+  });
 });

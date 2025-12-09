@@ -7,188 +7,197 @@
   <title>Meu Perfil</title>
   <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
   <link rel="stylesheet" href="../css/perfis.css">
+  <link rel="stylesheet" href="../css/perfis-responsividade.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  <script defer src="../js/perfis.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
+
+    .only {
+      font-weight: bold;
+      color: brown;
+    }
   </style>
 </head>
 
 <script>
-
   function editar() {
     const input = document.querySelectorAll('input:not(.only)');
-    //Remove o nome e o tipo de conta (classe only), já que esses não devem ser mudados
     input.forEach((input) => {
       input.removeAttribute('readonly');
       input.placeholder = "digite o novo valor";
     });
   }
-  function abrir(){
+
+  function abrir() {
     const modal = document.querySelector(".modal-fundo");
     modal.style.opacity = 1;
     modal.style.pointerEvents = "all";
   }
-  function fechar(){
+
+  function fechar() {
     const modal = document.querySelector(".modal-fundo");
     modal.style.opacity = 0;
     modal.style.pointerEvents = "none";
   }
-  function fecharConfirmacao(){
-    const modal = document.querySelector(".modal-fundo-confirmacao");
-    modal.style.opacity = 0;
-    modal.style.pointerEvents = "none";
-  }
-  function abrirConfirmacao(){
+
+  function abrirConfirmacao() {
     const modal = document.querySelector(".modal-fundo-confirmacao");
     modal.style.opacity = 1;
     modal.style.pointerEvents = "all";
+  }
+
+  function fecharConfirmacao() {
+    const modal = document.querySelector(".modal-fundo-confirmacao");
+    modal.style.opacity = 0;
+    modal.style.pointerEvents = "none";
   }
 </script>
 
-<style>
-  .only {
-    font-weight: bold;
-    color: brown;
-  }
-</style>
-
 <body>
-  <%-include("../partials/header")%>
+  <%- include("../partials/header") %>
+  <%- include('../partials/navbar') %>
 
-    <%-include('../partials/navbar') %>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12 offset-0 col-md-10 offset-md-1 col-lg-8">
 
-    <!--MODAL CONFIRMAÇÃO DE APAGAR CONTA-->
-    <div class="modal-fundo-confirmacao">
-      <div class="modal-cont">
-        <h1> Olá <%=result.username%>! Tem certeza que pretende continuar? </h1>
-        <p> Apagar a sua conta é uma ação irreversível, todos os seus dados seram apagados. </p>
-        <button type="button" class="btn btn-outline-primary btn-curtir" id="button-sair"> <a href="/deleteCadastro" style="text-decoration: none; color: inherit;"> Apagar Conta </a></button>
-        <button type="button" class="btn btn-outline-primary btn-curtir" onclick="fecharConfirmacao()">Cancelar</button>
-        <!-- <span class="fechar" onclick="fechar()">&times;</span> -->
-      </div>
-    </div>
+        <div class="modal-fundo-confirmacao">
+          <div class="modal-cont">
+            <h1> Olá <%=result.username%>! Tem certeza que pretende continuar? </h1>
+            <p> Apagar a sua conta é uma ação irreversível, todos os seus dados serão apagados. </p>
+            <button type="button" class="btn btn-outline-primary btn-curtir">
+              <a href="/deleteCadastro" style="text-decoration: none; color: inherit;">Apagar Conta</a>
+            </button>
+            <button type="button" class="btn btn-outline-primary btn-curtir" onclick="fecharConfirmacao()">Cancelar</button>
+          </div>
+        </div>
 
-    <!--MODAL!!!!! ODS LIVROS ATRASADOS-->
-    <div class="modal-fundo">
-      <div class="modal-cont">
-        <h1> Olá <%=result.username%>!</h1>
-        <%if (Object.keys(atrasos).length > 0) { %>
-          <p> Opa! Parece que você possui empréstimos atrasados, por favor verifique.</p>
-          <ul>
-          <%for (let i=0; i<Object.keys(atrasos).length; i++) { %>
-            <li> Livro: <%=atrasos[i].Idlivro%> - Data de devolução: <%=atrasos[i].datafinal%> </li>
-          <%}%>
-          </ul>
-        <%} else { %>
-          <p> Não há empréstimos atrasados no momento, parabéns! </p>
-        <% } %>
-          <span class="fechar" onclick="fechar()">&times;</span>
-      </div>
-    </div>
+        <div class="modal-fundo">
+          <div class="modal-cont">
+            <h1> Olá <%=result.username%>!</h1>
+            <% if (Object.keys(atrasos).length > 0) { %>
+              <p> Opa! Parece que você possui empréstimos atrasados, por favor verifique.</p>
+              <ul>
+                <% for (let i = 0; i < Object.keys(atrasos).length; i++) { %>
+                  <li> Livro: <%= atrasos[i].Idlivro %> - Data de devolução: <%= atrasos[i].datafinal %> </li>
+                <% } %>
+              </ul>
+            <% } else { %>
+              <p> Não há empréstimos atrasados no momento, parabéns! </p>
+            <% } %>
+            <span class="fechar" onclick="fechar()">&times;</span>
+          </div>
+        </div>
 
-      <div class=".container-my-5">
+        <!-- FLASH MESSAGES -->
         <% if (error && error.length) { %>
-          <!-- aq ele verifica se  tem uum error no array de erros, isso é coisa do express -->
-          <div class="flash flash-error" style="color: red; text-align:center;">
-            <% error.forEach(function(msg){ %>
-              <p>
-                <%= msg %>
-              </p>
-              <% }) %>
-          </div> <!--no ejs vc acessa error (que é res.locals.error) -->
+          <div class="flash flash-error text-center text-danger">
+            <% error.forEach(function(msg) { %>
+              <p><%= msg %></p>
+            <% }) %>
+          </div>
+        <% } %>
+        <% if (success && success.length) { %>
+          <div class="flash flash-success text-center text-success">
+            <% success.forEach(function(msg) { %>
+              <p><%= msg %></p>
+            <% }) %>
+          </div>
+        <% } %>
+
+        <form action="/atualizarCadastro?_method=PUT" method="POST">
+          <div class="profile-layout">
+            <div class="foto-container text-center mb-4">
+              <h1>Meu Perfil</h1>
+              <img src="../img/leitor.jpeg" class="foto mb-3">
+              <h2>Olá <%=result.nome%>!</h2>
+            </div>
+
+            <div class="fields-container">
+              <div class="row mb-3">
+                <div class="col-12">
+                  <label>Conta</label>
+                  <input type="text" class="only" readonly value="<%=result.tipo_conta%>" name="tipo_conta">
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-12">
+                  <label>Nome</label>
+                  <input type="text" class="only" readonly value="<%=result.nome%>" name="nome">
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-12">
+                  <label>Usuário</label>
+                  <input type="text" readonly placeholder="<%=result.username%>" name="username">
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-12">
+                  <label>Email</label>
+                  <input type="email" readonly placeholder="<%=result.email%>" name="email">
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-12">
+                  <label>Senha</label>
+                  <input type="password" readonly name="senha">
+                </div>
+              </div>
+
+              <div class="row justify-content-center mb-3">
+                <div class="col-12 d-flex justify-content-center gap-2 flex-wrap">
+                  <button type="submit" class="btn btn-outline-primary btn-curtir" id="button">Salvar</button>
+                  <button type="button" onclick="editar()" class="btn btn-outline-primary btn-curtir" id="button">Editar</button>
+                  <button type="button" class="btn btn-outline-primary btn-curtir" id="button-sair">
+                    <a href="/perfil/leitor" style="text-decoration: none; color: inherit;">Cancelar</a>
+                  </button>
+                </div>
+              </div>
+
+              <div class="row justify-content-center mb-3">
+                <div class="col-12 d-flex justify-content-center gap-2 flex-wrap">
+                  <button class="btn btn-outline-primary btn-curtir" id="button-sair">
+                    <a href="/sair" style="text-decoration: none; color: inherit;">Sair da conta</a>
+                  </button>
+                  <button type="button" class="btn btn-outline-primary btn-curtir" onclick="abrirConfirmacao()" id="button-sair">Excluir conta</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-4">
+          <% for(let i = 0; i < Object.keys(livros).length; i++) { %>
+            <div class="col">
+              <div class="card h-100">
+                <img src="../imagens/livros/machado/dom casmuro.webp" class="card-img-top" alt="Capa do livro">
+                <form action="/devolucao" method="POST" class="card-body">
+                  <input type="hidden" name="titulo" value="<%=livros[i].titulo%>">
+                  <h5 class="card-title"><%=livros[i].titulo%></h5>
+                  <input type="hidden" name="autor" value="<%=livros[i].autor%>">
+                  <p class="card-text">Autor: <%=livros[i].autor%></p>
+                  <input type="hidden" name="categoria" value="<%=livros[i].categoria%>">
+                  <p class="card-text">Gênero: <%=livros[i].categoria%></p>
+                  <input type="hidden" name="idleitor" value="" class="idleitor" required>
+                  <button type="submit" class="btn btn-outline-primary btn-curtir" id="button">Devolver</button>
+                </form>
+              </div>
+            </div>
           <% } %>
-            <% if (success && success.length) { %>
-              <div class="flash flash-success" style="color: green; text-align:center;">
-                <% success.forEach(function(msg){ %>
-                  <p>
-                    <%= msg %>
-                  </p>
-                  <% }) %>
-              </div>
-              <% } %>
+        </div>
 
-                <form action="/atualizarCadastro?_method=PUT" method="POST">
-
-                  <h1>Meu Perfil</h1>
-                  <div><img src="../img/leitor.jpeg" class="foto"></div>
-                  <br>
-                  <h2>Olá <%=result.nome%>!</h2>
-                  <br>
-                  <div>
-                    <label for="inputNome">Conta</label>
-                    <input type="text" class="only" readonly value="<%=result.tipo_conta%>" name="tipo_conta">
-                  </div><br>
-
-                  <div>
-                    <label for="inputNome">Nome</label>
-                    <input type="text" class="only" readonly value="<%=result.nome%>" name="nome">
-                  </div><br>
-
-                  <div>
-                    <label for="inputUsuario">Usuário</label>
-                    <input type="text" readonly placeholder="<%=result.username%>" name="username">
-                  </div><br>
-
-                  <div>
-                    <label for="inputEmail">Email</label>
-                    <input type="email" readonly placeholder="<%=result.email%>" name="email">
-                  </div><br>
-
-                  <div>
-                    <label for="inputSenha">Senha</label>
-                    <input type="password" readonly name="senha">
-                  </div><br>
-
-                  <div>
-                    <button type="submit" class="btn btn-outline-primary btn-curtir" id="button">Salvar</button>
-                    <button type="button" class="btn btn-outline-primary btn-curtir" id="button" onclick="editar()">Editar</button>
-                    <button type="button" class="btn btn-outline-primary btn-curtir" id="button-sair"><a href="/perfil/leitor" style="text-decoration: none; color: inherit;">Cancelar</a></button>
-                  </div>
-            
-                  <br>
-
-                  <div>
-                    <button type="button" class="btn btn-outline-primary btn-curtir" id="button-sair"><a href="/sair" style="text-decoration: none; color: inherit;">Sair da conta</a></button>
-                    <button type="button" class="btn btn-outline-primary btn-curtir" id="button-sair" onclick="abrirConfirmacao()"> Excluir conta </button>
-                  </div><br>
-
-              </form>
-              
-              <button id="btn" onclick="abrir()"> Abrir modal </button>
-
-              <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                <!-- Card genérico para todos os livros do banco de dados -->
-                <%for(let i=0; i<Object.keys(livros).length; i++) {%>
-                  <div class="col">
-                    <div class="card h-100">
-                      <img src="../imagens/livros/machado/dom casmuro.webp" class="card-img-top" alt="Capa do livro">
-                      <form action="/devolucao" method="POST" class="card-body">
-                        <input type="hidden" name="titulo" value="<%=livros[i].titulo%>">
-                        <h5 class="card-title">
-                          <%=livros[i].titulo%>
-                        </h5>
-                        <input type="hidden" name="autor" value="<%=livros[i].autor%>">
-                        <p class="card-text">Autor: <%=livros[i].autor%>
-                        </p>
-                        <input type="hidden" name="categoria" value="<%=livros[i].categoria%>">
-                        <p class="card-text">Gênero: <%=livros[i].categoria%>
-                        </p>
-                        <input type="hidden" name="idleitor" value="" class="idleitor" required>
-                        <button type="submit" class="btn btn-outline-primary btn-curtir"
-                          data-titulo="<%=livros[i].titulo%>" id="button"> Devolver </button>
-                      </form>
-                    </div>
-                  </div>
-                  <%}%>
-              </div>
-
-                <br>
       </div>
+    </div>
+  </div>
 
-      <%- include('../partials/footer') %>
-
+  <%- include('../partials/footer') %>
 </body>
-
 </html>

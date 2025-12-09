@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const elementos = document.querySelectorAll('div, h1, p, form');
+    const elementos = document.querySelectorAll('div, details, h2, p, form, input, ul li');
 
     elementos.forEach(el => {
         el.classList.add('fade-in');

@@ -1,0 +1,163 @@
+* {
+    font-family: "Lexend Deca", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Responsividade GRID 12 COLUNAS */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.col-1 {
+    width: 8.33%
+}
+
+.col-2 {
+    width: 16.66%
+}
+
+.col-3 {
+    width: 25%
+}
+
+.col-4 {
+    width: 33.33%
+}
+
+.col-5 {
+    width: 41.66%
+}
+
+.col-6 {
+    width: 50%
+}
+
+.col-7 {
+    width: 58.33%
+}
+
+.col-8 {
+    width: 66.66%
+}
+
+.col-9 {
+    width: 75%
+}
+
+.col-10 {
+    width: 83.33%
+}
+
+.col-11 {
+    width: 91.66%
+}
+
+.col-12 {
+    width: 100%
+}
+
+/* Tablet */
+@media(max-width:992px) {
+    [class*="col-"] { /* seleciona todas as classes que começam com "col-" */
+        width: 50%;
+    }
+}
+
+/* Celular */
+@media(max-width:576px) {
+    [class*="col-"] {
+        width: 100%;
+    }
+}
+
+/* Botões gerais */
+#button {
+    border-color: #2b4b44 !important;
+    color: #2b4b44 !important;
+}
+
+#button:hover {
+    background: #2b4b44 !important;
+    color: #a8d1c8 !important;
+}
+
+#button-sair {
+    border-color: #882727 !important;
+    color: #882727 !important;
+}
+
+#button-sair:hover {
+    background: #882727 !important;
+    color: #ff6868 !important;
+}
+
+/* Perfis / imagens */
+.foto {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Modais */
+.modal-fundo,
+.modal-fundo-confirmacao {
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .4);
+    transition: .4s;
+
+}
+
+.modal-cont {
+    background: #fff;
+    padding: 30px;
+    margin: auto;
+    border-radius: 10px;
+    border: 3px solid #888;
+    width: 60%;
+    max-width: 600px;
+}
+
+/* Layout do Perfil: Foto ao lado dos dados em tablet e desktop */
+@media(min-width:577px) {
+    .profile-layout {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        /* Espaço entre foto e campos */
+    }
+
+    .profile-layout .foto-container {
+        flex: 0 0 30%;
+        /* Foto ocupa 30% da largura */
+        text-align: center;
+    }
+
+    .profile-layout .fields-container {
+        flex: 1;
+        /* Campos ocupam o resto */
+    }
+
+    /* Ajuste para os campos ficarem lado a lado se necessário, mas aqui empilhados verticalmente dentro da fields-container */
+    .fields-container .row {
+        display: block;
+        /* Força empilhamento vertical dos campos */
+    }
+
+    .fields-container .col-12 {
+        width: 100%;
+        /* Garante que cada campo ocupe toda a largura da fields-container */
+    }
+}
