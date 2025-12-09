@@ -76,14 +76,16 @@ const devolucao = async(nomeLeitor, tituloLivro) => {
 }
 
 const atualizar = async(params) => {
+    const data = new Date(params.datafinal.split('/')[2], params.datafinal.split('/')[1] - 1, params.datafinal.split('/')[0]); //Corta a string e converte em date
+    data.setDate(data.getDate() + 7)
     await emprestimo
 .update(
         {
-             datafinal: params.datafinal
+             datafinal: data.toLocaleDateString()
         },
         {
             where: {
-                id: params.id
+                tituloLivro: params.titulo
             }
         }
     )

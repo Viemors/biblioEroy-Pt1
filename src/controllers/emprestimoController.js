@@ -113,7 +113,7 @@ const buscar_id = async (req, res) => {
 }
 
 const atualizar = async (req, res) => {
-    await model.atualizar(req.query)
+    await model.atualizar(req.body)
      req.flash('success','Empréstimo atualizado com sucesso.');
         return res.redirect('/emprestimo');
 }
@@ -143,8 +143,8 @@ const solicitar = async (req, res) => {
     //const {id} = await modelLivro.buscar_titulo(req.body.titulo)
     
     if (validacao) {
+        const solicitar = await model.solicitar(req.body.titulo, req.session.username)
         if (solicitar){
-            const solicitar = await model.solicitar(req.body.titulo, req.session.username)
             req.flash('success','Empréstimo solicitado com sucesso.');
             return res.redirect('/perfil/livro');
         } else {
