@@ -30,7 +30,7 @@
                     <% }) %>
                 </div>
             <% } %>
-
+      <main>
         <div class="container mt-4">
             
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -64,7 +64,7 @@
                 <%for(let i=0; i<Object.keys(resultados).length; i++) {%>
                   <div class="col">
                     <div class="card h-100">
-                      <form action="/atualizarEmprestimo" method="POST" class="card-body">
+                      <form action="/addEmprestimo" method="POST" class="card-body">
                         <input type="hidden" name="nomeLeitor" value="<%=resultados[i].username%>">
                         <h5 class="card-title">
                           Usuário: <%=resultados[i].username%>
@@ -90,7 +90,7 @@
               </div>
 
         </div>
-
+</main>
         <%-include('../partials/footer') %>
 
 </body>
