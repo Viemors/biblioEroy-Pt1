@@ -26,20 +26,20 @@
                     <div class="card h-100">
                       <img src="../imagens/livros/machado/dom casmuro.webp" class="card-img-top" alt="Capa do livro">
                       <form action="/atualizarEmprestimo" method="POST" class="card-body">
-                        <input type="hidden" name="titulo" value="<%=emprestimos[i].titulo%>">
+                        <input type="hidden" name="titulo" value="<%=emprestimos[i].tituloLivro%>">
                         <h5 class="card-title">
-                          <%=emprestimos[i].titulo%>
+                          <%=emprestimos[i].tituloLivro%>
                         </h5>
                         <input type="hidden" name="nomeLeitor" value="<%=emprestimos[i].nomeLeitor%>">
                         <p class="card-text">Usuário: <%=emprestimos[i].nomeLeitor%>
                         </p>
                         <input type="hidden" name="datainicial" value="<%=emprestimos[i].datainicial%>">
-                        <p class="card-text">Usuário: <%=emprestimos[i].datainicial%>
+                        <p class="card-text">inicio: <%=emprestimos[i].datainicial%>
                         </p>
                         <input type="hidden" name="datafinal" value="<%=emprestimos[i].datafinal%>">
-                        <p class="card-text">Usuário: <%=emprestimos[i].datafinal%>
+                        <p class="card-text">fim: <%=emprestimos[i].datafinal%>
                         </p>
-                        <input type="hidden" name="nomeAdm" value="<%req.session.username%>" class="nomeAdm" required>
+                        <input type="hidden" name="nomeAdm" value="<%=emprestimos[i].nomeAdm%>" class="nomeAdm" required>
                         <button type="submit" class="btn btn-outline-primary btn-curtir" id="button"> Renovar </button>
                       </form>
                     </div>
@@ -47,19 +47,19 @@
                   <%}%>
 
                   <!-- Card genérico para todos as solicitações do banco de dados -->
-                <%for(let i=0; i<Object.keys(solicitacoes).length; i++) {%>
+                <%for(let i=0; i<Object.keys(resultados).length; i++) {%>
                   <div class="col">
                     <div class="card h-100">
                       <img src="../imagens/livros/machado/dom casmuro.webp" class="card-img-top" alt="Capa do livro">
                       <form action="/addEmprestimo" method="POST" class="card-body">
-                        <input type="hidden" name="titulo" value="<%=solicitacoes[i].titulo%>">
+                        <input type="hidden" name="titulo" value="<%=resultados[i].titulo%>">
                         <h5 class="card-title">
-                          <%=solicitacoes[i].titulo%>
+                          <%=resultados[i].titulo%>
                         </h5>
-                        <input type="hidden" name="nomeLeitor" value="<%=solicitacoes[i].username%>">
-                        <p class="card-text">Usuário: <%=solicitacoes[i].username%>
+                        <input type="hidden" name="nomeLeitor" value="<%=resultados[i].username%>">
+                        <p class="card-text">Usuário: <%=resultados[i].username%>
                         </p>
-                        <input type="hidden" name="nomeAdm" value="<%req.session.username%>" class="nomeAdm" required>
+                        <input type="hidden" name="nomeAdm" value="<%=emprestimos[0].nomeAdm%>" class="nomeAdm" required>
                         <button type="submit" class="btn btn-outline-primary btn-curtir" id="button"> Emprestar </button>
                       </form>
                     </div>

@@ -6,11 +6,12 @@ const mostrarEmprestimo = async (req, res) => {
     if (req.session.admId) {
         const result = await modelUser.buscar_idUser(req.session.admId);
         if (result) {
-            const solicitacoes = await model.TodasSolicitacoes()
+            const {resultados} = await model.TodasSolicitacoes()
             const emprestimos = await model.buscar_LivrosADM(req.session.username)
-            if (emprestimos && solicitacoes) {
-                if (emprestimos.length > 0 && solicitacoes.length > 0) { 
-                    res.render("emprestimo/emprestimoAdm", {solicitacoes, emprestimos});
+            if (emprestimos || resultados) {
+                if (Object.keys(emprestimos).length > 0 || Object.keys(resultados).length > 0) { 
+                    res.render("emprestimo/emprestimoAdm", {resultados, emprestimos});
+                
                 } else {
                     req.flash("error", "Nenhum empréstimo ou solicitação encontrado.")
                     return res.redirect("/perfil/biblio");
@@ -25,20 +26,23 @@ const mostrarEmprestimo = async (req, res) => {
         if (result) {
             const solicitacoes = await model.buscar_solicitacoesLeitor(req.session.username);
             const emprestimos = await model.buscar_LivrosLeitor(req.session.username);
-            if (emprestimos && solicitacoes) {
-                if (emprestimos.length > 0 && solicitacoes.length > 0) { 
+            console.log(solicitacoes)
+            console.log(emprestimos)
+            if (emprestimos || solicitacoes) {
+                if (Object.keys(emprestimos).length > 0 || Object.keys(solicitacoes).length > 0) { 
                     res.render("emprestimo/emprestimoLeitor", {solicitacoes, emprestimos});
+                
                 } else {
                     req.flash("error", "Nenhum empréstimo ou solicitação encontrado.")
                     return res.redirect("/perfil/leitor");
                 }
             }
-        } else {
+        } else { //esse da certo.
                 req.flash('error', "Faça login para visualizar os livros emprestados e solicitações");
                 return res.redirect('/login');
             }
         }
-    }
+}
 
 const inicio = (req, res) =>  {
     res.json({Ver_todos: "/mostrar", delete: "/delete:id(o que tu quiser, mas que exista na tabela)", buscar_ID: "/buscar:id(o que tu quiser, mas que exista na tabela)", Adicionar: "/add?titulo=titulo(que tu quiser, sem aspas)&autor=autor(que tu quiser, sem aspas)", atualizar: "/atualizar?id=num(que quer mudar)&titulo=Titulo(novo)&autor=autor(novo)"})
