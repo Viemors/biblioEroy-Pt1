@@ -13,7 +13,8 @@ const teste = async (req, res) => {
 }
 
 const add = async (req, res) => {
-    if (!req.body.descricao) delete req.body.descricao; //remove o campo vazio pra aparecer "sem descrição" no sequelize
+    if (!req.body.descricao) delete req.body.descricao;//remove o campo vazio pra aparecer "sem descrição" no sequelize
+    if (!req.body.imagem) delete req.body.imagem; //remove o campo vazio pra aparecer "sem imagem" no sequelize
     const result = await model.add(req.body)
     if (result) {
         req.flash('success','livro adicionado com sucesso.');
